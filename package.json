@@ -1,0 +1,31 @@
+{
+  "name": "myol-directus",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": "22.14.0"
+  },
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "dev": "docker compose up -d && npm run directus:start",
+    "schema:dump": "npx directus schema snapshot --yes schema/schema.yaml",
+    "schema:load": "npx directus schema apply --yes schema/schema.yaml",
+    "database:migrate": "npx directus database migrate:latest",
+    "directus:init": "ADMIN_EMAIL=admin@seccom.ch ADMIN_PASSWORD=admin PUBLIC_URL=/ DB_HOST=127.0.0.1 DB_PASSWORD=password npx directus bootstrap && npx directus database migrate:latest && npx directus schema apply --yes schema/schema.yaml",
+    "directus:start": "PUBLIC_URL=/ DB_HOST=127.0.0.1 DB_PASSWORD=password npx directus start",
+    "setup": "cp .env.example .env && npm install",
+    "db:start": "docker-compose up",
+    "db:reset": "docker-compose down"
+  },
+  "dependencies": {
+    "@directus/errors": "2.0.0",
+    "@directus/storage-driver-s3": "12.0.2",
+    "directus": "11.5.1",
+    "pg": "8.13.1"
+  },
+  "devDependencies": {
+    "@directus/sdk": "19.0.1"
+  }
+}

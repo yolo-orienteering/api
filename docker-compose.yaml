@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  postgres:
+    image: postgis/postgis:14-3.3-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: directus
+    ports:
+      - "5432:5432"
+    restart: on-failure
