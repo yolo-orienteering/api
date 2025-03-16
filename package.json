@@ -14,7 +14,7 @@
     "schema:load": "npx directus schema apply --yes schema/schema.yaml",
     "database:migrate": "npx directus database migrate:latest",
     "directus:init": "ADMIN_EMAIL=admin@seccom.ch ADMIN_PASSWORD=admin PUBLIC_URL=/ DB_HOST=127.0.0.1 DB_PASSWORD=password npx directus bootstrap && npx directus database migrate:latest && npx directus schema apply --yes schema/schema.yaml",
-    "directus:start": "PUBLIC_URL=/ DB_HOST=127.0.0.1 DB_PASSWORD=password npx directus start",
+    "directus:start": "npx directus start",
     "setup": "cp .env.example .env && npm install",
     "db:start": "docker-compose up",
     "db:reset": "docker-compose down"
