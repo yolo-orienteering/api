@@ -1,0 +1,30 @@
+{
+  "collection": "Race",
+  "field": "divider-gmbicz",
+  "type": "alias",
+  "meta": {
+    "collection": "Race",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "divider-gmbicz",
+    "group": null,
+    "hidden": false,
+    "interface": "presentation-divider",
+    "note": null,
+    "options": {
+      "title": "Links"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 18,
+    "special": [
+      "alias",
+      "no-data"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  }
+}

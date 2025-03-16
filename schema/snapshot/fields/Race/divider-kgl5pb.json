@@ -1,0 +1,30 @@
+{
+  "collection": "Race",
+  "field": "divider-kgl5pb",
+  "type": "alias",
+  "meta": {
+    "collection": "Race",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "divider-kgl5pb",
+    "group": null,
+    "hidden": false,
+    "interface": "presentation-divider",
+    "note": null,
+    "options": {
+      "title": "Original Data"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 24,
+    "special": [
+      "alias",
+      "no-data"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  }
+}
