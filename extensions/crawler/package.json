@@ -25,8 +25,15 @@
 		"validate": "directus-extension validate"
 	},
 	"devDependencies": {
+		"@directus/api": "^25.0.1",
 		"@directus/extensions-sdk": "13.0.3",
+		"@directus/sdk": "^19.0.1",
+		"@directus/types": "^13.0.0",
 		"@types/node": "^22.13.10",
 		"typescript": "^5.8.2"
+	},
+	"dependencies": {
+		"csvjson": "^5.1.0",
+		"moment": "^2.30.1"
 	}
 }
