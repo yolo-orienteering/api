@@ -6,6 +6,7 @@ import { ISolvCsv } from '../../types/ISolv'
 import Crawler, { CrawlerOptions } from '../../classes/crawler/Crawler'
 import { Race as RaceWithId } from '../../types/DirectusTypes'
 import SolvDecorator from './SolvDecorator'
+import { Filter } from '@directus/types'
 
 type Race = Omit<RaceWithId, 'id'>
 
@@ -117,9 +118,53 @@ export default class Solv extends Crawler implements ICrawler {
    */
   private async saveRaces (races: Race[]): Promise<boolean> {
     try {
-      console.log('Saving races to Directus...')
+      console.log('Checking for existing races in database to be updated...')
       const racesService = this.createItemsService('Race')
-      await racesService.createMany(races)
+
+      // prepare filter
+      const orFilterOfExistingRaces = races.map(race => {
+        return {
+          _and: [
+            {
+              originalDataSource: {
+                _eq: race.originalDataSource
+              }
+            },
+            {
+              originalDataId: {
+                _eq: race.originalDataId
+              }
+            }
+          ]
+        }
+      })
+
+      const existingRaces = await racesService.readByQuery({
+        filter: {
+          _or: orFilterOfExistingRaces
+        },
+        limit: -1
+      })
+
+      // merge existing races with crawled one
+      if (existingRaces.length) {
+        console.log('Merging existing races with new data...')
+        races = races.map(race => {
+          const existingRace = existingRaces.find(existingRace => existingRace.originalDataSource === race.originalDataSource && existingRace.originalDataId === race.originalDataId)
+          // no existing race found. simply return the crawled
+          if (!existingRace) {
+            return race
+          }
+          // merge existing with crawled race
+          return {
+            ...existingRace,
+            ...race
+          }
+        })
+      }
+
+      console.log('Saving races to Directus...')
+      await racesService.upsertMany(races)
       return true
     } catch (e) {
       console.log(e)

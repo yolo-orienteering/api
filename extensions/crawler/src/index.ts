@@ -17,9 +17,9 @@ export default defineHook(async ({ schedule }, {services, getSchema}) => {
 
 	schedule('*/15 * * * * *', async () => {
 		console.log('Starting to crawl SOLV...')
-		await new Solv({
-			createItemsService,
-			dataSourceName: 'solv'
-		}).crawl()
+		// await new Solv({
+		// 	createItemsService,
+		// 	dataSourceName: 'solv'
+		// }).crawl()
 	})
 })
