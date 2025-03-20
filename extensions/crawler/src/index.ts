@@ -1,7 +1,7 @@
 import { defineHook } from '@directus/extensions-sdk'	
 import { Item } from '@directus/types'
 import type { ItemsService } from '@directus/api/dist/services/items'
-import Solv from './sources/Solv'
+import Solv from './sources/solv/Solv'
 import { CustomDirectusTypes } from './types/DirectusTypes'
 
 type TableName = keyof CustomDirectusTypes
@@ -15,8 +15,11 @@ export default defineHook(async ({ schedule }, {services, getSchema}) => {
 		})
 	}
 
-	schedule('0 */15 * * * *', async () => {
-		console.log('Crawling SOLV...')
-		await new Solv({createItemsService: createItemsService}).crawl()
+	schedule('*/15 * * * * *', async () => {
+		console.log('Starting to crawl SOLV...')
+		await new Solv({
+			createItemsService,
+			dataSourceName: 'solv'
+		}).crawl()
 	})
 })

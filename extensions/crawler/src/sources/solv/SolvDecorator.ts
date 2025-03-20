@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import * as cheerio from 'cheerio'
-import Race from '../../models/race/Race'
-import { ISolvLinkIdentifier } from '../../interfacesAndTypes/ISolv'
+import { Race } from '../types/DirectusTypes'
+import { ISolvLinkIdentifier } from '../types/ISolv'
 
 export default class SolvDecorator {
   private readonly BASE_URL: string
@@ -59,7 +59,7 @@ export default class SolvDecorator {
       const text = $(value).text()
       let link = $(value).attr('href')
       // complete link
-      if (!link.startsWith('https://')) {
+      if (!link?.startsWith('https://')) {
         link = this.BASE_URL + link
       }
       // publicationLink
