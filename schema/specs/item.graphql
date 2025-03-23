@@ -66,9 +66,6 @@ scalar Float
 """BigInt value"""
 scalar GraphQLBigInt
 
-"""GeoJSON value"""
-scalar GraphQLGeoJSON
-
 """A Float or a String"""
 scalar GraphQLStringOrFloat
 
@@ -690,7 +687,6 @@ type directus_webhooks_mutated {
 
 type Race {
   city: String
-  coordinates: GraphQLGeoJSON
   country: String
   date: Date
   date_func: date_functions
@@ -735,7 +731,6 @@ type Race_aggregated {
 
 type Race_aggregated_count {
   city: Int
-  coordinates: Int
   country: Int
   date: Int
   date_created: Int
@@ -782,7 +777,6 @@ type version_directus_sync_id_map {
 """"""
 type version_Race {
   city: String
-  coordinates: GraphQLGeoJSON
   country: String
   date: Date
   date_created: Date
@@ -954,7 +948,6 @@ input create_directus_users_input {
 
 input create_Race_input {
   city: String
-  coordinates: GraphQLGeoJSON
   country: String
   date: Date
   date_created: Date
@@ -1296,17 +1289,6 @@ input directus_versions_filter {
   _or: [directus_versions_filter]
 }
 
-input geometry_filter_operators {
-  _eq: GraphQLGeoJSON
-  _neq: GraphQLGeoJSON
-  _intersects: GraphQLGeoJSON
-  _nintersects: GraphQLGeoJSON
-  _intersects_bbox: GraphQLGeoJSON
-  _nintersects_bbox: GraphQLGeoJSON
-  _null: Boolean
-  _nnull: Boolean
-}
-
 input hash_filter_operators {
   _null: Boolean
   _nnull: Boolean
@@ -1331,7 +1313,6 @@ input number_filter_operators {
 
 input Race_filter {
   city: string_filter_operators
-  coordinates: geometry_filter_operators
   country: string_filter_operators
   date: date_filter_operators
   date_func: date_function_filter_operators
@@ -1506,7 +1487,6 @@ input update_directus_users_input {
 
 input update_Race_input {
   city: String
-  coordinates: GraphQLGeoJSON
   country: String
   date: Date
   date_created: Date

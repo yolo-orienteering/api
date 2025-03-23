@@ -10342,10 +10342,6 @@
             "nullable": true,
             "type": "string"
           },
-          "coordinates": {
-            "nullable": true,
-            "type": "object"
-          },
           "country": {
             "nullable": true,
             "type": "string"

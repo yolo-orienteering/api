@@ -280,9 +280,6 @@ scalar Float
 """BigInt value"""
 scalar GraphQLBigInt
 
-"""GeoJSON value"""
-scalar GraphQLGeoJSON
-
 """A Float or a String"""
 scalar GraphQLStringOrFloat
 
@@ -1613,7 +1610,6 @@ type policy_me_globals_type {
 
 type Race {
   city: String
-  coordinates: GraphQLGeoJSON
   country: String
   date: Date
   date_func: date_functions
