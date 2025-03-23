@@ -18,14 +18,3 @@ Password: admin
 To synchronize settings and schema among environments we use [directus-sync](https://tractr.github.io/directus-sync/)
 - Store new schema run: `npm run schema:dump`
 - Push changes to git.
-
-## Dump staging database and restore it locally (seeding)
-- Follow all the steps in [Get started](#get-started)
-- Stop the local database and directus
-- Create a connection to the remote staging database with oc login and forward the port.
-- run `pg_dump -U postgres -W -h localhost -Fc -d scool-staging > ./directus.dump`
-- Cut the connection to the remote staging database.
-- `npm run db:start`
-- run `pg_restore -U postgres -w -W -d directus -h localhost --clean ./directus.dump`
-- start directus
-- run `npm run schema:dump` and `git diff`and make sure, there are no unwanted changes.
