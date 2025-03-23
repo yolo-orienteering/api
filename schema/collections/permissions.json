@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "collection": "Race",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "status",
+      "sort",
+      "date_created",
+      "date_updated",
+      "name",
+      "date",
+      "deadline",
+      "geographicalScale",
+      "country",
+      "region",
+      "city",
+      "mapName",
+      "publicationLink",
+      "eventLink",
+      "inscriptionLink",
+      "liveResultLink",
+      "rankingLink",
+      "originalDataId",
+      "originalDataSource",
+      "originalDataFull"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "18f5e830-1c05-4a14-b84f-a49cbfb0c8b2"
+  }
+]
