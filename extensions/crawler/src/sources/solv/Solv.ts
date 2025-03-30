@@ -6,7 +6,6 @@ import { ISolvCsv } from '../../types/ISolv'
 import Crawler, { CrawlerOptions } from '../../classes/crawler/Crawler'
 import { Race as RaceWithId } from '../../types/DirectusTypes'
 import SolvDecorator from './SolvDecorator'
-import { Filter } from '@directus/types'
 
 type Race = Omit<RaceWithId, 'id'>
 

@@ -1,37 +1,32 @@
 {
-  "collection": "Race",
-  "field": "originalDataSource",
+  "collection": "directus_users",
+  "field": "composedIdentifierSolv",
   "type": "string",
   "meta": {
-    "collection": "Race",
+    "collection": "directus_users",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "originalDataSource",
+    "field": "composedIdentifierSolv",
     "group": null,
     "hidden": false,
-    "interface": "select-dropdown",
+    "interface": "input",
     "note": null,
     "options": {
-      "choices": [
-        {
-          "text": "solv",
-          "value": "solv"
-        }
-      ]
+      "placeholder": "A composed string to identify user by its properties such as first and last name."
     },
     "readonly": false,
-    "required": true,
-    "sort": 27,
+    "required": false,
+    "sort": 1,
     "special": null,
     "translations": null,
     "validation": null,
     "validation_message": null,
-    "width": "half"
+    "width": "full"
   },
   "schema": {
-    "name": "originalDataSource",
-    "table": "Race",
+    "name": "composedIdentifierSolv",
+    "table": "directus_users",
     "data_type": "character varying",
     "default_value": null,
     "max_length": 255,

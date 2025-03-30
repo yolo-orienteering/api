@@ -1,28 +1,21 @@
 {
   "collection": "Race",
-  "field": "originalDataSource",
+  "field": "departureLink",
   "type": "string",
   "meta": {
     "collection": "Race",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "originalDataSource",
+    "field": "departureLink",
     "group": null,
     "hidden": false,
-    "interface": "select-dropdown",
+    "interface": "input",
     "note": null,
-    "options": {
-      "choices": [
-        {
-          "text": "solv",
-          "value": "solv"
-        }
-      ]
-    },
+    "options": null,
     "readonly": false,
-    "required": true,
-    "sort": 27,
+    "required": false,
+    "sort": 24,
     "special": null,
     "translations": null,
     "validation": null,
@@ -30,7 +23,7 @@
     "width": "half"
   },
   "schema": {
-    "name": "originalDataSource",
+    "name": "departureLink",
     "table": "Race",
     "data_type": "character varying",
     "default_value": null,

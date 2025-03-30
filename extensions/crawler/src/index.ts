@@ -3,6 +3,7 @@ import { Item } from '@directus/types'
 import type { ItemsService } from '@directus/api/dist/services/items'
 import { CustomDirectusTypes } from './types/DirectusTypes'
 import Solv from './sources/solv/Solv'
+import { SolvDepartures } from './sources/solv/SolvDepartures'
 
 type TableName = keyof CustomDirectusTypes
 
@@ -22,11 +23,18 @@ export default defineHook(async ({ schedule }, {services, getSchema, env}) => {
 		})
 	}
 
-	schedule(CRAWLER_SCHEDULE, async () => {
-		console.log('Starting to crawl SOLV...')
-		await new Solv({
-			createItemsService,
-			dataSourceName: 'solv'
-		}).crawl()
-	})
+	// schedule('*/10 */15 * * * *', async () => {
+	// 	console.log('Starting to crawl SOLV...')
+	// 	await new Solv({
+	// 		createItemsService,
+	// 		dataSourceName: 'solv'
+	// 	}).crawl()
+	// })
+
+	// schedule('*/10 * * * * *', async () => {
+	// 	await new SolvDepartures({
+	// 		createItemsService,
+	// 		dataSourceName: 'solv'
+	// 	}).crawl()
+	// })
 })

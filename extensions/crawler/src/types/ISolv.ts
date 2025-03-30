@@ -2,7 +2,8 @@ export interface ISolvLinkIdentifier {
   publicationLink: string,
   rankingLink: string,
   inscriptionLink: string[],
-  liveResultLink: string
+  liveResultLink: string,
+  departureLink: string
 }
 
 export interface ISolvCsv {
