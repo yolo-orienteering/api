@@ -16,7 +16,7 @@ export default class SolvDecorator {
     this.LINK_IDENTIFIER = {
       publicationLink: 'Ausschreibung',
       rankingLink: 'Rangliste',
-      inscriptionLink: ['pico', 'GO2OL'],
+      inscriptionLink: ['pico', 'GO2OL', 'OL-Events'],
       liveResultLink: 'Live'
     }
   }
