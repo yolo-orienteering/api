@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import * as cheerio from 'cheerio'
-import { Race, RaceCategory } from '../../types/DirectusTypes'
+import { DirectusUsers, Race, RaceCategory } from '../../types/DirectusTypes'
 import Crawler, { CrawlerOptions } from '../../classes/crawler/Crawler'
 import ICrawler from '../../types/ICrawler'
 import { ItemsService } from '@directus/api/dist/services/items'
@@ -22,11 +22,13 @@ export class SolvDepartures extends Crawler implements ICrawler {
   private racesHavingDepartures?: Race[]
   private racesService: ItemsService
   private raceCategoriesService: ItemsService
+  private usersService: ItemsService
 
   constructor(options: CrawlerOptions) {
     super(options)
     this.racesService = this.createItemsService('Race')
     this.raceCategoriesService = this.createItemsService('RaceCategory')
+    this.usersService = this.createItemsService('directus_users')
   }
 
   public async crawl() {
@@ -40,15 +42,19 @@ export class SolvDepartures extends Crawler implements ICrawler {
   }
 
   private async getRacesHavingDepartures (): Promise<void> {
+    const fiveDaysAgo = new Date()
+    fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5)
+
     this.racesHavingDepartures = await this.racesService.readByQuery({
       filter: {
         departureLink: {
           _nnull: true
         },
         date: {
-          _gte: new Date().toISOString()
+          _gte: fiveDaysAgo.toISOString()
         }
-      }
+      },
+      limit: -1
     }) as Race[]
   }
   
@@ -71,11 +77,13 @@ export class SolvDepartures extends Crawler implements ICrawler {
   }
 
   private async loadCategoriesOfRace (race: Race): Promise<false | string> {
-    const response: AxiosResponse = await axios.get(`${race.departureLink}&kind=all`)
+    const response: AxiosResponse = await axios.get(`${race.departureLink}&kind=all`, {
+      responseType: 'arraybuffer'
+    })
     if (!response.data) {
       return false
     }
-    return response.data
+    return response.data.toString('latin1')
   }
 
   private async normalizeCategoriesOfRace (html: string, race: Race): Promise<RawCategoryWithDepartures[]> {
@@ -169,11 +177,62 @@ export class SolvDepartures extends Crawler implements ICrawler {
     await this.saveRaceCategories(race, raceCategories)
 
     // 2. upsert users
+    await this.saveUsers(categoriesWithDepartures)
 
     // 3. upsert departure times
+    // todo: hier weiterfahren
   }
 
+  private async saveUsers (categoriesWithDepartures: RawCategoryWithDepartures[]): Promise<void> {
+    console.log('save users...')
+    let users: Partial<DirectusUsers>[] = []
+
+    for (const categoryWithDepartures of categoriesWithDepartures) {
+      for (const departure of categoryWithDepartures.departures) {
+        const [firstName, ...lastNameParts] = departure.firstAndLastName?.split(' ') || []
+        users.push({
+          composedIdentifierSolv: this.getUserIdentifierFromRawDeparture(departure),
+          first_name: firstName,
+          last_name: lastNameParts.join(' '),
+          birthYear: departure.birthYear,
+          status: 'unverified'
+        })
+      }
+    }
+
+    // get existing users
+    const existingUsers = await this.usersService.readByQuery({
+      filter: {
+        composedIdentifierSolv: {
+          _in: users.map(userToSave => userToSave.composedIdentifierSolv) as string[]
+        }
+      },
+      fields: ['id', 'composedIdentifierSolv', 'status'],
+      limit: -1
+    }) as DirectusUsers[]
+
+    if (existingUsers.length) {
+      users = users.map(user => {
+        const existingUser = existingUsers.find(existingUser => existingUser.composedIdentifierSolv === user.composedIdentifierSolv)
+        if (!existingUser) {
+          return user
+        }
+        return {
+          ...existingUser,
+          ...user
+        }
+      })
+    }
+
+    await this.usersService.upsertMany(users)
+  }
+
+  private getUserIdentifierFromRawDeparture (departure: RawDeparture): string {
+    return `${departure.firstAndLastName?.replace(/\s+/g, '').toLowerCase()}${departure.birthYear}`
+  } 
+
   private async saveRaceCategories (race: Race, raceCategories: Partial<RaceCategory>[]): Promise<void> {
+    console.log('save race categories...')
     let categoryNames = raceCategories
       .map(raceCategory => raceCategory.name)
       .filter(categoryName => !!categoryName) as string[]

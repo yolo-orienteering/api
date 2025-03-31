@@ -31,7 +31,7 @@ export default defineHook(async ({ schedule }, {services, getSchema, env}) => {
 	// 	}).crawl()
 	// })
 
-	// schedule('*/10 * * * * *', async () => {
+	// schedule('*/10 */15 * * * *', async () => {
 	// 	await new SolvDepartures({
 	// 		createItemsService,
 	// 		dataSourceName: 'solv'

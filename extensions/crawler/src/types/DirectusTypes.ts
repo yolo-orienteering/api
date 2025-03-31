@@ -355,6 +355,7 @@ export type DirectusUsers = {
   appearance?: string | null;
   auth_data?: unknown | null;
   avatar?: string | DirectusFiles | null;
+  birthYear?: number | null;
   composedIdentifierSolv?: string | null;
   description?: string | null;
   email?: string | null;
@@ -411,6 +412,7 @@ export type DirectusWebhooks = {
 };
 
 export type Race = {
+  categories: any[] | RaceCategory[];
   city?: string | null;
   country?: string | null;
   date?: string | null;
