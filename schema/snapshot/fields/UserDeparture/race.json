@@ -15,11 +15,11 @@
     "options": {
       "enableCreate": false,
       "enableLink": true,
-      "template": "{{name}} {{date}}"
+      "template": "{{name}} {{mapName}}"
     },
     "readonly": false,
     "required": true,
-    "sort": 8,
+    "sort": 12,
     "special": [
       "m2o"
     ],

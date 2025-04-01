@@ -1,5 +1,20 @@
 [
   {
+    "collection": "directus_users",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "first_name",
+      "last_name",
+      "birthYear",
+      "composedIdentifierSolv"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "eb6d7a59-e00f-455c-bd3c-89eaa7786173"
+  },
+  {
     "collection": "Race",
     "action": "read",
     "permissions": null,
@@ -26,9 +41,50 @@
       "rankingLink",
       "originalDataId",
       "originalDataSource",
-      "originalDataFull"
+      "originalDataFull",
+      "categories",
+      "departureLink"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "18f5e830-1c05-4a14-b84f-a49cbfb0c8b2"
+  },
+  {
+    "collection": "RaceCategory",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "status",
+      "date_created",
+      "date_updated",
+      "name",
+      "race",
+      "distanceInMeter",
+      "equidistanceInMeter",
+      "amountOfControls"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "ba180eb8-08f7-41a5-b10e-18a8fa152293"
+  },
+  {
+    "collection": "UserDeparture",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "startTimeInMinutes",
+      "user",
+      "raceCategory",
+      "race",
+      "date_created",
+      "date_updated",
+      "status"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "79b1114a-2015-4869-9352-af5ed86c063f"
   }
 ]

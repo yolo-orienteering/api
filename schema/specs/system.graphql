@@ -20,15 +20,15 @@ type Query {
   folders(filter: directus_folders_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_folders!]!
   folders_by_id(id: ID!, version: String): directus_folders
   folders_aggregated(groupBy: [String], filter: directus_folders_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_folders_aggregated!]!
-  users(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_users!]!
-  users_by_id(id: ID!, version: String): directus_users
-  users_aggregated(groupBy: [String], filter: directus_users_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_users_aggregated!]!
   activity(filter: directus_activity_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_activity!]!
   activity_by_id(id: ID!, version: String): directus_activity
   activity_aggregated(groupBy: [String], filter: directus_activity_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_activity_aggregated!]!
   presets(filter: directus_presets_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_presets!]!
   presets_by_id(id: ID!, version: String): directus_presets
   presets_aggregated(groupBy: [String], filter: directus_presets_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_presets_aggregated!]!
+  users(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_users!]!
+  users_by_id(id: ID!, version: String): directus_users
+  users_aggregated(groupBy: [String], filter: directus_users_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_users_aggregated!]!
   files(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_files!]!
   files_by_id(id: ID!, version: String): directus_files
   files_aggregated(groupBy: [String], filter: directus_files_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_files_aggregated!]!
@@ -113,10 +113,10 @@ type Mutation {
   users_invite(email: String!, role: String!, invite_url: String): Boolean
   create_folders_items(filter: directus_folders_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_folders_input!]): [directus_folders!]!
   create_folders_item(data: create_directus_folders_input!): directus_folders
-  create_users_items(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_users_input!]): [directus_users!]!
-  create_users_item(data: create_directus_users_input!): directus_users
   create_presets_items(filter: directus_presets_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_presets_input!]): [directus_presets!]!
   create_presets_item(data: create_directus_presets_input!): directus_presets
+  create_users_items(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_users_input!]): [directus_users!]!
+  create_users_item(data: create_directus_users_input!): directus_users
   create_files_items(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_files_input!]): [directus_files!]!
   create_files_item(data: create_directus_files_input!): directus_files
   create_roles_items(filter: directus_roles_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_roles_input!]): [directus_roles!]!
@@ -150,12 +150,12 @@ type Mutation {
   update_folders_items(filter: directus_folders_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_folders_input!): [directus_folders!]!
   update_folders_batch(filter: directus_folders_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_folders_input!]): [directus_folders!]!
   update_folders_item(id: ID!, data: update_directus_folders_input!): directus_folders
-  update_users_items(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_users_input!): [directus_users!]!
-  update_users_batch(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_users_input!]): [directus_users!]!
-  update_users_item(id: ID!, data: update_directus_users_input!): directus_users
   update_presets_items(filter: directus_presets_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_presets_input!): [directus_presets!]!
   update_presets_batch(filter: directus_presets_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_presets_input!]): [directus_presets!]!
   update_presets_item(id: ID!, data: update_directus_presets_input!): directus_presets
+  update_users_items(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_users_input!): [directus_users!]!
+  update_users_batch(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_users_input!]): [directus_users!]!
+  update_users_item(id: ID!, data: update_directus_users_input!): directus_users
   update_files_items(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_files_input!): [directus_files!]!
   update_files_batch(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_files_input!]): [directus_files!]!
   update_files_item(id: ID!, data: update_directus_files_input!): directus_files
@@ -204,10 +204,10 @@ type Mutation {
   update_comments_item(id: ID!, data: update_directus_comments_input!): directus_comments
   delete_folders_items(ids: [ID]!): delete_many
   delete_folders_item(id: ID!): delete_one
-  delete_users_items(ids: [ID]!): delete_many
-  delete_users_item(id: ID!): delete_one
   delete_presets_items(ids: [ID]!): delete_many
   delete_presets_item(id: ID!): delete_one
+  delete_users_items(ids: [ID]!): delete_many
+  delete_users_item(id: ID!): delete_one
   delete_files_items(ids: [ID]!): delete_many
   delete_files_item(id: ID!): delete_one
   delete_roles_items(ids: [ID]!): delete_many
@@ -242,9 +242,9 @@ type Mutation {
 
 type Subscription {
   directus_folders_mutated(event: EventEnum): directus_folders_mutated
-  directus_users_mutated(event: EventEnum): directus_users_mutated
   directus_activity_mutated(event: EventEnum): directus_activity_mutated
   directus_presets_mutated(event: EventEnum): directus_presets_mutated
+  directus_users_mutated(event: EventEnum): directus_users_mutated
   directus_files_mutated(event: EventEnum): directus_files_mutated
   directus_roles_mutated(event: EventEnum): directus_roles_mutated
   directus_permissions_mutated(event: EventEnum): directus_permissions_mutated
@@ -263,8 +263,8 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   Race_mutated(event: EventEnum): Race_mutated
+  UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
 }
 
@@ -1462,6 +1462,9 @@ type directus_users {
   theme_dark_overrides: JSON
   theme_dark_overrides_func: count_functions
   composedIdentifierSolv: String
+  birthYear: Int
+  races(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [UserDeparture]
+  races_func: count_functions
   policies(filter: directus_access_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_access]
   policies_func: count_functions
 }
@@ -1471,6 +1474,12 @@ type directus_users_aggregated {
   countAll: Int
   count: directus_users_aggregated_count
   countDistinct: directus_users_aggregated_count
+  avg: directus_users_aggregated_fields
+  sum: directus_users_aggregated_fields
+  avgDistinct: directus_users_aggregated_fields
+  sumDistinct: directus_users_aggregated_fields
+  min: directus_users_aggregated_fields
+  max: directus_users_aggregated_fields
 }
 
 type directus_users_aggregated_count {
@@ -1501,7 +1510,13 @@ type directus_users_aggregated_count {
   theme_light_overrides: Int
   theme_dark_overrides: Int
   composedIdentifierSolv: Int
+  birthYear: Int
+  races: Int
   policies: Int
+}
+
+type directus_users_aggregated_fields {
+  birthYear: Float
 }
 
 type directus_users_mutated {
@@ -1712,10 +1727,10 @@ type UserDeparture {
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_updated: Date
   date_updated_func: datetime_functions
-  race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
   startTimeInMinutes: Int
   user(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   raceCategory(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): RaceCategory
+  race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
 }
 
 type UserDeparture_mutated {
@@ -2024,6 +2039,8 @@ input create_directus_users_input {
   theme_light_overrides: JSON
   theme_dark_overrides: JSON
   composedIdentifierSolv: String
+  birthYear: Int
+  races: [create_UserDeparture_input]
   policies: [create_directus_access_input]
 }
 
@@ -2053,6 +2070,63 @@ input create_directus_webhooks_input {
   headers: JSON
   was_active_before_deprecation: Boolean!
   migrated_flow: create_directus_flows_input
+}
+
+input create_Race_input {
+  city: String
+  country: String
+  date: Date
+  date_created: Date
+  date_updated: Date
+  deadline: Date
+  eventLink: String
+  geographicalScale: String
+  id: ID
+  inscriptionLink: String
+  liveResultLink: String
+  mapName: String
+  name: String
+  originalDataFull: JSON
+  originalDataId: String
+  originalDataSource: String
+  publicationLink: String
+  rankingLink: String
+  region: String
+  sort: Int
+  status: String
+  user_created: create_directus_users_input
+  user_updated: create_directus_users_input
+  departureLink: String
+  categories: [create_RaceCategory_input]
+}
+
+input create_RaceCategory_input {
+  id: ID
+  status: String
+  sort: Int
+  user_created: create_directus_users_input
+  date_created: Date
+  user_updated: create_directus_users_input
+  date_updated: Date
+  name: String
+  distanceInMeter: Int
+  equidistanceInMeter: Int
+  amountOfControls: Int
+  race: create_Race_input
+}
+
+input create_UserDeparture_input {
+  id: ID
+  status: String
+  sort: Int
+  user_created: create_directus_users_input
+  date_created: Date
+  user_updated: create_directus_users_input
+  date_updated: Date
+  startTimeInMinutes: Int
+  user: create_directus_users_input
+  raceCategory: create_RaceCategory_input
+  race: create_Race_input
 }
 
 input date_filter_operators {
@@ -2510,6 +2584,9 @@ input directus_users_filter {
   theme_dark_overrides: string_filter_operators
   theme_dark_overrides_func: count_function_filter_operators
   composedIdentifierSolv: string_filter_operators
+  birthYear: number_filter_operators
+  races: UserDeparture_filter
+  races_func: count_function_filter_operators
   policies: directus_access_filter
   policies_func: count_function_filter_operators
   _and: [directus_users_filter]
@@ -2961,6 +3038,8 @@ input update_directus_users_input {
   theme_light_overrides: JSON
   theme_dark_overrides: JSON
   composedIdentifierSolv: String
+  birthYear: Int
+  races: [update_UserDeparture_input]
   policies: [update_directus_access_input]
 }
 
@@ -2990,4 +3069,79 @@ input update_directus_webhooks_input {
   headers: JSON
   was_active_before_deprecation: Boolean
   migrated_flow: update_directus_flows_input
+}
+
+input update_Race_input {
+  city: String
+  country: String
+  date: Date
+  date_created: Date
+  date_updated: Date
+  deadline: Date
+  eventLink: String
+  geographicalScale: String
+  id: ID
+  inscriptionLink: String
+  liveResultLink: String
+  mapName: String
+  name: String
+  originalDataFull: JSON
+  originalDataId: String
+  originalDataSource: String
+  publicationLink: String
+  rankingLink: String
+  region: String
+  sort: Int
+  status: String
+  user_created: update_directus_users_input
+  user_updated: update_directus_users_input
+  departureLink: String
+  categories: [update_RaceCategory_input]
+}
+
+input update_RaceCategory_input {
+  id: ID
+  status: String
+  sort: Int
+  user_created: update_directus_users_input
+  date_created: Date
+  user_updated: update_directus_users_input
+  date_updated: Date
+  name: String
+  distanceInMeter: Int
+  equidistanceInMeter: Int
+  amountOfControls: Int
+  race: update_Race_input
+}
+
+input update_UserDeparture_input {
+  id: ID
+  status: String
+  sort: Int
+  user_created: update_directus_users_input
+  date_created: Date
+  user_updated: update_directus_users_input
+  date_updated: Date
+  startTimeInMinutes: Int
+  user: update_directus_users_input
+  raceCategory: update_RaceCategory_input
+  race: update_Race_input
+}
+
+input UserDeparture_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  startTimeInMinutes: number_filter_operators
+  user: directus_users_filter
+  raceCategory: RaceCategory_filter
+  race: Race_filter
+  _and: [UserDeparture_filter]
+  _or: [UserDeparture_filter]
 }
