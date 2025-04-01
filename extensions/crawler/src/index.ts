@@ -23,18 +23,16 @@ export default defineHook(async ({ schedule }, {services, getSchema, env}) => {
 		})
 	}
 
-	// schedule('*/10 */15 * * * *', async () => {
-	// 	console.log('Starting to crawl SOLV...')
-	// 	await new Solv({
-	// 		createItemsService,
-	// 		dataSourceName: 'solv'
-	// 	}).crawl()
-	// })
+	schedule(CRAWLER_SCHEDULE, async () => {
+		console.log('Starting to crawl SOLV...')
+		await new Solv({
+			createItemsService,
+			dataSourceName: 'solv'
+		}).crawl()
 
-	// schedule('*/10 */15 * * * *', async () => {
-	// 	await new SolvDepartures({
-	// 		createItemsService,
-	// 		dataSourceName: 'solv'
-	// 	}).crawl()
-	// })
+		await new SolvDepartures({
+			createItemsService,
+			dataSourceName: 'solv'
+		}).crawl()
+	})
 })

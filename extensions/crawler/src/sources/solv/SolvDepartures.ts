@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import * as cheerio from 'cheerio'
-import { DirectusUsers, Race, RaceCategory } from '../../types/DirectusTypes'
+import { DirectusUsers, Race, RaceCategory, UserDeparture } from '../../types/DirectusTypes'
 import Crawler, { CrawlerOptions } from '../../classes/crawler/Crawler'
 import ICrawler from '../../types/ICrawler'
 import { ItemsService } from '@directus/api/dist/services/items'
@@ -23,12 +23,14 @@ export class SolvDepartures extends Crawler implements ICrawler {
   private racesService: ItemsService
   private raceCategoriesService: ItemsService
   private usersService: ItemsService
+  private userDeparturesService: ItemsService
 
   constructor(options: CrawlerOptions) {
     super(options)
     this.racesService = this.createItemsService('Race')
     this.raceCategoriesService = this.createItemsService('RaceCategory')
     this.usersService = this.createItemsService('directus_users')
+    this.userDeparturesService = this.createItemsService('UserDeparture')
   }
 
   public async crawl() {
@@ -74,6 +76,7 @@ export class SolvDepartures extends Crawler implements ICrawler {
       const categoriesWithDepartures = await this.normalizeCategoriesOfRace(html, race)
       await this.saveData(race, categoriesWithDepartures)
     }
+    console.log('Job finished. All departures saved.')
   }
 
   private async loadCategoriesOfRace (race: Race): Promise<false | string> {
@@ -173,17 +176,91 @@ export class SolvDepartures extends Crawler implements ICrawler {
 
   private async saveData (race: Race, categoriesWithDepartures: RawCategoryWithDepartures[]): Promise<void> {
     // 1. upsert race categories
-    const raceCategories: Partial<RaceCategory>[] = categoriesWithDepartures.map(categoryWith => categoryWith.raceCategory)
-    await this.saveRaceCategories(race, raceCategories)
+    const rawRaceCategories: Partial<RaceCategory>[] = categoriesWithDepartures.map(categoryWith => categoryWith.raceCategory)
+    const raceCategories = await this.saveRaceCategories(race, rawRaceCategories)
 
     // 2. upsert users
-    await this.saveUsers(categoriesWithDepartures)
+    const departureUsers = await this.saveUsers(categoriesWithDepartures)
 
     // 3. upsert departure times
-    // todo: hier weiterfahren
+    await this.saveDepartures({categoriesWithDepartures, raceCategories, users: departureUsers, race})
   }
 
-  private async saveUsers (categoriesWithDepartures: RawCategoryWithDepartures[]): Promise<void> {
+  private async saveDepartures (
+    {
+      categoriesWithDepartures,
+      raceCategories,
+      users,
+      race
+    }: {
+      categoriesWithDepartures: RawCategoryWithDepartures[],
+      raceCategories: RaceCategory[],
+      users: DirectusUsers[],
+      race: Race
+    })
+  {
+    console.log('Save departures...')
+    let newUserDepartures: Partial<UserDeparture>[] = []
+
+    // iterate through all categories
+    for (const raceCategory of categoriesWithDepartures) {
+      // iterate all departures
+      for (const departure of raceCategory.departures) {
+        const relatedRaceCategory = raceCategories.find(tmpRaceCategory => tmpRaceCategory.name === raceCategory.raceCategory.name)
+
+        if (!relatedRaceCategory) {
+          console.warn('Could not find related race category, but should exist.')
+          continue
+        }
+
+        const userIdentifier = this.getUserIdentifierFromRawDeparture(departure)
+        const relatedUser = users.find(tmpUser => tmpUser.composedIdentifierSolv === userIdentifier) 
+        if (!relatedUser) {
+          console.warn('Could not find related user, but should exist.')
+          continue
+        }
+
+        newUserDepartures.push({
+          raceCategory: relatedRaceCategory.id,
+          user: relatedUser.id,
+          startTimeInMinutes: departure.startTime,
+          race: race.id
+        })
+      }
+    }
+
+    const existingDepartures = await this.userDeparturesService.readByQuery({
+      filter: {
+        race: {
+          id: {
+            _eq: race.id
+          }
+        }
+      },
+      fields: ['id', 'race', 'raceCategory', 'user'],
+      limit: -1
+    }) as UserDeparture[]
+
+    // merge existing departures with crawled ones
+    if (existingDepartures.length) {
+      newUserDepartures = newUserDepartures.map(newUserDeparture => {
+        const existingUserDeparture = existingDepartures.find(existingDeparture => {
+          return existingDeparture.user === newUserDeparture.user &&
+          existingDeparture.race === newUserDeparture.race
+        })
+        if (!existingUserDeparture) {
+          return newUserDeparture
+        }
+        return {
+          ...existingUserDeparture,
+          ...newUserDeparture
+        }
+      })
+    }
+    await this.userDeparturesService.upsertMany(newUserDepartures)
+  }
+
+  private async saveUsers (categoriesWithDepartures: RawCategoryWithDepartures[]): Promise<DirectusUsers[]> {
     console.log('save users...')
     let users: Partial<DirectusUsers>[] = []
 
@@ -224,14 +301,17 @@ export class SolvDepartures extends Crawler implements ICrawler {
       })
     }
 
-    await this.usersService.upsertMany(users)
+    const savedUserIds = await this.usersService.upsertMany(users)
+    return await this.usersService.readMany(savedUserIds, {
+      fields: ['id', 'first_name', 'last_name', 'composedIdentifierSolv', 'birthYear']
+    }) as DirectusUsers[]
   }
 
   private getUserIdentifierFromRawDeparture (departure: RawDeparture): string {
     return `${departure.firstAndLastName?.replace(/\s+/g, '').toLowerCase()}${departure.birthYear}`
   } 
 
-  private async saveRaceCategories (race: Race, raceCategories: Partial<RaceCategory>[]): Promise<void> {
+  private async saveRaceCategories (race: Race, raceCategories: Partial<RaceCategory>[]): Promise<RaceCategory[]> {
     console.log('save race categories...')
     let categoryNames = raceCategories
       .map(raceCategory => raceCategory.name)
@@ -273,6 +353,9 @@ export class SolvDepartures extends Crawler implements ICrawler {
       })
     }
 
-    await this.raceCategoriesService.upsertMany(raceCategories)
+    const upsertedIds = await this.raceCategoriesService.upsertMany(raceCategories)
+    return await this.raceCategoriesService.readMany(upsertedIds, {
+      fields: ['id', 'name']
+    }) as RaceCategory[]
   }
 }
