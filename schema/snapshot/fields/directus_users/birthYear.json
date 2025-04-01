@@ -1,0 +1,46 @@
+{
+  "collection": "directus_users",
+  "field": "birthYear",
+  "type": "integer",
+  "meta": {
+    "collection": "directus_users",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "birthYear",
+    "group": null,
+    "hidden": false,
+    "interface": "input",
+    "note": null,
+    "options": {
+      "max": 2200,
+      "min": 1920
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 1,
+    "special": null,
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "half"
+  },
+  "schema": {
+    "name": "birthYear",
+    "table": "directus_users",
+    "data_type": "integer",
+    "default_value": null,
+    "max_length": null,
+    "numeric_precision": 32,
+    "numeric_scale": 0,
+    "is_nullable": true,
+    "is_unique": false,
+    "is_indexed": false,
+    "is_primary_key": false,
+    "is_generated": false,
+    "generation_expression": null,
+    "has_auto_increment": false,
+    "foreign_key_table": null,
+    "foreign_key_column": null
+  }
+}
