@@ -1,28 +1,21 @@
 {
-  "collection": "Race",
-  "field": "originalDataSource",
-  "type": "string",
+  "collection": "RaceCategory",
+  "field": "amountOfControls",
+  "type": "integer",
   "meta": {
-    "collection": "Race",
+    "collection": "RaceCategory",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "originalDataSource",
+    "field": "amountOfControls",
     "group": null,
     "hidden": false,
-    "interface": "select-dropdown",
+    "interface": "input",
     "note": null,
-    "options": {
-      "choices": [
-        {
-          "text": "solv",
-          "value": "solv"
-        }
-      ]
-    },
+    "options": null,
     "readonly": false,
-    "required": true,
-    "sort": 27,
+    "required": false,
+    "sort": 12,
     "special": null,
     "translations": null,
     "validation": null,
@@ -30,13 +23,13 @@
     "width": "half"
   },
   "schema": {
-    "name": "originalDataSource",
-    "table": "Race",
-    "data_type": "character varying",
+    "name": "amountOfControls",
+    "table": "RaceCategory",
+    "data_type": "integer",
     "default_value": null,
-    "max_length": 255,
-    "numeric_precision": null,
-    "numeric_scale": null,
+    "max_length": null,
+    "numeric_precision": 32,
+    "numeric_scale": 0,
     "is_nullable": true,
     "is_unique": false,
     "is_indexed": false,

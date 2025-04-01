@@ -1,28 +1,21 @@
 {
-  "collection": "Race",
-  "field": "originalDataSource",
+  "collection": "RaceCategory",
+  "field": "name",
   "type": "string",
   "meta": {
-    "collection": "Race",
+    "collection": "RaceCategory",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "originalDataSource",
+    "field": "name",
     "group": null,
     "hidden": false,
-    "interface": "select-dropdown",
+    "interface": "input",
     "note": null,
-    "options": {
-      "choices": [
-        {
-          "text": "solv",
-          "value": "solv"
-        }
-      ]
-    },
+    "options": null,
     "readonly": false,
     "required": true,
-    "sort": 27,
+    "sort": 8,
     "special": null,
     "translations": null,
     "validation": null,
@@ -30,8 +23,8 @@
     "width": "half"
   },
   "schema": {
-    "name": "originalDataSource",
-    "table": "Race",
+    "name": "name",
+    "table": "RaceCategory",
     "data_type": "character varying",
     "default_value": null,
     "max_length": 255,

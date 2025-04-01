@@ -90491,6 +90491,7 @@ class SolvDecorator {
     this.LINK_IDENTIFIER = {
       publicationLink: "Ausschreibung",
       rankingLink: "Rangliste",
+      departureLink: "Startliste",
       inscriptionLink: ["pico", "GO2OL", "OL-Events"],
       liveResultLink: "Live"
     };
@@ -90545,6 +90546,9 @@ class SolvDecorator {
       const hasInscriptionLink = this.LINK_IDENTIFIER.inscriptionLink.find((inscriptionLink) => text.includes(inscriptionLink));
       if (hasInscriptionLink) {
         this.race.inscriptionLink = link;
+      }
+      if (text.includes(this.LINK_IDENTIFIER.departureLink)) {
+        this.race.departureLink = link;
       }
     });
   }
@@ -90689,6 +90693,281 @@ class Solv extends Crawler {
   }
 }
 
+class SolvDepartures extends Crawler {
+  constructor(options) {
+    super(options);
+    this.racesService = this.createItemsService("Race");
+    this.raceCategoriesService = this.createItemsService("RaceCategory");
+    this.usersService = this.createItemsService("directus_users");
+    this.userDeparturesService = this.createItemsService("UserDeparture");
+  }
+  async crawl() {
+    console.log("Start crawling solv departures.");
+    await this.getRacesHavingDepartures();
+    await this.getCategoriesOfRacesAndSave();
+  }
+  async getRacesHavingDepartures() {
+    const fiveDaysAgo = /* @__PURE__ */ new Date();
+    fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+    this.racesHavingDepartures = await this.racesService.readByQuery({
+      filter: {
+        departureLink: {
+          _nnull: true
+        },
+        date: {
+          _gte: fiveDaysAgo.toISOString()
+        }
+      },
+      limit: -1
+    });
+  }
+  async getCategoriesOfRacesAndSave() {
+    if (!this.racesHavingDepartures) {
+      console.warn(`No races having departure lists. Abort`);
+      return;
+    }
+    for (const race of this.racesHavingDepartures) {
+      console.log(`Crawl categories of race id ${race.id}`);
+      const html = await this.loadCategoriesOfRace(race);
+      if (!html) {
+        console.log(`Could not load categories of race id ${race.id}`);
+        continue;
+      }
+      const categoriesWithDepartures = await this.normalizeCategoriesOfRace(html, race);
+      await this.saveData(race, categoriesWithDepartures);
+    }
+    console.log("Job finished. All departures saved.");
+  }
+  async loadCategoriesOfRace(race) {
+    const response = await axios$1.get(`${race.departureLink}&kind=all`, {
+      responseType: "arraybuffer"
+    });
+    if (!response.data) {
+      return false;
+    }
+    return response.data.toString("latin1");
+  }
+  async normalizeCategoriesOfRace(html, race) {
+    const $ = load(html);
+    const rawCategoriesWithDepartures = [];
+    $("b").each((index, element) => {
+      var _a;
+      const nextPreTag = $(element).next("pre");
+      if (nextPreTag.length > 0) {
+        const categoryName = $(element).text().trim();
+        const preText = nextPreTag.text();
+        const lines = preText.split("\n").filter((line) => line.trim() !== "");
+        const firstLine = (_a = lines[0]) == null ? void 0 : _a.trim();
+        const match = firstLine == null ? void 0 : firstLine.match(/\(\s*([\d.]+)\s*km,\s*([\d.]+)\s*m,\s*(\d+)\s*Po\.\s*\)/);
+        if (match) {
+          const [, distanceKm, equidistanceM, controls] = match;
+          const raceCategory = {
+            name: categoryName,
+            distanceInMeter: distanceKm ? parseFloat(distanceKm) * 1e3 : void 0,
+            // Convert km to meters
+            equidistanceInMeter: equidistanceM ? parseFloat(equidistanceM) : void 0,
+            // Already in meters
+            amountOfControls: controls ? parseInt(controls, 10) : void 0,
+            // Convert to integer
+            race: race.id
+          };
+          const rawDepartures = lines.map((line) => {
+            const match2 = line.match(/^\s*\d+\s+(.+?)\s+(\d{2})\s+(.+?)\s+(.+?)\s+(\d{2}:\d{2})$/);
+            if (match2) {
+              const [, firstAndLastName, birthYear, location, club, startTime] = match2;
+              return {
+                firstAndLastName: firstAndLastName == null ? void 0 : firstAndLastName.trim(),
+                birthYear: this.parseBirthYear(birthYear == null ? void 0 : birthYear.trim()),
+                location: location == null ? void 0 : location.trim(),
+                club: club == null ? void 0 : club.trim(),
+                startTime: this.parseStartTime(startTime == null ? void 0 : startTime.trim())
+              };
+            }
+            return null;
+          }).filter((item) => item !== null);
+          rawCategoriesWithDepartures.push({
+            raceCategory,
+            departures: rawDepartures
+          });
+        } else {
+          console.warn(`Could not read category data of race id ${race.id}`);
+        }
+      }
+    });
+    return rawCategoriesWithDepartures;
+  }
+  // taking a 2-digit birth year and returning full birth year including century
+  parseBirthYear(birthYear) {
+    if (!birthYear) {
+      return void 0;
+    }
+    const currentYear = (/* @__PURE__ */ new Date()).getFullYear().toString();
+    const currentYearShort = currentYear.slice(2);
+    const birthYearInt = parseInt(birthYear, 10);
+    if (birthYear > currentYearShort) {
+      return 1900 + birthYearInt;
+    }
+    return 2e3 + birthYearInt;
+  }
+  // taking a start time in format hh:mm and returning a start time,
+  // representing minutes since midnight of a day
+  parseStartTime(rawStartTime) {
+    if (!rawStartTime) {
+      return void 0;
+    }
+    const [hours, minutes] = rawStartTime.split(":");
+    if (!hours || !minutes) {
+      return void 0;
+    }
+    return parseInt(hours, 10) * 60 + parseInt(minutes);
+  }
+  async saveData(race, categoriesWithDepartures) {
+    const rawRaceCategories = categoriesWithDepartures.map((categoryWith) => categoryWith.raceCategory);
+    const raceCategories = await this.saveRaceCategories(race, rawRaceCategories);
+    const departureUsers = await this.saveUsers(categoriesWithDepartures);
+    await this.saveDepartures({ categoriesWithDepartures, raceCategories, users: departureUsers, race });
+  }
+  async saveDepartures({
+    categoriesWithDepartures,
+    raceCategories,
+    users,
+    race
+  }) {
+    console.log("Save departures...");
+    let newUserDepartures = [];
+    for (const raceCategory of categoriesWithDepartures) {
+      for (const departure of raceCategory.departures) {
+        const relatedRaceCategory = raceCategories.find((tmpRaceCategory) => tmpRaceCategory.name === raceCategory.raceCategory.name);
+        if (!relatedRaceCategory) {
+          console.warn("Could not find related race category, but should exist.");
+          continue;
+        }
+        const userIdentifier = this.getUserIdentifierFromRawDeparture(departure);
+        const relatedUser = users.find((tmpUser) => tmpUser.composedIdentifierSolv === userIdentifier);
+        if (!relatedUser) {
+          console.warn("Could not find related user, but should exist.");
+          continue;
+        }
+        newUserDepartures.push({
+          raceCategory: relatedRaceCategory.id,
+          user: relatedUser.id,
+          startTimeInMinutes: departure.startTime,
+          race: race.id
+        });
+      }
+    }
+    const existingDepartures = await this.userDeparturesService.readByQuery({
+      filter: {
+        race: {
+          id: {
+            _eq: race.id
+          }
+        }
+      },
+      fields: ["id", "race", "raceCategory", "user"],
+      limit: -1
+    });
+    if (existingDepartures.length) {
+      newUserDepartures = newUserDepartures.map((newUserDeparture) => {
+        const existingUserDeparture = existingDepartures.find((existingDeparture) => {
+          return existingDeparture.user === newUserDeparture.user && existingDeparture.race === newUserDeparture.race;
+        });
+        if (!existingUserDeparture) {
+          return newUserDeparture;
+        }
+        return {
+          ...existingUserDeparture,
+          ...newUserDeparture
+        };
+      });
+    }
+    await this.userDeparturesService.upsertMany(newUserDepartures);
+  }
+  async saveUsers(categoriesWithDepartures) {
+    var _a;
+    console.log("save users...");
+    let users = [];
+    for (const categoryWithDepartures of categoriesWithDepartures) {
+      for (const departure of categoryWithDepartures.departures) {
+        const [firstName, ...lastNameParts] = ((_a = departure.firstAndLastName) == null ? void 0 : _a.split(" ")) || [];
+        users.push({
+          composedIdentifierSolv: this.getUserIdentifierFromRawDeparture(departure),
+          first_name: firstName,
+          last_name: lastNameParts.join(" "),
+          birthYear: departure.birthYear,
+          status: "unverified"
+        });
+      }
+    }
+    const existingUsers = await this.usersService.readByQuery({
+      filter: {
+        composedIdentifierSolv: {
+          _in: users.map((userToSave) => userToSave.composedIdentifierSolv)
+        }
+      },
+      fields: ["id", "composedIdentifierSolv", "status"],
+      limit: -1
+    });
+    if (existingUsers.length) {
+      users = users.map((user) => {
+        const existingUser = existingUsers.find((existingUser2) => existingUser2.composedIdentifierSolv === user.composedIdentifierSolv);
+        if (!existingUser) {
+          return user;
+        }
+        return {
+          ...existingUser,
+          ...user
+        };
+      });
+    }
+    const savedUserIds = await this.usersService.upsertMany(users);
+    return await this.usersService.readMany(savedUserIds, {
+      fields: ["id", "first_name", "last_name", "composedIdentifierSolv", "birthYear"]
+    });
+  }
+  getUserIdentifierFromRawDeparture(departure) {
+    var _a;
+    return `${(_a = departure.firstAndLastName) == null ? void 0 : _a.replace(/\s+/g, "").toLowerCase()}${departure.birthYear}`;
+  }
+  async saveRaceCategories(race, raceCategories) {
+    console.log("save race categories...");
+    let categoryNames = raceCategories.map((raceCategory) => raceCategory.name).filter((categoryName) => !!categoryName);
+    const existingRaceCategories = await this.raceCategoriesService.readByQuery({
+      filter: {
+        _and: [
+          {
+            race: {
+              id: {
+                _eq: race.id
+              }
+            },
+            name: {
+              _in: categoryNames
+            }
+          }
+        ]
+      },
+      limit: -1
+    });
+    if (existingRaceCategories.length) {
+      raceCategories = raceCategories.map((raceCategory) => {
+        const existingRaceCategory = existingRaceCategories.find((existing) => existing.name == raceCategory.name);
+        if (!existingRaceCategory) {
+          return raceCategory;
+        }
+        return {
+          ...existingRaceCategory,
+          ...raceCategory
+        };
+      });
+    }
+    const upsertedIds = await this.raceCategoriesService.upsertMany(raceCategories);
+    return await this.raceCategoriesService.readMany(upsertedIds, {
+      fields: ["id", "name"]
+    });
+  }
+}
+
 var index = defineHook(async ({ schedule }, { services, getSchema, env }) => {
   const CRAWLER_SCHEDULE = env.CRAWLER_SCHEDULE;
   if (!CRAWLER_SCHEDULE || typeof CRAWLER_SCHEDULE !== "string") {
@@ -90704,6 +90983,10 @@ var index = defineHook(async ({ schedule }, { services, getSchema, env }) => {
   schedule(CRAWLER_SCHEDULE, async () => {
     console.log("Starting to crawl SOLV...");
     await new Solv({
+      createItemsService,
+      dataSourceName: "solv"
+    }).crawl();
+    await new SolvDepartures({
       createItemsService,
       dataSourceName: "solv"
     }).crawl();

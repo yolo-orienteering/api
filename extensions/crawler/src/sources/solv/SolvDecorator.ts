@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import * as cheerio from 'cheerio'
 import { Race } from '../types/DirectusTypes'
-import { ISolvLinkIdentifier } from '../types/ISolv'
+import { ISolvLinkIdentifier } from '../../types/ISolv'
 
 export default class SolvDecorator {
   private readonly BASE_URL: string
@@ -16,6 +16,7 @@ export default class SolvDecorator {
     this.LINK_IDENTIFIER = {
       publicationLink: 'Ausschreibung',
       rankingLink: 'Rangliste',
+      departureLink: 'Startliste',
       inscriptionLink: ['pico', 'GO2OL', 'OL-Events'],
       liveResultLink: 'Live'
     }
@@ -78,6 +79,10 @@ export default class SolvDecorator {
       const hasInscriptionLink = this.LINK_IDENTIFIER.inscriptionLink.find((inscriptionLink: string) => text.includes(inscriptionLink))
       if (hasInscriptionLink) {
         this.race.inscriptionLink = link
+      }
+
+      if (text.includes(this.LINK_IDENTIFIER.departureLink)) {
+        this.race.departureLink = link
       }
     })
   }

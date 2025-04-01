@@ -355,6 +355,8 @@ export type DirectusUsers = {
   appearance?: string | null;
   auth_data?: unknown | null;
   avatar?: string | DirectusFiles | null;
+  birthYear?: number | null;
+  composedIdentifierSolv?: string | null;
   description?: string | null;
   email?: string | null;
   email_notifications?: boolean | null;
@@ -410,13 +412,14 @@ export type DirectusWebhooks = {
 };
 
 export type Race = {
+  categories: any[] | RaceCategory[];
   city?: string | null;
-  coordinates?: string | null;
   country?: string | null;
   date?: string | null;
   date_created?: string | null;
   date_updated?: string | null;
   deadline?: string | null;
+  departureLink?: string | null;
   eventLink?: string | null;
   geographicalScale?: string | null;
   id: string;
@@ -432,6 +435,35 @@ export type Race = {
   region?: string | null;
   sort?: number | null;
   status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
+export type RaceCategory = {
+  amountOfControls?: number | null;
+  date_created?: string | null;
+  date_updated?: string | null;
+  distanceInMeter?: number | null;
+  equidistanceInMeter?: number | null;
+  id: string;
+  name?: string | null;
+  race?: string | Race | null;
+  sort?: number | null;
+  status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
+export type UserDeparture = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: string;
+  race?: string | Race | null;
+  raceCategory?: string | RaceCategory | null;
+  sort?: number | null;
+  startTimeInMinutes?: number | null;
+  status: string;
+  user?: string | DirectusUsers | null;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
 };
@@ -466,4 +498,6 @@ export type CustomDirectusTypes = {
   directus_versions: DirectusVersions[];
   directus_webhooks: DirectusWebhooks[];
   Race: Race[];
+  RaceCategory: RaceCategory[];
+  UserDeparture: UserDeparture[];
 };

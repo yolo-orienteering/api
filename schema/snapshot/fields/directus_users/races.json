@@ -1,26 +1,29 @@
 {
-  "collection": "Race",
-  "field": "divider-kgl5pb",
+  "collection": "directus_users",
+  "field": "races",
   "type": "alias",
   "meta": {
-    "collection": "Race",
+    "collection": "directus_users",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "divider-kgl5pb",
+    "field": "races",
     "group": null,
     "hidden": false,
-    "interface": "presentation-divider",
+    "interface": "list-o2m",
     "note": null,
     "options": {
-      "title": "Original Data"
+      "enableCreate": false,
+      "enableLink": true,
+      "enableSelect": false,
+      "sort": null,
+      "template": "{{race.name}} {{raceCategory.name}} {{startTimeInMinutes}}"
     },
     "readonly": false,
     "required": false,
-    "sort": 25,
+    "sort": 3,
     "special": [
-      "alias",
-      "no-data"
+      "o2m"
     ],
     "translations": null,
     "validation": null,

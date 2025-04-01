@@ -1,28 +1,24 @@
 {
-  "collection": "Race",
-  "field": "originalDataSource",
-  "type": "string",
+  "collection": "directus_users",
+  "field": "birthYear",
+  "type": "integer",
   "meta": {
-    "collection": "Race",
+    "collection": "directus_users",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "originalDataSource",
+    "field": "birthYear",
     "group": null,
     "hidden": false,
-    "interface": "select-dropdown",
+    "interface": "input",
     "note": null,
     "options": {
-      "choices": [
-        {
-          "text": "solv",
-          "value": "solv"
-        }
-      ]
+      "max": 2200,
+      "min": 1920
     },
     "readonly": false,
-    "required": true,
-    "sort": 27,
+    "required": false,
+    "sort": 1,
     "special": null,
     "translations": null,
     "validation": null,
@@ -30,13 +26,13 @@
     "width": "half"
   },
   "schema": {
-    "name": "originalDataSource",
-    "table": "Race",
-    "data_type": "character varying",
+    "name": "birthYear",
+    "table": "directus_users",
+    "data_type": "integer",
     "default_value": null,
-    "max_length": 255,
-    "numeric_precision": null,
-    "numeric_scale": null,
+    "max_length": null,
+    "numeric_precision": 32,
+    "numeric_scale": 0,
     "is_nullable": true,
     "is_unique": false,
     "is_indexed": false,

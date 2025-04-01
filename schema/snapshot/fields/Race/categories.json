@@ -1,26 +1,28 @@
 {
   "collection": "Race",
-  "field": "divider-kgl5pb",
+  "field": "categories",
   "type": "alias",
   "meta": {
     "collection": "Race",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "divider-kgl5pb",
+    "field": "categories",
     "group": null,
     "hidden": false,
-    "interface": "presentation-divider",
+    "interface": "list-o2m",
     "note": null,
     "options": {
-      "title": "Original Data"
+      "enableCreate": false,
+      "enableLink": true,
+      "enableSelect": false,
+      "template": "{{name}} {{distanceInMeter}}"
     },
     "readonly": false,
     "required": false,
-    "sort": 25,
+    "sort": 17,
     "special": [
-      "alias",
-      "no-data"
+      "o2m"
     ],
     "translations": null,
     "validation": null,
