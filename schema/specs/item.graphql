@@ -3,14 +3,14 @@ type Query {
   directus_sync_id_map_by_id(id: ID!, version: String): directus_sync_id_map
   directus_sync_id_map_aggregated(groupBy: [String], filter: directus_sync_id_map_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_sync_id_map_aggregated!]!
   directus_sync_id_map_by_version(version: String!, id: ID!): version_directus_sync_id_map
-  Race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Race!]!
-  Race_by_id(id: ID!, version: String): Race
-  Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
-  Race_by_version(version: String!, id: ID!): version_Race
   UserDeparture(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [UserDeparture!]!
   UserDeparture_by_id(id: ID!, version: String): UserDeparture
   UserDeparture_aggregated(groupBy: [String], filter: UserDeparture_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [UserDeparture_aggregated!]!
   UserDeparture_by_version(version: String!, id: ID!): version_UserDeparture
+  Race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Race!]!
+  Race_by_id(id: ID!, version: String): Race
+  Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
+  Race_by_version(version: String!, id: ID!): version_Race
   RaceCategory(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory!]!
   RaceCategory_by_id(id: ID!, version: String): RaceCategory
   RaceCategory_aggregated(groupBy: [String], filter: RaceCategory_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [RaceCategory_aggregated!]!
@@ -20,30 +20,30 @@ type Query {
 type Mutation {
   create_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   create_directus_sync_id_map_item(data: create_directus_sync_id_map_input!): directus_sync_id_map
-  create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
-  create_Race_item(data: create_Race_input!): Race
   create_UserDeparture_items(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_UserDeparture_input!]): [UserDeparture!]!
   create_UserDeparture_item(data: create_UserDeparture_input!): UserDeparture
+  create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
+  create_Race_item(data: create_Race_input!): Race
   create_RaceCategory_items(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_RaceCategory_input!]): [RaceCategory!]!
   create_RaceCategory_item(data: create_RaceCategory_input!): RaceCategory
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
-  update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
-  update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
-  update_Race_item(id: ID!, data: update_Race_input!): Race
   update_UserDeparture_items(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_UserDeparture_input!): [UserDeparture!]!
   update_UserDeparture_batch(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_UserDeparture_input!]): [UserDeparture!]!
   update_UserDeparture_item(id: ID!, data: update_UserDeparture_input!): UserDeparture
+  update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
+  update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
+  update_Race_item(id: ID!, data: update_Race_input!): Race
   update_RaceCategory_items(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_RaceCategory_input!): [RaceCategory!]!
   update_RaceCategory_batch(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_RaceCategory_input!]): [RaceCategory!]!
   update_RaceCategory_item(id: ID!, data: update_RaceCategory_input!): RaceCategory
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
-  delete_Race_items(ids: [ID]!): delete_many
-  delete_Race_item(id: ID!): delete_one
   delete_UserDeparture_items(ids: [ID]!): delete_many
   delete_UserDeparture_item(id: ID!): delete_one
+  delete_Race_items(ids: [ID]!): delete_many
+  delete_Race_item(id: ID!): delete_one
   delete_RaceCategory_items(ids: [ID]!): delete_many
   delete_RaceCategory_item(id: ID!): delete_one
 }
@@ -71,8 +71,8 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  Race_mutated(event: EventEnum): Race_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
+  Race_mutated(event: EventEnum): Race_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
 }
 
@@ -743,6 +743,7 @@ type Race {
   user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   departureLink: String
+  instructionLink: String
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
 }
@@ -785,6 +786,7 @@ type Race_aggregated_count {
   user_created: Int
   user_updated: Int
   departureLink: Int
+  instructionLink: Int
   categories: Int
 }
 
@@ -945,6 +947,7 @@ type version_Race {
   user_created: JSON
   user_updated: JSON
   departureLink: String
+  instructionLink: String
   categories: JSON
 }
 
@@ -1152,6 +1155,7 @@ input create_Race_input {
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
   departureLink: String
+  instructionLink: String
   categories: [create_RaceCategory_input]
 }
 
@@ -1557,6 +1561,7 @@ input Race_filter {
   user_created: directus_users_filter
   user_updated: directus_users_filter
   departureLink: string_filter_operators
+  instructionLink: string_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
   _and: [Race_filter]
@@ -1751,6 +1756,7 @@ input update_Race_input {
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
   departureLink: String
+  instructionLink: String
   categories: [update_RaceCategory_input]
 }
 

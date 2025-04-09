@@ -263,8 +263,8 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  Race_mutated(event: EventEnum): Race_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
+  Race_mutated(event: EventEnum): Race_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
 }
 
@@ -1657,6 +1657,7 @@ type Race {
   user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   departureLink: String
+  instructionLink: String
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
 }
@@ -2097,6 +2098,7 @@ input create_Race_input {
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
   departureLink: String
+  instructionLink: String
   categories: [create_RaceCategory_input]
 }
 
@@ -2681,6 +2683,7 @@ input Race_filter {
   user_created: directus_users_filter
   user_updated: directus_users_filter
   departureLink: string_filter_operators
+  instructionLink: string_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
   _and: [Race_filter]
@@ -3096,6 +3099,7 @@ input update_Race_input {
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
   departureLink: String
+  instructionLink: String
   categories: [update_RaceCategory_input]
 }
 
