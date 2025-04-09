@@ -43,7 +43,8 @@
       "originalDataSource",
       "originalDataFull",
       "categories",
-      "departureLink"
+      "departureLink",
+      "instructionLink"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "18f5e830-1c05-4a14-b84f-a49cbfb0c8b2"
