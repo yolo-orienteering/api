@@ -412,6 +412,7 @@ export type DirectusWebhooks = {
 };
 
 export type Race = {
+  instructionLink?: string | null;
   categories: any[] | RaceCategory[];
   city?: string | null;
   country?: string | null;
