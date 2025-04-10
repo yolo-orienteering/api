@@ -33,7 +33,7 @@ export default defineHook(async ({ schedule }, {services, getSchema, env}) => {
 			dataSourceName: 'solv'
 		}).crawl()
 
-		// // crawling for departure times
+		// crawling for departure times
 		await new SolvDepartures({
 			createItemsService,
 			dataSourceName: 'solv'
