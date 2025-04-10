@@ -28,7 +28,7 @@ export class SolvInstructions extends Crawler implements ICrawler {
 
   private async setupBrowserPage (): Promise<void> {
     console.log('Initialize headless browser and setup page.')
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
     this.browserPage = await browser.newPage()
     await this.browserPage.setViewport({width: 1920, height: 1080})
   }
