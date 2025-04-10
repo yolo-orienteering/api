@@ -27,7 +27,8 @@
     "directus-extension-sync": "^3.0.3",
     "nanoid": "^5.1.5",
     "pg": "8.13.1",
-    "puppeteer": "^24.6.1"
+    "puppeteer": "^24.6.1",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@directus/sdk": "19.0.1"
