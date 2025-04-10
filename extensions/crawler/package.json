@@ -8,7 +8,7 @@
 		"directus-extension",
 		"directus-extension-hook"
 	],
-	"type": "module",
+	"type": "commonjs",
 	"files": [
 		"dist"
 	],
