@@ -10,10 +10,12 @@ export class SolvInstructions extends Crawler implements ICrawler {
   private racesService: ItemsService
   private browser?: Browser
   private browserPage?: Page
+  private instructionLinkCounter: number
 
   constructor(options: CrawlerOptions) {
     super(options)
     this.racesService = this.createItemsService('Race')
+    this.instructionLinkCounter = 0
   }
 
   public async crawl () {
@@ -26,7 +28,7 @@ export class SolvInstructions extends Crawler implements ICrawler {
 
         await this.findLinkOnWebsites()
         
-        console.log('Job done. Crawled for all instruction links.')
+        console.log(`Job done. Found and saved ${this.instructionLinkCounter} instruction links.`)
     } catch (e) {
       console.error('Instruction crawling job finished unexpectedly with an error', e)
     } finally {
@@ -117,11 +119,11 @@ export class SolvInstructions extends Crawler implements ICrawler {
       }
     }
 
-    console.log(instructionLink)
     console.log('Found link and store it.')
 
     // save instruction link
-    // await this.racesService.updateOne(id, {instructionLink})
+    await this.racesService.updateOne(id, {instructionLink})
+    this.instructionLinkCounter++
   }
 
   private async getContentFromWebsite (url: string): Promise<string | undefined> {
