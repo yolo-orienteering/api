@@ -2,12 +2,13 @@ import { ItemsService } from '@directus/api/dist/services/items'
 import Crawler, { CrawlerOptions } from '../../classes/crawler/Crawler'
 import ICrawler from '../../types/ICrawler'
 import { Race } from '../../types/DirectusTypes'
-import puppeteer, { Page } from 'puppeteer'
+import puppeteer, { Browser, Page } from 'puppeteer'
 import * as cheerio from 'cheerio'
 
 export class SolvInstructions extends Crawler implements ICrawler {
   private racesHavingWebsites?: Race[]
   private racesService: ItemsService
+  private browser?: Browser
   private browserPage?: Page
 
   constructor(options: CrawlerOptions) {
@@ -16,19 +17,26 @@ export class SolvInstructions extends Crawler implements ICrawler {
   }
 
   public async crawl () {
-    console.log('Start crawling solv instructions.')
+    try {
+      console.log('Start crawling solv instructions.')
 
-    await this.getRacesHavingWebsites()
+      await this.getRacesHavingWebsites()
 
-    await this.setupBrowserPage()
+        await this.setupBrowserPage()
 
-    await this.findLinkOnWebsites()
-    console.log('Job done. Crawled for all instruction links.')
+        await this.findLinkOnWebsites()
+        
+        console.log('Job done. Crawled for all instruction links.')
+    } catch (e) {
+      console.error('Instruction crawling job finished unexpectedly with an error', e)
+    } finally {
+      this.browser?.close()
+    }
   }
 
   private async setupBrowserPage (): Promise<void> {
-    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
-    this.browserPage = await browser.newPage()
+    this.browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']})
+    this.browserPage = await this.browser.newPage()
     await this.browserPage.setViewport({width: 1920, height: 1080})
   }
 
@@ -83,7 +91,7 @@ export class SolvInstructions extends Crawler implements ICrawler {
       const href = $(el).attr('href')?.toLowerCase() || ''
       const text = $(el).text().toLowerCase()
       const otherProps = Object.values(el.attribs).join(' ').toLowerCase()
-      const keywords = ['ausschreibung', 'bulletin', 'directive']
+      const keywords = ['weisung', 'bulletin', 'directive']
       return keywords.some(keyword => 
         href.includes(keyword) || text.includes(keyword) || otherProps.includes(keyword)
       )
