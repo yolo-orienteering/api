@@ -106,14 +106,22 @@ export class SolvInstructions extends Crawler implements ICrawler {
     // get full link with host, if relativ pathes were used
     let instructionLink = link
     if (link && !link.startsWith('http')) {
-      const origin = new URL(url).origin
-      instructionLink = `${origin}${link.startsWith('/') ? '' : '/'}${link}`;
+      // consider base tags https://www.w3schools.com/tags/tag_base.asp
+      const baseHref = $('base').attr('href');
+      if (baseHref) {
+        const baseUrl = new URL(baseHref, url);
+        instructionLink = new URL(link, baseUrl).toString();
+      } else {
+        const origin = new URL(url).origin;
+        instructionLink = `${origin}${link.startsWith('/') ? '' : '/'}${link}`;
+      }
     }
 
+    console.log(instructionLink)
     console.log('Found link and store it.')
 
     // save instruction link
-    await this.racesService.updateOne(id, {instructionLink})
+    // await this.racesService.updateOne(id, {instructionLink})
   }
 
   private async getContentFromWebsite (url: string): Promise<string | undefined> {
