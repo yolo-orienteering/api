@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "name": "Instruction AI",
+    "icon": "bolt",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "manual",
+    "accountability": "all",
+    "options": {
+      "collections": [
+        "Job"
+      ],
+      "async": true,
+      "requireSelection": false
+    },
+    "operation": "51265cf8-4397-410b-8816-f04a1ec42cb1",
+    "_syncId": "d8d7dcdc-fe60-460c-9716-433ed3e812af"
+  }
+]

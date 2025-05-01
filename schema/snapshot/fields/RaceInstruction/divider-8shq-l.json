@@ -1,0 +1,30 @@
+{
+  "collection": "RaceInstruction",
+  "field": "divider-8shq-l",
+  "type": "alias",
+  "meta": {
+    "collection": "RaceInstruction",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "divider-8shq-l",
+    "group": null,
+    "hidden": false,
+    "interface": "presentation-divider",
+    "note": null,
+    "options": {
+      "title": "AI GENERATED"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 10,
+    "special": [
+      "alias",
+      "no-data"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  }
+}

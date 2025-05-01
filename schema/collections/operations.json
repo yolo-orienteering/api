@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "name": "Run instruction AI",
+    "key": "run_instruction_ai",
+    "type": "o-mate-instruction-ai",
+    "position_x": 19,
+    "position_y": 1,
+    "options": {},
+    "resolve": null,
+    "reject": null,
+    "flow": "d8d7dcdc-fe60-460c-9716-433ed3e812af",
+    "_syncId": "51265cf8-4397-410b-8816-f04a1ec42cb1"
+  }
+]
