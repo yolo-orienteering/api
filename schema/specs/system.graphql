@@ -1732,7 +1732,7 @@ type RaceInstruction {
 
   """A hash file of the file from the crawled or overwritten link."""
   fileHash: String
-  wayToStartAI: String
+  summaryAI: String
 }
 
 type RaceInstruction_mutated {
@@ -2185,7 +2185,7 @@ input create_RaceInstruction_input {
 
   """A hash file of the file from the crawled or overwritten link."""
   fileHash: String
-  wayToStartAI: String
+  summaryAI: String
 }
 
 input create_UserDeparture_input {
@@ -2799,7 +2799,7 @@ input RaceInstruction_filter {
   user_updated: directus_users_filter
   fileIdAI: string_filter_operators
   fileHash: string_filter_operators
-  wayToStartAI: string_filter_operators
+  summaryAI: string_filter_operators
   _and: [RaceInstruction_filter]
   _or: [RaceInstruction_filter]
 }
@@ -3231,7 +3231,7 @@ input update_RaceInstruction_input {
 
   """A hash file of the file from the crawled or overwritten link."""
   fileHash: String
-  wayToStartAI: String
+  summaryAI: String
 }
 
 input update_UserDeparture_input {

@@ -105,12 +105,7 @@ export default class InstructionAI {
 
     for (const instruction of instructions) {
       console.log('Ask AI and waiting for response...')
-      const [wayToStart, publicTransportAI, summary] = await Promise.all([
-        this.askAI({
-          instruction,
-          aiInstructions: 'return a short answer in bullet points. mark the total time bold, only the time.',
-          text: 'Wie ist der Weg von der ÖV-Station zum Wettkampfzentrum (wkz)? Wie ist der Weg zum Start? Wie lange ist die Gesamtzeit vom ÖV bis zum Start?'
-        }),
+      const [publicTransportAI, summary] = await Promise.all([
         this.askAI({
           instruction,
           aiInstructions: 'return only the name of the public transport station.',
@@ -118,17 +113,15 @@ export default class InstructionAI {
         }),
         this.askAI({
           instruction,
-          aiInstructions: 'return a short answer in bullet points.',
-          text: ''
+          aiInstructions: 'return a short answer in bullet points. return format in plain text. you can use line breaks.',
+          text: 'Fasse die Datei zusammen zu folgenden Punkten: Weg von der ÖV-Station zum Wettkampfzentrum (WKZ) und von dort zum Start? Wie lang ist der Gesamtweg und die Gesamtdauer? / Von wann bis wann kann man starten? / Kleiderdepot vorhanden? / Wo sind WC vorhanden?'
         })
       ])
 
-      console.log(summary?.output_text)
-
       instructionsUpdate.push({
         id: instruction.id,
-        wayToStartAI: wayToStart?.output_text,
-        publicTransportAI: publicTransportAI?.output_text
+        publicTransportAI: publicTransportAI?.output_text,
+        summaryAI: summary?.output_text,
       })
     }
 
@@ -146,7 +139,7 @@ export default class InstructionAI {
     }
 
     return await this.ai.responses.create({
-      model: 'gpt-4.1',
+      model: 'gpt-4.1-nano',
       input: [
           {
             role: 'user',

@@ -1,13 +1,13 @@
 {
   "collection": "RaceInstruction",
-  "field": "wayToStartAI",
+  "field": "summaryAI",
   "type": "text",
   "meta": {
     "collection": "RaceInstruction",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "wayToStartAI",
+    "field": "summaryAI",
     "group": null,
     "hidden": false,
     "interface": "input-multiline",
@@ -15,7 +15,7 @@
     "options": null,
     "readonly": false,
     "required": false,
-    "sort": 14,
+    "sort": 15,
     "special": null,
     "translations": null,
     "validation": null,
@@ -23,7 +23,7 @@
     "width": "half"
   },
   "schema": {
-    "name": "wayToStartAI",
+    "name": "summaryAI",
     "table": "RaceInstruction",
     "data_type": "text",
     "default_value": null,

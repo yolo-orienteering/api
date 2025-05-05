@@ -478,9 +478,9 @@ export type RaceInstruction = {
   publicTransportAI?: string | null;
   race?: string | Race | null;
   sort?: number | null;
+  summaryAI?: string | null;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
-  wayToStartAI?: string | null;
 };
 
 export type UserDeparture = {

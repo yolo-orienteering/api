@@ -12181,7 +12181,7 @@
             "description": "A hash file of the file from the crawled or overwritten link.",
             "type": "string"
           },
-          "wayToStartAI": {
+          "summaryAI": {
             "nullable": true,
             "type": "string"
           }
