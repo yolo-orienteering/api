@@ -15,7 +15,7 @@
     "options": {},
     "readonly": false,
     "required": false,
-    "sort": 30,
+    "sort": 31,
     "special": [
       "cast-json"
     ],

@@ -263,9 +263,9 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
+  RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   Race_mutated(event: EventEnum): Race_mutated
-  RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1461,8 +1461,8 @@ type directus_users {
   theme_light_overrides_func: count_functions
   theme_dark_overrides: JSON
   theme_dark_overrides_func: count_functions
-  composedIdentifierSolv: String
   birthYear: Int
+  composedIdentifierSolv: String
   races(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [UserDeparture]
   races_func: count_functions
   policies(filter: directus_access_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_access]
@@ -1509,8 +1509,8 @@ type directus_users_aggregated_count {
   theme_light: Int
   theme_light_overrides: Int
   theme_dark_overrides: Int
-  composedIdentifierSolv: Int
   birthYear: Int
+  composedIdentifierSolv: Int
   races: Int
   policies: Int
 }
@@ -1638,10 +1638,12 @@ type Race {
   date_updated_func: datetime_functions
   deadline: Date
   deadline_func: datetime_functions
+  departureLink: String
   eventLink: String
   geographicalScale: String
   id: ID!
   inscriptionLink: String
+  instructionLink: String
   liveResultLink: String
   mapName: String
   name: String
@@ -1656,8 +1658,8 @@ type Race {
   status: String
   user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
-  departureLink: String
-  instructionLink: String
+  terrain: String
+  distance: String
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
 }
@@ -1669,20 +1671,20 @@ type Race_mutated {
 }
 
 type RaceCategory {
-  id: ID!
-  status: String
-  sort: Int
-  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  amountOfControls: Int
   date_created: Date
   date_created_func: datetime_functions
-  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_updated: Date
   date_updated_func: datetime_functions
-  name: String
   distanceInMeter: Int
   equidistanceInMeter: Int
-  amountOfControls: Int
+  id: ID!
+  name: String
   race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
+  sort: Int
+  status: String
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
 }
 
 type RaceCategory_mutated {
@@ -1719,19 +1721,19 @@ type server_info_query_limit {
 }
 
 type UserDeparture {
-  id: ID!
-  status: String
-  sort: Int
-  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_created: Date
   date_created_func: datetime_functions
-  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_updated: Date
   date_updated_func: datetime_functions
-  startTimeInMinutes: Int
-  user(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
-  raceCategory(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): RaceCategory
+  id: ID!
   race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
+  raceCategory(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): RaceCategory
+  sort: Int
+  startTimeInMinutes: Int
+  status: String
+  user(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
 }
 
 type UserDeparture_mutated {
@@ -2039,8 +2041,8 @@ input create_directus_users_input {
   theme_light: String
   theme_light_overrides: JSON
   theme_dark_overrides: JSON
-  composedIdentifierSolv: String
   birthYear: Int
+  composedIdentifierSolv: String
   races: [create_UserDeparture_input]
   policies: [create_directus_access_input]
 }
@@ -2080,10 +2082,12 @@ input create_Race_input {
   date_created: Date
   date_updated: Date
   deadline: Date
+  departureLink: String
   eventLink: String
   geographicalScale: String
   id: ID
   inscriptionLink: String
+  instructionLink: String
   liveResultLink: String
   mapName: String
   name: String
@@ -2097,38 +2101,38 @@ input create_Race_input {
   status: String
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
-  departureLink: String
-  instructionLink: String
+  terrain: String
+  distance: String
   categories: [create_RaceCategory_input]
 }
 
 input create_RaceCategory_input {
-  id: ID
-  status: String
-  sort: Int
-  user_created: create_directus_users_input
+  amountOfControls: Int
   date_created: Date
-  user_updated: create_directus_users_input
   date_updated: Date
-  name: String
   distanceInMeter: Int
   equidistanceInMeter: Int
-  amountOfControls: Int
+  id: ID
+  name: String
   race: create_Race_input
+  sort: Int
+  status: String
+  user_created: create_directus_users_input
+  user_updated: create_directus_users_input
 }
 
 input create_UserDeparture_input {
-  id: ID
-  status: String
-  sort: Int
-  user_created: create_directus_users_input
   date_created: Date
-  user_updated: create_directus_users_input
   date_updated: Date
-  startTimeInMinutes: Int
-  user: create_directus_users_input
-  raceCategory: create_RaceCategory_input
+  id: ID
   race: create_Race_input
+  raceCategory: create_RaceCategory_input
+  sort: Int
+  startTimeInMinutes: Int
+  status: String
+  user: create_directus_users_input
+  user_created: create_directus_users_input
+  user_updated: create_directus_users_input
 }
 
 input date_filter_operators {
@@ -2585,8 +2589,8 @@ input directus_users_filter {
   theme_light_overrides_func: count_function_filter_operators
   theme_dark_overrides: string_filter_operators
   theme_dark_overrides_func: count_function_filter_operators
-  composedIdentifierSolv: string_filter_operators
   birthYear: number_filter_operators
+  composedIdentifierSolv: string_filter_operators
   races: UserDeparture_filter
   races_func: count_function_filter_operators
   policies: directus_access_filter
@@ -2664,10 +2668,12 @@ input Race_filter {
   date_updated_func: datetime_function_filter_operators
   deadline: date_filter_operators
   deadline_func: datetime_function_filter_operators
+  departureLink: string_filter_operators
   eventLink: string_filter_operators
   geographicalScale: string_filter_operators
   id: string_filter_operators
   inscriptionLink: string_filter_operators
+  instructionLink: string_filter_operators
   liveResultLink: string_filter_operators
   mapName: string_filter_operators
   name: string_filter_operators
@@ -2682,8 +2688,8 @@ input Race_filter {
   status: string_filter_operators
   user_created: directus_users_filter
   user_updated: directus_users_filter
-  departureLink: string_filter_operators
-  instructionLink: string_filter_operators
+  terrain: string_filter_operators
+  distance: string_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
   _and: [Race_filter]
@@ -2691,20 +2697,20 @@ input Race_filter {
 }
 
 input RaceCategory_filter {
-  id: string_filter_operators
-  status: string_filter_operators
-  sort: number_filter_operators
-  user_created: directus_users_filter
+  amountOfControls: number_filter_operators
   date_created: date_filter_operators
   date_created_func: datetime_function_filter_operators
-  user_updated: directus_users_filter
   date_updated: date_filter_operators
   date_updated_func: datetime_function_filter_operators
-  name: string_filter_operators
   distanceInMeter: number_filter_operators
   equidistanceInMeter: number_filter_operators
-  amountOfControls: number_filter_operators
+  id: string_filter_operators
+  name: string_filter_operators
   race: Race_filter
+  sort: number_filter_operators
+  status: string_filter_operators
+  user_created: directus_users_filter
+  user_updated: directus_users_filter
   _and: [RaceCategory_filter]
   _or: [RaceCategory_filter]
 }
@@ -3040,8 +3046,8 @@ input update_directus_users_input {
   theme_light: String
   theme_light_overrides: JSON
   theme_dark_overrides: JSON
-  composedIdentifierSolv: String
   birthYear: Int
+  composedIdentifierSolv: String
   races: [update_UserDeparture_input]
   policies: [update_directus_access_input]
 }
@@ -3081,10 +3087,12 @@ input update_Race_input {
   date_created: Date
   date_updated: Date
   deadline: Date
+  departureLink: String
   eventLink: String
   geographicalScale: String
   id: ID
   inscriptionLink: String
+  instructionLink: String
   liveResultLink: String
   mapName: String
   name: String
@@ -3098,54 +3106,54 @@ input update_Race_input {
   status: String
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
-  departureLink: String
-  instructionLink: String
+  terrain: String
+  distance: String
   categories: [update_RaceCategory_input]
 }
 
 input update_RaceCategory_input {
-  id: ID
-  status: String
-  sort: Int
-  user_created: update_directus_users_input
+  amountOfControls: Int
   date_created: Date
-  user_updated: update_directus_users_input
   date_updated: Date
-  name: String
   distanceInMeter: Int
   equidistanceInMeter: Int
-  amountOfControls: Int
+  id: ID
+  name: String
   race: update_Race_input
+  sort: Int
+  status: String
+  user_created: update_directus_users_input
+  user_updated: update_directus_users_input
 }
 
 input update_UserDeparture_input {
-  id: ID
-  status: String
-  sort: Int
-  user_created: update_directus_users_input
   date_created: Date
-  user_updated: update_directus_users_input
   date_updated: Date
-  startTimeInMinutes: Int
-  user: update_directus_users_input
-  raceCategory: update_RaceCategory_input
+  id: ID
   race: update_Race_input
+  raceCategory: update_RaceCategory_input
+  sort: Int
+  startTimeInMinutes: Int
+  status: String
+  user: update_directus_users_input
+  user_created: update_directus_users_input
+  user_updated: update_directus_users_input
 }
 
 input UserDeparture_filter {
-  id: string_filter_operators
-  status: string_filter_operators
-  sort: number_filter_operators
-  user_created: directus_users_filter
   date_created: date_filter_operators
   date_created_func: datetime_function_filter_operators
-  user_updated: directus_users_filter
   date_updated: date_filter_operators
   date_updated_func: datetime_function_filter_operators
-  startTimeInMinutes: number_filter_operators
-  user: directus_users_filter
-  raceCategory: RaceCategory_filter
+  id: string_filter_operators
   race: Race_filter
+  raceCategory: RaceCategory_filter
+  sort: number_filter_operators
+  startTimeInMinutes: number_filter_operators
+  status: string_filter_operators
+  user: directus_users_filter
+  user_created: directus_users_filter
+  user_updated: directus_users_filter
   _and: [UserDeparture_filter]
   _or: [UserDeparture_filter]
 }

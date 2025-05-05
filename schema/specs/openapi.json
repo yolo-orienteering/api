@@ -7898,6 +7898,393 @@
         ]
       }
     },
+    "/items/RaceCategory": {
+      "post": {
+        "summary": "Create an Item",
+        "description": "Create a new RaceCategory item.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "createItemsRaceCategory",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Meta"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ItemsRaceCategory"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/ItemsRaceCategory"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/ItemsRaceCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "get": {
+        "summary": "List Items",
+        "description": "List the RaceCategory items.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "readItemsRaceCategory",
+        "security": [
+          {
+            "Auth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Meta"
+          },
+          {
+            "$ref": "#/components/parameters/Offset"
+          },
+          {
+            "$ref": "#/components/parameters/Sort"
+          },
+          {
+            "$ref": "#/components/parameters/Filter"
+          },
+          {
+            "$ref": "#/components/parameters/Search"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/components/schemas/ItemsRaceCategory"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/x-metadata"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Multiple Items",
+        "description": "Update multiple RaceCategory items at the same time.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "updateItemsRaceCategory",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Meta"
+          },
+          {
+            "$ref": "#/components/parameters/Offset"
+          },
+          {
+            "$ref": "#/components/parameters/Sort"
+          },
+          {
+            "$ref": "#/components/parameters/Filter"
+          },
+          {
+            "$ref": "#/components/parameters/Search"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ItemsRaceCategory"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/schemas/ItemsRaceCategory"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/ItemsRaceCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Multiple Items",
+        "description": "Delete multiple existing RaceCategory items.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "deleteItemsRaceCategory",
+        "responses": {
+          "200": {
+            "description": "Successful request"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/items/RaceCategory/{id}": {
+      "get": {
+        "summary": "Retrieve an Item",
+        "description": "Retrieve a single RaceCategory item by unique identifier.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "readSingleItemsRaceCategory",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Meta"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "name": "id",
+            "description": "Index of the item.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "description": "Incremental index of the item.",
+                  "example": 1
+                },
+                {
+                  "type": "string",
+                  "description": "Unique identifier of the item.",
+                  "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/ItemsRaceCategory"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an Item",
+        "description": "Update an existing RaceCategory item.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "updateSingleItemsRaceCategory",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Meta"
+          },
+          {
+            "name": "id",
+            "description": "Index of the item.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "description": "Incremental index of the item.",
+                  "example": 1
+                },
+                {
+                  "type": "string",
+                  "description": "Unique identifier of the item.",
+                  "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                }
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/ItemsRaceCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/ItemsRaceCategory"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an Item",
+        "description": "Delete an existing RaceCategory item.",
+        "tags": [
+          "Items",
+          "ItemsRaceCategory"
+        ],
+        "operationId": "deleteSingleItemsRaceCategory",
+        "responses": {
+          "200": {
+            "description": "Successful request"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundError"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Index of the item.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "description": "Incremental index of the item.",
+                  "example": 1
+                },
+                {
+                  "type": "string",
+                  "description": "Unique identifier of the item.",
+                  "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "/items/UserDeparture": {
       "post": {
         "summary": "Create an Item",
@@ -8671,393 +9058,6 @@
           }
         ]
       }
-    },
-    "/items/RaceCategory": {
-      "post": {
-        "summary": "Create an Item",
-        "description": "Create a new RaceCategory item.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "createItemsRaceCategory",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Meta"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "oneOf": [
-                  {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ItemsRaceCategory"
-                    }
-                  },
-                  {
-                    "$ref": "#/components/schemas/ItemsRaceCategory"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "items": {
-                        "$ref": "#/components/schemas/ItemsRaceCategory"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "get": {
-        "summary": "List Items",
-        "description": "List the RaceCategory items.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "readItemsRaceCategory",
-        "security": [
-          {
-            "Auth": []
-          }
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Fields"
-          },
-          {
-            "$ref": "#/components/parameters/Limit"
-          },
-          {
-            "$ref": "#/components/parameters/Meta"
-          },
-          {
-            "$ref": "#/components/parameters/Offset"
-          },
-          {
-            "$ref": "#/components/parameters/Sort"
-          },
-          {
-            "$ref": "#/components/parameters/Filter"
-          },
-          {
-            "$ref": "#/components/parameters/Search"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/ItemsRaceCategory"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/x-metadata"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update Multiple Items",
-        "description": "Update multiple RaceCategory items at the same time.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "updateItemsRaceCategory",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Fields"
-          },
-          {
-            "$ref": "#/components/parameters/Limit"
-          },
-          {
-            "$ref": "#/components/parameters/Meta"
-          },
-          {
-            "$ref": "#/components/parameters/Offset"
-          },
-          {
-            "$ref": "#/components/parameters/Sort"
-          },
-          {
-            "$ref": "#/components/parameters/Filter"
-          },
-          {
-            "$ref": "#/components/parameters/Search"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "oneOf": [
-                  {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ItemsRaceCategory"
-                    }
-                  },
-                  {
-                    "$ref": "#/components/schemas/ItemsRaceCategory"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "data": {
-                      "items": {
-                        "$ref": "#/components/schemas/ItemsRaceCategory"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete Multiple Items",
-        "description": "Delete multiple existing RaceCategory items.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "deleteItemsRaceCategory",
-        "responses": {
-          "200": {
-            "description": "Successful request"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          }
-        },
-        "parameters": []
-      }
-    },
-    "/items/RaceCategory/{id}": {
-      "get": {
-        "summary": "Retrieve an Item",
-        "description": "Retrieve a single RaceCategory item by unique identifier.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "readSingleItemsRaceCategory",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Fields"
-          },
-          {
-            "$ref": "#/components/parameters/Meta"
-          },
-          {
-            "$ref": "#/components/parameters/Version"
-          },
-          {
-            "name": "id",
-            "description": "Index of the item.",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "description": "Incremental index of the item.",
-                  "example": 1
-                },
-                {
-                  "type": "string",
-                  "description": "Unique identifier of the item.",
-                  "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
-                }
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "$ref": "#/components/schemas/ItemsRaceCategory"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFoundError"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update an Item",
-        "description": "Update an existing RaceCategory item.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "updateSingleItemsRaceCategory",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Fields"
-          },
-          {
-            "$ref": "#/components/parameters/Meta"
-          },
-          {
-            "name": "id",
-            "description": "Index of the item.",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "description": "Incremental index of the item.",
-                  "example": 1
-                },
-                {
-                  "type": "string",
-                  "description": "Unique identifier of the item.",
-                  "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
-                }
-              ]
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "$ref": "#/components/schemas/ItemsRaceCategory"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "$ref": "#/components/schemas/ItemsRaceCategory"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFoundError"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete an Item",
-        "description": "Delete an existing RaceCategory item.",
-        "tags": [
-          "Items",
-          "ItemsRaceCategory"
-        ],
-        "operationId": "deleteSingleItemsRaceCategory",
-        "responses": {
-          "200": {
-            "description": "Successful request"
-          },
-          "401": {
-            "$ref": "#/components/responses/UnauthorizedError"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFoundError"
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Index of the item.",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "description": "Incremental index of the item.",
-                  "example": 1
-                },
-                {
-                  "type": "string",
-                  "description": "Unique identifier of the item.",
-                  "example": "8cbb43fe-4cdf-4991-8352-c461779cec02"
-                }
-              ]
-            }
-          }
-        ]
-      }
     }
   },
   "tags": [
@@ -9188,16 +9188,16 @@
       "x-collection": "directus_sync_id_map"
     },
     {
+      "name": "ItemsRaceCategory",
+      "x-collection": "RaceCategory"
+    },
+    {
       "name": "ItemsUserDeparture",
       "x-collection": "UserDeparture"
     },
     {
       "name": "ItemsRace",
       "x-collection": "Race"
-    },
-    {
-      "name": "ItemsRaceCategory",
-      "x-collection": "RaceCategory"
     }
   ],
   "components": {
@@ -9728,13 +9728,13 @@
           "theme_dark_overrides": {
             "nullable": true
           },
-          "composedIdentifierSolv": {
-            "nullable": true,
-            "type": "string"
-          },
           "birthYear": {
             "nullable": true,
             "type": "integer"
+          },
+          "composedIdentifierSolv": {
+            "nullable": true,
+            "type": "string"
           },
           "races": {
             "nullable": true,
@@ -11140,21 +11140,59 @@
           "local_id"
         ]
       },
-      "ItemsUserDeparture": {
+      "ItemsRaceCategory": {
         "type": "object",
         "properties": {
+          "amountOfControls": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "date_created": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
+          },
+          "date_updated": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
+          },
+          "distanceInMeter": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "equidistanceInMeter": {
+            "nullable": true,
+            "type": "integer"
+          },
           "id": {
             "nullable": false,
             "type": "string",
             "format": "uuid"
           },
-          "status": {
-            "nullable": false,
+          "name": {
+            "nullable": true,
             "type": "string"
+          },
+          "race": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "$ref": "#/components/schemas/ItemsRace"
+              }
+            ]
           },
           "sort": {
             "nullable": true,
             "type": "integer"
+          },
+          "status": {
+            "nullable": false,
+            "type": "string"
           },
           "user_created": {
             "nullable": true,
@@ -11168,11 +11206,6 @@
               }
             ]
           },
-          "date_created": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
-          },
           "user_updated": {
             "nullable": true,
             "oneOf": [
@@ -11184,17 +11217,32 @@
                 "$ref": "#/components/schemas/Users"
               }
             ]
+          }
+        },
+        "x-collection": "RaceCategory",
+        "required": [
+          "id"
+        ]
+      },
+      "ItemsUserDeparture": {
+        "type": "object",
+        "properties": {
+          "date_created": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
           },
           "date_updated": {
             "nullable": true,
             "type": "string",
             "format": "timestamp"
           },
-          "startTimeInMinutes": {
-            "nullable": true,
-            "type": "integer"
+          "id": {
+            "nullable": false,
+            "type": "string",
+            "format": "uuid"
           },
-          "user": {
+          "race": {
             "nullable": true,
             "oneOf": [
               {
@@ -11202,7 +11250,7 @@
                 "format": "uuid"
               },
               {
-                "$ref": "#/components/schemas/Users"
+                "$ref": "#/components/schemas/ItemsRace"
               }
             ]
           },
@@ -11218,7 +11266,19 @@
               }
             ]
           },
-          "race": {
+          "sort": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "startTimeInMinutes": {
+            "nullable": true,
+            "type": "integer"
+          },
+          "status": {
+            "nullable": false,
+            "type": "string"
+          },
+          "user": {
             "nullable": true,
             "oneOf": [
               {
@@ -11226,7 +11286,31 @@
                 "format": "uuid"
               },
               {
-                "$ref": "#/components/schemas/ItemsRace"
+                "$ref": "#/components/schemas/Users"
+              }
+            ]
+          },
+          "user_created": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "$ref": "#/components/schemas/Users"
+              }
+            ]
+          },
+          "user_updated": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "$ref": "#/components/schemas/Users"
               }
             ]
           }
@@ -11267,6 +11351,10 @@
             "type": "string",
             "format": "date-time"
           },
+          "departureLink": {
+            "nullable": true,
+            "type": "string"
+          },
           "eventLink": {
             "nullable": true,
             "type": "string"
@@ -11281,6 +11369,10 @@
             "format": "uuid"
           },
           "inscriptionLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "instructionLink": {
             "nullable": true,
             "type": "string"
           },
@@ -11351,11 +11443,11 @@
               }
             ]
           },
-          "departureLink": {
+          "terrain": {
             "nullable": true,
             "type": "string"
           },
-          "instructionLink": {
+          "distance": {
             "nullable": true,
             "type": "string"
           },
@@ -11376,90 +11468,6 @@
           }
         },
         "x-collection": "Race",
-        "required": [
-          "id"
-        ]
-      },
-      "ItemsRaceCategory": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "nullable": false,
-            "type": "string",
-            "format": "uuid"
-          },
-          "status": {
-            "nullable": false,
-            "type": "string"
-          },
-          "sort": {
-            "nullable": true,
-            "type": "integer"
-          },
-          "user_created": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "$ref": "#/components/schemas/Users"
-              }
-            ]
-          },
-          "date_created": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
-          },
-          "user_updated": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "$ref": "#/components/schemas/Users"
-              }
-            ]
-          },
-          "date_updated": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
-          },
-          "name": {
-            "nullable": true,
-            "type": "string"
-          },
-          "distanceInMeter": {
-            "nullable": true,
-            "type": "integer"
-          },
-          "equidistanceInMeter": {
-            "nullable": true,
-            "type": "integer"
-          },
-          "amountOfControls": {
-            "nullable": true,
-            "type": "integer"
-          },
-          "race": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "$ref": "#/components/schemas/ItemsRace"
-              }
-            ]
-          }
-        },
-        "x-collection": "RaceCategory",
         "required": [
           "id"
         ]
