@@ -12133,7 +12133,7 @@
             "type": "string"
           },
           "race": {
-            "nullable": true,
+            "nullable": false,
             "oneOf": [
               {
                 "type": "string",
@@ -12188,7 +12188,8 @@
         },
         "x-collection": "RaceInstruction",
         "required": [
-          "id"
+          "id",
+          "race"
         ]
       },
       "ItemsRace": {

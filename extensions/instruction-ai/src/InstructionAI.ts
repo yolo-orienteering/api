@@ -13,12 +13,9 @@ interface InstructionsAIProps {
 
 /**
  * TODO & CONTINUE
- * Speichere die instruction links im neuen Model "RaceInstruction" und nicht mehr direkt in "Race"
- * Entferne instructionLink beim Model "Race"
  * Handle Links, welche nicht PDFs abrufen aber Webseiten > Die haben immer einen anderen Hash.
- * Füge weitere AI-Felder hinzu. Z.B. "Zusammenfassung, WC usw."
+ * Erstelle UI
  * Speichere Infos zum Job.
- * Erstelle einen Flow.
  */
 
 export default class InstructionAI {
@@ -101,8 +98,6 @@ export default class InstructionAI {
       throw new Error(`Unexpected Error: Loaded instructions do not equal the expected amount.`)
     }
 
-    const instructionsUpdate: Partial<RaceInstruction>[] = []
-
     for (const instruction of instructions) {
       console.log('Ask AI and waiting for response...')
       const [publicTransportAI, summary] = await Promise.all([
@@ -118,14 +113,13 @@ export default class InstructionAI {
         })
       ])
 
-      instructionsUpdate.push({
+      // save data
+      this.instructionsService.upsertOne({
         id: instruction.id,
         publicTransportAI: publicTransportAI?.output_text,
-        summaryAI: summary?.output_text,
+        summaryAI: summary?.output_text
       })
     }
-
-    await this.instructionsService.upsertMany(instructionsUpdate)
   }
 
   private async askAI (

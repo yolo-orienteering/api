@@ -12,9 +12,11 @@
     "hidden": false,
     "interface": "select-dropdown-m2o",
     "note": null,
-    "options": null,
+    "options": {
+      "template": "{{name}} {{date}}"
+    },
     "readonly": false,
-    "required": false,
+    "required": true,
     "sort": 7,
     "special": null,
     "translations": null,
@@ -30,7 +32,7 @@
     "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
-    "is_nullable": true,
+    "is_nullable": false,
     "is_unique": false,
     "is_indexed": false,
     "is_primary_key": false,

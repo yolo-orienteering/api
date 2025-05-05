@@ -1,6 +1,6 @@
 [
   {
-    "name": "Instruction AI",
+    "name": "Manual Trigger Instruction AI",
     "icon": "bolt",
     "color": null,
     "description": null,
@@ -12,9 +12,24 @@
         "Job"
       ],
       "async": true,
+      "location": "collection",
       "requireSelection": false
     },
-    "operation": "51265cf8-4397-410b-8816-f04a1ec42cb1",
-    "_syncId": "d8d7dcdc-fe60-460c-9716-433ed3e812af"
+    "operation": "2d61a684-e8f0-4f4d-a9f1-2a607abb1508",
+    "_syncId": "206b89dc-34ab-4c91-85c5-ca398dd66f3c"
+  },
+  {
+    "name": "Cronjob Instruction AI",
+    "icon": "bolt",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "schedule",
+    "accountability": "all",
+    "options": {
+      "cron": "0 36 1 * * *"
+    },
+    "operation": "e200a9df-d4ed-4ddb-88fa-1f835c4d13fc",
+    "_syncId": "52637beb-52d0-4125-80ca-1a3568c88d7f"
   }
 ]

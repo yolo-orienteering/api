@@ -1,14 +1,26 @@
 [
   {
-    "name": "Run instruction AI",
-    "key": "run_instruction_ai",
+    "name": "Instruction AI",
+    "key": "o_mate_instruction_ai_m5tlm",
     "type": "o-mate-instruction-ai",
     "position_x": 19,
     "position_y": 1,
     "options": {},
     "resolve": null,
     "reject": null,
-    "flow": "d8d7dcdc-fe60-460c-9716-433ed3e812af",
-    "_syncId": "51265cf8-4397-410b-8816-f04a1ec42cb1"
+    "flow": "52637beb-52d0-4125-80ca-1a3568c88d7f",
+    "_syncId": "e200a9df-d4ed-4ddb-88fa-1f835c4d13fc"
+  },
+  {
+    "name": "Instruction AI",
+    "key": "o_mate_instruction_ai_pug4w",
+    "type": "o-mate-instruction-ai",
+    "position_x": 19,
+    "position_y": 1,
+    "options": {},
+    "resolve": null,
+    "reject": null,
+    "flow": "206b89dc-34ab-4c91-85c5-ca398dd66f3c",
+    "_syncId": "2d61a684-e8f0-4f4d-a9f1-2a607abb1508"
   }
 ]
