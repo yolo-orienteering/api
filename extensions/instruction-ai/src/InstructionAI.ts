@@ -133,7 +133,7 @@ export default class InstructionAI {
     }
 
     return await this.ai.responses.create({
-      model: 'gpt-4.1-nano',
+      model: 'gpt-4.1-mini',
       input: [
           {
             role: 'user',
