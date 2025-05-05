@@ -470,6 +470,8 @@ export type RaceCategory = {
 export type RaceInstruction = {
   date_created?: string | null;
   date_updated?: string | null;
+  fileHash?: string | null;
+  fileIdAI?: string | null;
   id: string;
   linkCrawled?: string | null;
   linkOverwritten?: string | null;
