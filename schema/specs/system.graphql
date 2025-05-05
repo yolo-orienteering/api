@@ -263,9 +263,9 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
+  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
   Job_mutated(event: EventEnum): Job_mutated
 }
@@ -1728,6 +1728,10 @@ type RaceInstruction {
   sort: Int
   user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 
@@ -2177,6 +2181,10 @@ input create_RaceInstruction_input {
   sort: Int
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 
@@ -2789,6 +2797,8 @@ input RaceInstruction_filter {
   sort: number_filter_operators
   user_created: directus_users_filter
   user_updated: directus_users_filter
+  fileIdAI: string_filter_operators
+  fileHash: string_filter_operators
   wayToStartAI: string_filter_operators
   _and: [RaceInstruction_filter]
   _or: [RaceInstruction_filter]
@@ -3217,6 +3227,10 @@ input update_RaceInstruction_input {
   sort: Int
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 

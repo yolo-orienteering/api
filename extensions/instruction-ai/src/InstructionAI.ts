@@ -105,18 +105,25 @@ export default class InstructionAI {
 
     for (const instruction of instructions) {
       console.log('Ask AI and waiting for response...')
-      const [wayToStart, publicTransportAI] = await Promise.all([
+      const [wayToStart, publicTransportAI, summary] = await Promise.all([
         this.askAI({
           instruction,
-          aiInstructions: 'return a short answer in bullet points.',
+          aiInstructions: 'return a short answer in bullet points. mark the total time bold, only the time.',
           text: 'Wie ist der Weg von der ÖV-Station zum Wettkampfzentrum (wkz)? Wie ist der Weg zum Start? Wie lange ist die Gesamtzeit vom ÖV bis zum Start?'
         }),
         this.askAI({
           instruction,
           aiInstructions: 'return only the name of the public transport station.',
           text: 'Wie lautet die ÖV-Haltestelle?'
+        }),
+        this.askAI({
+          instruction,
+          aiInstructions: 'return a short answer in bullet points.',
+          text: ''
         })
       ])
+
+      console.log(summary?.output_text)
 
       instructionsUpdate.push({
         id: instruction.id,

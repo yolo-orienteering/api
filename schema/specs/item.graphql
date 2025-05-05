@@ -3,10 +3,6 @@ type Query {
   directus_sync_id_map_by_id(id: ID!, version: String): directus_sync_id_map
   directus_sync_id_map_aggregated(groupBy: [String], filter: directus_sync_id_map_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_sync_id_map_aggregated!]!
   directus_sync_id_map_by_version(version: String!, id: ID!): version_directus_sync_id_map
-  RaceInstruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction!]!
-  RaceInstruction_by_id(id: ID!, version: String): RaceInstruction
-  RaceInstruction_aggregated(groupBy: [String], filter: RaceInstruction_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [RaceInstruction_aggregated!]!
-  RaceInstruction_by_version(version: String!, id: ID!): version_RaceInstruction
   RaceCategory(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory!]!
   RaceCategory_by_id(id: ID!, version: String): RaceCategory
   RaceCategory_aggregated(groupBy: [String], filter: RaceCategory_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [RaceCategory_aggregated!]!
@@ -15,6 +11,10 @@ type Query {
   UserDeparture_by_id(id: ID!, version: String): UserDeparture
   UserDeparture_aggregated(groupBy: [String], filter: UserDeparture_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [UserDeparture_aggregated!]!
   UserDeparture_by_version(version: String!, id: ID!): version_UserDeparture
+  RaceInstruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction!]!
+  RaceInstruction_by_id(id: ID!, version: String): RaceInstruction
+  RaceInstruction_aggregated(groupBy: [String], filter: RaceInstruction_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [RaceInstruction_aggregated!]!
+  RaceInstruction_by_version(version: String!, id: ID!): version_RaceInstruction
   Race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Race!]!
   Race_by_id(id: ID!, version: String): Race
   Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
@@ -28,12 +28,12 @@ type Query {
 type Mutation {
   create_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   create_directus_sync_id_map_item(data: create_directus_sync_id_map_input!): directus_sync_id_map
-  create_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_RaceInstruction_input!]): [RaceInstruction!]!
-  create_RaceInstruction_item(data: create_RaceInstruction_input!): RaceInstruction
   create_RaceCategory_items(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_RaceCategory_input!]): [RaceCategory!]!
   create_RaceCategory_item(data: create_RaceCategory_input!): RaceCategory
   create_UserDeparture_items(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_UserDeparture_input!]): [UserDeparture!]!
   create_UserDeparture_item(data: create_UserDeparture_input!): UserDeparture
+  create_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_RaceInstruction_input!]): [RaceInstruction!]!
+  create_RaceInstruction_item(data: create_RaceInstruction_input!): RaceInstruction
   create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
   create_Race_item(data: create_Race_input!): Race
   create_Job_items(filter: Job_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Job_input!]): [Job!]!
@@ -41,15 +41,15 @@ type Mutation {
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
-  update_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_RaceInstruction_input!): [RaceInstruction!]!
-  update_RaceInstruction_batch(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_RaceInstruction_input!]): [RaceInstruction!]!
-  update_RaceInstruction_item(id: ID!, data: update_RaceInstruction_input!): RaceInstruction
   update_RaceCategory_items(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_RaceCategory_input!): [RaceCategory!]!
   update_RaceCategory_batch(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_RaceCategory_input!]): [RaceCategory!]!
   update_RaceCategory_item(id: ID!, data: update_RaceCategory_input!): RaceCategory
   update_UserDeparture_items(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_UserDeparture_input!): [UserDeparture!]!
   update_UserDeparture_batch(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_UserDeparture_input!]): [UserDeparture!]!
   update_UserDeparture_item(id: ID!, data: update_UserDeparture_input!): UserDeparture
+  update_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_RaceInstruction_input!): [RaceInstruction!]!
+  update_RaceInstruction_batch(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_RaceInstruction_input!]): [RaceInstruction!]!
+  update_RaceInstruction_item(id: ID!, data: update_RaceInstruction_input!): RaceInstruction
   update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
   update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
   update_Race_item(id: ID!, data: update_Race_input!): Race
@@ -58,12 +58,12 @@ type Mutation {
   update_Job_item(id: ID!, data: update_Job_input!): Job
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
-  delete_RaceInstruction_items(ids: [ID]!): delete_many
-  delete_RaceInstruction_item(id: ID!): delete_one
   delete_RaceCategory_items(ids: [ID]!): delete_many
   delete_RaceCategory_item(id: ID!): delete_one
   delete_UserDeparture_items(ids: [ID]!): delete_many
   delete_UserDeparture_item(id: ID!): delete_one
+  delete_RaceInstruction_items(ids: [ID]!): delete_many
+  delete_RaceInstruction_item(id: ID!): delete_one
   delete_Race_items(ids: [ID]!): delete_many
   delete_Race_item(id: ID!): delete_one
   delete_Job_items(ids: [ID]!): delete_many
@@ -93,9 +93,9 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
+  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
   Job_mutated(event: EventEnum): Job_mutated
 }
@@ -947,6 +947,10 @@ type RaceInstruction {
   sort: Int
   user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 
@@ -974,6 +978,10 @@ type RaceInstruction_aggregated_count {
   sort: Int
   user_created: Int
   user_updated: Int
+  fileIdAI: Int
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: Int
   wayToStartAI: Int
 }
 
@@ -1122,6 +1130,10 @@ type version_RaceInstruction {
   sort: Int
   user_created: JSON
   user_updated: JSON
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 
@@ -1356,6 +1368,10 @@ input create_RaceInstruction_input {
   sort: Int
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 
@@ -1803,6 +1819,8 @@ input RaceInstruction_filter {
   sort: number_filter_operators
   user_created: directus_users_filter
   user_updated: directus_users_filter
+  fileIdAI: string_filter_operators
+  fileHash: string_filter_operators
   wayToStartAI: string_filter_operators
   _and: [RaceInstruction_filter]
   _or: [RaceInstruction_filter]
@@ -2020,6 +2038,10 @@ input update_RaceInstruction_input {
   sort: Int
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
   wayToStartAI: String
 }
 
