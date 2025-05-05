@@ -412,7 +412,6 @@ export type DirectusWebhooks = {
 };
 
 export type Race = {
-  instructionLink?: string | null;
   categories: any[] | RaceCategory[];
   city?: string | null;
   country?: string | null;
@@ -421,10 +420,12 @@ export type Race = {
   date_updated?: string | null;
   deadline?: string | null;
   departureLink?: string | null;
+  distance?: string | null;
   eventLink?: string | null;
   geographicalScale?: string | null;
   id: string;
   inscriptionLink?: string | null;
+  instructionLink?: string | null;
   liveResultLink?: string | null;
   mapName?: string | null;
   name?: string | null;
@@ -436,6 +437,7 @@ export type Race = {
   region?: string | null;
   sort?: number | null;
   status: string;
+  terrain?: string | null;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
 };
