@@ -7898,15 +7898,15 @@
         ]
       }
     },
-    "/items/Race": {
+    "/items/RaceInstruction": {
       "post": {
         "summary": "Create an Item",
-        "description": "Create a new Race item.",
+        "description": "Create a new RaceInstruction item.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "createItemsRace",
+        "operationId": "createItemsRaceInstruction",
         "parameters": [
           {
             "$ref": "#/components/parameters/Meta"
@@ -7920,11 +7920,11 @@
                   {
                     "type": "array",
                     "items": {
-                      "$ref": "#/components/schemas/ItemsRace"
+                      "$ref": "#/components/schemas/ItemsRaceInstruction"
                     }
                   },
                   {
-                    "$ref": "#/components/schemas/ItemsRace"
+                    "$ref": "#/components/schemas/ItemsRaceInstruction"
                   }
                 ]
               }
@@ -7941,7 +7941,7 @@
                   "properties": {
                     "data": {
                       "items": {
-                        "$ref": "#/components/schemas/ItemsRace"
+                        "$ref": "#/components/schemas/ItemsRaceInstruction"
                       }
                     }
                   }
@@ -7956,12 +7956,12 @@
       },
       "get": {
         "summary": "List Items",
-        "description": "List the Race items.",
+        "description": "List the RaceInstruction items.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "readItemsRace",
+        "operationId": "readItemsRaceInstruction",
         "security": [
           {
             "Auth": []
@@ -8002,7 +8002,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "$ref": "#/components/schemas/ItemsRace"
+                        "$ref": "#/components/schemas/ItemsRaceInstruction"
                       }
                     },
                     "meta": {
@@ -8020,12 +8020,12 @@
       },
       "patch": {
         "summary": "Update Multiple Items",
-        "description": "Update multiple Race items at the same time.",
+        "description": "Update multiple RaceInstruction items at the same time.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "updateItemsRace",
+        "operationId": "updateItemsRaceInstruction",
         "parameters": [
           {
             "$ref": "#/components/parameters/Fields"
@@ -8057,11 +8057,11 @@
                   {
                     "type": "array",
                     "items": {
-                      "$ref": "#/components/schemas/ItemsRace"
+                      "$ref": "#/components/schemas/ItemsRaceInstruction"
                     }
                   },
                   {
-                    "$ref": "#/components/schemas/ItemsRace"
+                    "$ref": "#/components/schemas/ItemsRaceInstruction"
                   }
                 ]
               }
@@ -8077,7 +8077,7 @@
                   "properties": {
                     "data": {
                       "items": {
-                        "$ref": "#/components/schemas/ItemsRace"
+                        "$ref": "#/components/schemas/ItemsRaceInstruction"
                       }
                     }
                   }
@@ -8089,12 +8089,12 @@
       },
       "delete": {
         "summary": "Delete Multiple Items",
-        "description": "Delete multiple existing Race items.",
+        "description": "Delete multiple existing RaceInstruction items.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "deleteItemsRace",
+        "operationId": "deleteItemsRaceInstruction",
         "responses": {
           "200": {
             "description": "Successful request"
@@ -8106,15 +8106,15 @@
         "parameters": []
       }
     },
-    "/items/Race/{id}": {
+    "/items/RaceInstruction/{id}": {
       "get": {
         "summary": "Retrieve an Item",
-        "description": "Retrieve a single Race item by unique identifier.",
+        "description": "Retrieve a single RaceInstruction item by unique identifier.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "readSingleItemsRace",
+        "operationId": "readSingleItemsRaceInstruction",
         "parameters": [
           {
             "$ref": "#/components/parameters/Fields"
@@ -8156,7 +8156,7 @@
                   "properties": {
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/ItemsRace"
+                      "$ref": "#/components/schemas/ItemsRaceInstruction"
                     }
                   }
                 }
@@ -8173,12 +8173,12 @@
       },
       "patch": {
         "summary": "Update an Item",
-        "description": "Update an existing Race item.",
+        "description": "Update an existing RaceInstruction item.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "updateSingleItemsRace",
+        "operationId": "updateSingleItemsRaceInstruction",
         "parameters": [
           {
             "$ref": "#/components/parameters/Fields"
@@ -8212,7 +8212,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/ItemsRace"
+                "$ref": "#/components/schemas/ItemsRaceInstruction"
               }
             }
           }
@@ -8227,7 +8227,7 @@
                   "properties": {
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/ItemsRace"
+                      "$ref": "#/components/schemas/ItemsRaceInstruction"
                     }
                   }
                 }
@@ -8244,12 +8244,12 @@
       },
       "delete": {
         "summary": "Delete an Item",
-        "description": "Delete an existing Race item.",
+        "description": "Delete an existing RaceInstruction item.",
         "tags": [
           "Items",
-          "ItemsRace"
+          "ItemsRaceInstruction"
         ],
-        "operationId": "deleteSingleItemsRace",
+        "operationId": "deleteSingleItemsRaceInstruction",
         "responses": {
           "200": {
             "description": "Successful request"
@@ -9059,15 +9059,15 @@
         ]
       }
     },
-    "/items/RaceInstruction": {
+    "/items/Race": {
       "post": {
         "summary": "Create an Item",
-        "description": "Create a new RaceInstruction item.",
+        "description": "Create a new Race item.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "createItemsRaceInstruction",
+        "operationId": "createItemsRace",
         "parameters": [
           {
             "$ref": "#/components/parameters/Meta"
@@ -9081,11 +9081,11 @@
                   {
                     "type": "array",
                     "items": {
-                      "$ref": "#/components/schemas/ItemsRaceInstruction"
+                      "$ref": "#/components/schemas/ItemsRace"
                     }
                   },
                   {
-                    "$ref": "#/components/schemas/ItemsRaceInstruction"
+                    "$ref": "#/components/schemas/ItemsRace"
                   }
                 ]
               }
@@ -9102,7 +9102,7 @@
                   "properties": {
                     "data": {
                       "items": {
-                        "$ref": "#/components/schemas/ItemsRaceInstruction"
+                        "$ref": "#/components/schemas/ItemsRace"
                       }
                     }
                   }
@@ -9117,12 +9117,12 @@
       },
       "get": {
         "summary": "List Items",
-        "description": "List the RaceInstruction items.",
+        "description": "List the Race items.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "readItemsRaceInstruction",
+        "operationId": "readItemsRace",
         "security": [
           {
             "Auth": []
@@ -9163,7 +9163,7 @@
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "$ref": "#/components/schemas/ItemsRaceInstruction"
+                        "$ref": "#/components/schemas/ItemsRace"
                       }
                     },
                     "meta": {
@@ -9181,12 +9181,12 @@
       },
       "patch": {
         "summary": "Update Multiple Items",
-        "description": "Update multiple RaceInstruction items at the same time.",
+        "description": "Update multiple Race items at the same time.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "updateItemsRaceInstruction",
+        "operationId": "updateItemsRace",
         "parameters": [
           {
             "$ref": "#/components/parameters/Fields"
@@ -9218,11 +9218,11 @@
                   {
                     "type": "array",
                     "items": {
-                      "$ref": "#/components/schemas/ItemsRaceInstruction"
+                      "$ref": "#/components/schemas/ItemsRace"
                     }
                   },
                   {
-                    "$ref": "#/components/schemas/ItemsRaceInstruction"
+                    "$ref": "#/components/schemas/ItemsRace"
                   }
                 ]
               }
@@ -9238,7 +9238,7 @@
                   "properties": {
                     "data": {
                       "items": {
-                        "$ref": "#/components/schemas/ItemsRaceInstruction"
+                        "$ref": "#/components/schemas/ItemsRace"
                       }
                     }
                   }
@@ -9250,12 +9250,12 @@
       },
       "delete": {
         "summary": "Delete Multiple Items",
-        "description": "Delete multiple existing RaceInstruction items.",
+        "description": "Delete multiple existing Race items.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "deleteItemsRaceInstruction",
+        "operationId": "deleteItemsRace",
         "responses": {
           "200": {
             "description": "Successful request"
@@ -9267,15 +9267,15 @@
         "parameters": []
       }
     },
-    "/items/RaceInstruction/{id}": {
+    "/items/Race/{id}": {
       "get": {
         "summary": "Retrieve an Item",
-        "description": "Retrieve a single RaceInstruction item by unique identifier.",
+        "description": "Retrieve a single Race item by unique identifier.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "readSingleItemsRaceInstruction",
+        "operationId": "readSingleItemsRace",
         "parameters": [
           {
             "$ref": "#/components/parameters/Fields"
@@ -9317,7 +9317,7 @@
                   "properties": {
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/ItemsRaceInstruction"
+                      "$ref": "#/components/schemas/ItemsRace"
                     }
                   }
                 }
@@ -9334,12 +9334,12 @@
       },
       "patch": {
         "summary": "Update an Item",
-        "description": "Update an existing RaceInstruction item.",
+        "description": "Update an existing Race item.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "updateSingleItemsRaceInstruction",
+        "operationId": "updateSingleItemsRace",
         "parameters": [
           {
             "$ref": "#/components/parameters/Fields"
@@ -9373,7 +9373,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/ItemsRaceInstruction"
+                "$ref": "#/components/schemas/ItemsRace"
               }
             }
           }
@@ -9388,7 +9388,7 @@
                   "properties": {
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/ItemsRaceInstruction"
+                      "$ref": "#/components/schemas/ItemsRace"
                     }
                   }
                 }
@@ -9405,12 +9405,12 @@
       },
       "delete": {
         "summary": "Delete an Item",
-        "description": "Delete an existing RaceInstruction item.",
+        "description": "Delete an existing Race item.",
         "tags": [
           "Items",
-          "ItemsRaceInstruction"
+          "ItemsRace"
         ],
-        "operationId": "deleteSingleItemsRaceInstruction",
+        "operationId": "deleteSingleItemsRace",
         "responses": {
           "200": {
             "description": "Successful request"
@@ -9962,8 +9962,8 @@
       "x-collection": "directus_sync_id_map"
     },
     {
-      "name": "ItemsRace",
-      "x-collection": "Race"
+      "name": "ItemsRaceInstruction",
+      "x-collection": "RaceInstruction"
     },
     {
       "name": "ItemsRaceCategory",
@@ -9974,8 +9974,8 @@
       "x-collection": "UserDeparture"
     },
     {
-      "name": "ItemsRaceInstruction",
-      "x-collection": "RaceInstruction"
+      "name": "ItemsRace",
+      "x-collection": "Race"
     },
     {
       "name": "ItemsJob",
@@ -11922,22 +11922,9 @@
           "local_id"
         ]
       },
-      "ItemsRace": {
+      "ItemsRaceInstruction": {
         "type": "object",
         "properties": {
-          "city": {
-            "nullable": true,
-            "type": "string"
-          },
-          "country": {
-            "nullable": true,
-            "type": "string"
-          },
-          "date": {
-            "nullable": true,
-            "type": "string",
-            "format": "date"
-          },
           "date_created": {
             "nullable": true,
             "type": "string",
@@ -11948,78 +11935,38 @@
             "type": "string",
             "format": "timestamp"
           },
-          "deadline": {
-            "nullable": true,
-            "type": "string",
-            "format": "date-time"
-          },
-          "departureLink": {
-            "nullable": true,
-            "type": "string"
-          },
-          "eventLink": {
-            "nullable": true,
-            "type": "string"
-          },
-          "geographicalScale": {
-            "nullable": true,
-            "type": "string"
-          },
           "id": {
             "nullable": false,
             "type": "string",
             "format": "uuid"
           },
-          "inscriptionLink": {
+          "linkCrawled": {
             "nullable": true,
             "type": "string"
           },
-          "instructionLink": {
+          "linkOverwritten": {
             "nullable": true,
             "type": "string"
           },
-          "liveResultLink": {
+          "publicTransportAI": {
             "nullable": true,
             "type": "string"
           },
-          "mapName": {
+          "race": {
             "nullable": true,
-            "type": "string"
-          },
-          "name": {
-            "nullable": true,
-            "type": "string"
-          },
-          "originalDataFull": {
-            "nullable": true
-          },
-          "originalDataId": {
-            "nullable": true,
-            "type": "string"
-          },
-          "originalDataSource": {
-            "nullable": true,
-            "type": "string"
-          },
-          "publicationLink": {
-            "nullable": true,
-            "type": "string"
-          },
-          "rankingLink": {
-            "nullable": true,
-            "type": "string"
-          },
-          "region": {
-            "nullable": true,
-            "type": "string"
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "$ref": "#/components/schemas/ItemsRace"
+              }
+            ]
           },
           "sort": {
             "nullable": true,
             "type": "integer"
-          },
-          "status": {
-            "nullable": false,
-            "type": "string"
           },
           "user_created": {
             "nullable": true,
@@ -12045,38 +11992,12 @@
               }
             ]
           },
-          "categories": {
+          "wayToStartAI": {
             "nullable": true,
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "$ref": "#/components/schemas/ItemsRaceCategory"
-                }
-              ]
-            }
-          },
-          "instruction": {
-            "nullable": true,
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "$ref": "#/components/schemas/ItemsRaceInstruction"
-                }
-              ]
-            }
+            "type": "string"
           }
         },
-        "x-collection": "Race",
+        "x-collection": "RaceInstruction",
         "required": [
           "id"
         ]
@@ -12261,17 +12182,104 @@
           "id"
         ]
       },
-      "ItemsRaceInstruction": {
+      "ItemsRace": {
         "type": "object",
         "properties": {
+          "city": {
+            "nullable": true,
+            "type": "string"
+          },
+          "country": {
+            "nullable": true,
+            "type": "string"
+          },
+          "date": {
+            "nullable": true,
+            "type": "string",
+            "format": "date"
+          },
+          "date_created": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
+          },
+          "date_updated": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
+          },
+          "deadline": {
+            "nullable": true,
+            "type": "string",
+            "format": "date-time"
+          },
+          "departureLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "eventLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "geographicalScale": {
+            "nullable": true,
+            "type": "string"
+          },
           "id": {
             "nullable": false,
             "type": "string",
             "format": "uuid"
           },
+          "inscriptionLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "instructionLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "liveResultLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "mapName": {
+            "nullable": true,
+            "type": "string"
+          },
+          "name": {
+            "nullable": true,
+            "type": "string"
+          },
+          "originalDataFull": {
+            "nullable": true
+          },
+          "originalDataId": {
+            "nullable": true,
+            "type": "string"
+          },
+          "originalDataSource": {
+            "nullable": true,
+            "type": "string"
+          },
+          "publicationLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "rankingLink": {
+            "nullable": true,
+            "type": "string"
+          },
+          "region": {
+            "nullable": true,
+            "type": "string"
+          },
           "sort": {
             "nullable": true,
             "type": "integer"
+          },
+          "status": {
+            "nullable": false,
+            "type": "string"
           },
           "user_created": {
             "nullable": true,
@@ -12285,11 +12293,6 @@
               }
             ]
           },
-          "date_created": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
-          },
           "user_updated": {
             "nullable": true,
             "oneOf": [
@@ -12302,41 +12305,46 @@
               }
             ]
           },
-          "date_updated": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
-          },
-          "linkCrawled": {
+          "terrain": {
             "nullable": true,
             "type": "string"
           },
-          "linkOverwritten": {
+          "distance": {
             "nullable": true,
             "type": "string"
           },
-          "race": {
+          "categories": {
             "nullable": true,
-            "oneOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "$ref": "#/components/schemas/ItemsRace"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "$ref": "#/components/schemas/ItemsRaceCategory"
+                }
+              ]
+            }
           },
-          "publicTransportAI": {
+          "instruction": {
             "nullable": true,
-            "type": "string"
-          },
-          "wayToStartAI": {
-            "nullable": true,
-            "type": "string"
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "$ref": "#/components/schemas/ItemsRaceInstruction"
+                }
+              ]
+            }
           }
         },
-        "x-collection": "RaceInstruction",
+        "x-collection": "Race",
         "required": [
           "id"
         ]
@@ -12344,18 +12352,28 @@
       "ItemsJob": {
         "type": "object",
         "properties": {
+          "date_created": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
+          },
+          "date_updated": {
+            "nullable": true,
+            "type": "string",
+            "format": "timestamp"
+          },
           "id": {
             "nullable": false,
             "type": "string",
             "format": "uuid"
           },
-          "status": {
-            "nullable": false,
-            "type": "string"
-          },
           "sort": {
             "nullable": true,
             "type": "integer"
+          },
+          "status": {
+            "nullable": false,
+            "type": "string"
           },
           "user_created": {
             "nullable": true,
@@ -12369,11 +12387,6 @@
               }
             ]
           },
-          "date_created": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
-          },
           "user_updated": {
             "nullable": true,
             "oneOf": [
@@ -12385,11 +12398,6 @@
                 "$ref": "#/components/schemas/Users"
               }
             ]
-          },
-          "date_updated": {
-            "nullable": true,
-            "type": "string",
-            "format": "timestamp"
           }
         },
         "x-collection": "Job",

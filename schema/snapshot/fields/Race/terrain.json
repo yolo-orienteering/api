@@ -1,21 +1,39 @@
 {
   "collection": "Race",
-  "field": "inscriptionLink",
+  "field": "terrain",
   "type": "string",
   "meta": {
     "collection": "Race",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "inscriptionLink",
+    "field": "terrain",
     "group": null,
     "hidden": false,
-    "interface": "input",
+    "interface": "select-dropdown",
     "note": null,
-    "options": null,
+    "options": {
+      "choices": [
+        {
+          "icon": "house",
+          "text": "Urban",
+          "value": "urban"
+        },
+        {
+          "icon": "forest",
+          "text": "Forest",
+          "value": "forest"
+        },
+        {
+          "icon": "houseboat",
+          "text": "Mix",
+          "value": "mix"
+        }
+      ]
+    },
     "readonly": false,
     "required": false,
-    "sort": 23,
+    "sort": 17,
     "special": null,
     "translations": null,
     "validation": null,
@@ -23,7 +41,7 @@
     "width": "half"
   },
   "schema": {
-    "name": "inscriptionLink",
+    "name": "terrain",
     "table": "Race",
     "data_type": "character varying",
     "default_value": null,

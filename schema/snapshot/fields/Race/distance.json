@@ -1,21 +1,36 @@
 {
   "collection": "Race",
-  "field": "inscriptionLink",
+  "field": "distance",
   "type": "string",
   "meta": {
     "collection": "Race",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "inscriptionLink",
+    "field": "distance",
     "group": null,
     "hidden": false,
-    "interface": "input",
+    "interface": "select-dropdown",
     "note": null,
-    "options": null,
+    "options": {
+      "choices": [
+        {
+          "text": "Long",
+          "value": "long"
+        },
+        {
+          "text": "Middle",
+          "value": "middle"
+        },
+        {
+          "text": "Sprint",
+          "value": "sprint"
+        }
+      ]
+    },
     "readonly": false,
     "required": false,
-    "sort": 23,
+    "sort": 18,
     "special": null,
     "translations": null,
     "validation": null,
@@ -23,7 +38,7 @@
     "width": "half"
   },
   "schema": {
-    "name": "inscriptionLink",
+    "name": "distance",
     "table": "Race",
     "data_type": "character varying",
     "default_value": null,

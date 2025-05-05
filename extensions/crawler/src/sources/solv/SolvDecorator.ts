@@ -56,7 +56,14 @@ export default class SolvDecorator {
    */
   private decorateRace (html: string): void {
     const $ = cheerio.load(html)
-    $('a').each( (index, value) => {
+    
+    this.decorateWithLinks($)
+    this.decorateWithTerrain($)
+    this.decorateWithDistance($)
+  }
+
+  private decorateWithLinks ($: cheerio.CheerioAPI): void {
+    $('a').each( (_index, value) => {
       const text = $(value).text()
       let link = $(value).attr('href')
       // complete link
@@ -85,5 +92,41 @@ export default class SolvDecorator {
         this.race.departureLink = link
       }
     })
+  }
+
+  private decorateWithTerrain ($: cheerio.CheerioAPI): void {
+    const terrainRow = $('tr').filter((_index, element) => {
+      return $(element).find('td').first().text().trim() === 'Terrain:'
+    })
+
+    if (terrainRow.length > 0) {
+      const terrain = terrainRow.find('td').eq(1).text().trim().toLowerCase()
+
+      if (terrain.includes('urban')) {
+        this.race.terrain = 'urban'
+      } else if (terrain.includes('wald')) {
+        this.race.terrain = 'forest'
+      } else if (terrain.includes('mix')) {
+        this.race.terrain = 'mix'
+      }
+    }
+  }
+
+  private decorateWithDistance ($: cheerio.CheerioAPI): void {
+    const distanceRow = $('tr').filter((_index, element) => {
+      return $(element).find('td').first().text().trim() === 'Distanz:'
+    })
+
+    if (distanceRow.length > 0) {
+      const distance = distanceRow.find('td').eq(1).text().trim().toLowerCase()
+
+      if (distance.includes('sprint')) {
+        this.race.distance = 'sprint'
+      } else if (distance.includes('mittel')) {
+        this.race.distance = 'middle'
+      } else if (distance.includes('lang')) {
+        this.race.distance = 'long'
+      }
+    }
   }
 }

@@ -263,10 +263,10 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  Race_mutated(event: EventEnum): Race_mutated
+  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
-  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
+  Race_mutated(event: EventEnum): Race_mutated
   Job_mutated(event: EventEnum): Job_mutated
 }
 
@@ -1624,15 +1624,15 @@ type directus_webhooks_mutated {
 }
 
 type Job {
-  id: ID!
-  status: String
-  sort: Int
-  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_created: Date
   date_created_func: datetime_functions
-  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_updated: Date
   date_updated_func: datetime_functions
+  id: ID!
+  sort: Int
+  status: String
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
 }
 
 type Job_mutated {
@@ -1678,6 +1678,8 @@ type Race {
   status: String
   user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  terrain: String
+  distance: String
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
   instruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction]
@@ -1714,18 +1716,18 @@ type RaceCategory_mutated {
 }
 
 type RaceInstruction {
-  id: ID!
-  sort: Int
-  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_created: Date
   date_created_func: datetime_functions
-  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   date_updated: Date
   date_updated_func: datetime_functions
+  id: ID!
   linkCrawled: String
   linkOverwritten: String
-  race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
   publicTransportAI: String
+  race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   wayToStartAI: String
 }
 
@@ -2143,6 +2145,8 @@ input create_Race_input {
   status: String
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
+  terrain: String
+  distance: String
   categories: [create_RaceCategory_input]
   instruction: [create_RaceInstruction_input]
 }
@@ -2163,16 +2167,16 @@ input create_RaceCategory_input {
 }
 
 input create_RaceInstruction_input {
-  id: ID
-  sort: Int
-  user_created: create_directus_users_input
   date_created: Date
-  user_updated: create_directus_users_input
   date_updated: Date
+  id: ID
   linkCrawled: String
   linkOverwritten: String
-  race: create_Race_input
   publicTransportAI: String
+  race: create_Race_input
+  sort: Int
+  user_created: create_directus_users_input
+  user_updated: create_directus_users_input
   wayToStartAI: String
 }
 
@@ -2743,6 +2747,8 @@ input Race_filter {
   status: string_filter_operators
   user_created: directus_users_filter
   user_updated: directus_users_filter
+  terrain: string_filter_operators
+  distance: string_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
   instruction: RaceInstruction_filter
@@ -2771,18 +2777,18 @@ input RaceCategory_filter {
 }
 
 input RaceInstruction_filter {
-  id: string_filter_operators
-  sort: number_filter_operators
-  user_created: directus_users_filter
   date_created: date_filter_operators
   date_created_func: datetime_function_filter_operators
-  user_updated: directus_users_filter
   date_updated: date_filter_operators
   date_updated_func: datetime_function_filter_operators
+  id: string_filter_operators
   linkCrawled: string_filter_operators
   linkOverwritten: string_filter_operators
-  race: Race_filter
   publicTransportAI: string_filter_operators
+  race: Race_filter
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  user_updated: directus_users_filter
   wayToStartAI: string_filter_operators
   _and: [RaceInstruction_filter]
   _or: [RaceInstruction_filter]
@@ -3179,6 +3185,8 @@ input update_Race_input {
   status: String
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
+  terrain: String
+  distance: String
   categories: [update_RaceCategory_input]
   instruction: [update_RaceInstruction_input]
 }
@@ -3199,16 +3207,16 @@ input update_RaceCategory_input {
 }
 
 input update_RaceInstruction_input {
-  id: ID
-  sort: Int
-  user_created: update_directus_users_input
   date_created: Date
-  user_updated: update_directus_users_input
   date_updated: Date
+  id: ID
   linkCrawled: String
   linkOverwritten: String
-  race: update_Race_input
   publicTransportAI: String
+  race: update_Race_input
+  sort: Int
+  user_created: update_directus_users_input
+  user_updated: update_directus_users_input
   wayToStartAI: String
 }
 

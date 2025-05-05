@@ -23,6 +23,7 @@
     "@directus/errors": "2.0.0",
     "@directus/storage-driver-s3": "12.0.2",
     "cheerio": "^1.0.0",
+    "csvjson": "^5.1.0",
     "directus": "11.5.1",
     "directus-extension-sync": "^3.0.3",
     "nanoid": "^5.1.5",
