@@ -265,6 +265,7 @@ type Subscription {
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
+  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
 }
 
@@ -1662,6 +1663,8 @@ type Race {
   distance: String
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
+  instruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction]
+  instruction_func: count_functions
 }
 
 type Race_mutated {
@@ -1691,6 +1694,32 @@ type RaceCategory_mutated {
   key: ID!
   event: EventEnum
   data: RaceCategory
+}
+
+type RaceInstruction {
+  date_created: Date
+  date_created_func: datetime_functions
+  date_updated: Date
+  date_updated_func: datetime_functions
+  id: ID!
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
+}
+
+type RaceInstruction_mutated {
+  key: ID!
+  event: EventEnum
+  data: RaceInstruction
 }
 
 type server_info {
@@ -2104,6 +2133,7 @@ input create_Race_input {
   terrain: String
   distance: String
   categories: [create_RaceCategory_input]
+  instruction: [create_RaceInstruction_input]
 }
 
 input create_RaceCategory_input {
@@ -2119,6 +2149,24 @@ input create_RaceCategory_input {
   status: String
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
+}
+
+input create_RaceInstruction_input {
+  date_created: Date
+  date_updated: Date
+  id: ID
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race: create_Race_input
+  sort: Int
+  user_created: create_directus_users_input
+  user_updated: create_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
 }
 
 input create_UserDeparture_input {
@@ -2692,6 +2740,8 @@ input Race_filter {
   distance: string_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
+  instruction: RaceInstruction_filter
+  instruction_func: count_function_filter_operators
   _and: [Race_filter]
   _or: [Race_filter]
 }
@@ -2713,6 +2763,26 @@ input RaceCategory_filter {
   user_updated: directus_users_filter
   _and: [RaceCategory_filter]
   _or: [RaceCategory_filter]
+}
+
+input RaceInstruction_filter {
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  id: string_filter_operators
+  linkCrawled: string_filter_operators
+  linkOverwritten: string_filter_operators
+  publicTransportAI: string_filter_operators
+  race: Race_filter
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  user_updated: directus_users_filter
+  fileIdAI: string_filter_operators
+  fileHash: string_filter_operators
+  summaryAI: string_filter_operators
+  _and: [RaceInstruction_filter]
+  _or: [RaceInstruction_filter]
 }
 
 input string_filter_operators {
@@ -3109,6 +3179,7 @@ input update_Race_input {
   terrain: String
   distance: String
   categories: [update_RaceCategory_input]
+  instruction: [update_RaceInstruction_input]
 }
 
 input update_RaceCategory_input {
@@ -3124,6 +3195,24 @@ input update_RaceCategory_input {
   status: String
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
+}
+
+input update_RaceInstruction_input {
+  date_created: Date
+  date_updated: Date
+  id: ID
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race: update_Race_input
+  sort: Int
+  user_created: update_directus_users_input
+  user_updated: update_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
 }
 
 input update_UserDeparture_input {

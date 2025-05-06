@@ -371,6 +371,7 @@ export type DirectusUsers = {
   password?: string | null;
   policies: any[] | DirectusAccess[];
   provider: string;
+  races: any[] | UserDeparture[];
   role?: string | DirectusRoles | null;
   status: string;
   tags?: unknown | null;
@@ -411,6 +412,16 @@ export type DirectusWebhooks = {
   was_active_before_deprecation: boolean;
 };
 
+export type Job = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  id: string;
+  sort?: number | null;
+  status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
 export type Race = {
   categories: any[] | RaceCategory[];
   city?: string | null;
@@ -425,6 +436,7 @@ export type Race = {
   geographicalScale?: string | null;
   id: string;
   inscriptionLink?: string | null;
+  instruction: any[] | RaceInstruction[];
   instructionLink?: string | null;
   liveResultLink?: string | null;
   mapName?: string | null;
@@ -453,6 +465,22 @@ export type RaceCategory = {
   race?: string | Race | null;
   sort?: number | null;
   status: string;
+  user_created?: string | DirectusUsers | null;
+  user_updated?: string | DirectusUsers | null;
+};
+
+export type RaceInstruction = {
+  date_created?: string | null;
+  date_updated?: string | null;
+  fileHash?: string | null;
+  fileIdAI?: string | null;
+  id: string;
+  linkCrawled?: string | null;
+  linkOverwritten?: string | null;
+  publicTransportAI?: string | null;
+  race?: string | Race | null;
+  sort?: number | null;
+  summaryAI?: string | null;
   user_created?: string | DirectusUsers | null;
   user_updated?: string | DirectusUsers | null;
 };
@@ -500,7 +528,9 @@ export type CustomDirectusTypes = {
   directus_users: DirectusUsers[];
   directus_versions: DirectusVersions[];
   directus_webhooks: DirectusWebhooks[];
+  Job: Job[];
   Race: Race[];
   RaceCategory: RaceCategory[];
+  RaceInstruction: RaceInstruction[];
   UserDeparture: UserDeparture[];
 };
