@@ -11,13 +11,6 @@ interface InstructionsAIProps {
   ai: OpenAI
 }
 
-/**
- * TODO & CONTINUE
- * Handle Links, welche nicht PDFs abrufen aber Webseiten > Die haben immer einen anderen Hash.
- * Erstelle UI
- * Speichere Infos zum Job.
- */
-
 export default class InstructionAI {
   private ai: OpenAI
   private instructionsService: ItemsService
@@ -103,8 +96,8 @@ export default class InstructionAI {
       const [publicTransportAI, summary] = await Promise.all([
         this.askAI({
           instruction,
-          aiInstructions: 'return only the name of the public transport station.',
-          text: 'Wie lautet die ÖV-Haltestelle?'
+          aiInstructions: 'return only the name of the public transport station. Bahnhof is not a valid answer.',
+          text: 'Wie lautet die Haltestelle ÖV?'
         }),
         this.askAI({
           instruction,
@@ -133,7 +126,7 @@ export default class InstructionAI {
     }
 
     return await this.ai.responses.create({
-      model: 'gpt-4.1-mini',
+      model: 'gpt-4o-mini',
       input: [
           {
             role: 'user',

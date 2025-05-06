@@ -9,7 +9,7 @@
     "accountability": "all",
     "options": {
       "collections": [
-        "Job"
+        "RaceInstruction"
       ],
       "async": true,
       "location": "collection",

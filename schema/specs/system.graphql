@@ -267,7 +267,6 @@ type Subscription {
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
-  Job_mutated(event: EventEnum): Job_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1621,24 +1620,6 @@ type directus_webhooks_mutated {
   key: ID!
   event: EventEnum
   data: directus_webhooks
-}
-
-type Job {
-  date_created: Date
-  date_created_func: datetime_functions
-  date_updated: Date
-  date_updated_func: datetime_functions
-  id: ID!
-  sort: Int
-  status: String
-  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
-  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
-}
-
-type Job_mutated {
-  key: ID!
-  event: EventEnum
-  data: Job
 }
 
 type policy_me_globals_type {

@@ -19,10 +19,6 @@ type Query {
   Race_by_id(id: ID!, version: String): Race
   Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
   Race_by_version(version: String!, id: ID!): version_Race
-  Job(filter: Job_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Job!]!
-  Job_by_id(id: ID!, version: String): Job
-  Job_aggregated(groupBy: [String], filter: Job_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Job_aggregated!]!
-  Job_by_version(version: String!, id: ID!): version_Job
 }
 
 type Mutation {
@@ -36,8 +32,6 @@ type Mutation {
   create_RaceInstruction_item(data: create_RaceInstruction_input!): RaceInstruction
   create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
   create_Race_item(data: create_Race_input!): Race
-  create_Job_items(filter: Job_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Job_input!]): [Job!]!
-  create_Job_item(data: create_Job_input!): Job
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
@@ -53,9 +47,6 @@ type Mutation {
   update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
   update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
   update_Race_item(id: ID!, data: update_Race_input!): Race
-  update_Job_items(filter: Job_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Job_input!): [Job!]!
-  update_Job_batch(filter: Job_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Job_input!]): [Job!]!
-  update_Job_item(id: ID!, data: update_Job_input!): Job
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
   delete_RaceCategory_items(ids: [ID]!): delete_many
@@ -66,8 +57,6 @@ type Mutation {
   delete_RaceInstruction_item(id: ID!): delete_one
   delete_Race_items(ids: [ID]!): delete_many
   delete_Race_item(id: ID!): delete_one
-  delete_Job_items(ids: [ID]!): delete_many
-  delete_Job_item(id: ID!): delete_one
 }
 
 type Subscription {
@@ -97,7 +86,6 @@ type Subscription {
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
-  Job_mutated(event: EventEnum): Job_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -737,51 +725,6 @@ type directus_webhooks_mutated {
   data: directus_webhooks
 }
 
-type Job {
-  date_created: Date
-  date_created_func: datetime_functions
-  date_updated: Date
-  date_updated_func: datetime_functions
-  id: ID!
-  sort: Int
-  status: String
-  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
-  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
-}
-
-type Job_aggregated {
-  group: JSON
-  countAll: Int
-  count: Job_aggregated_count
-  countDistinct: Job_aggregated_count
-  avg: Job_aggregated_fields
-  sum: Job_aggregated_fields
-  avgDistinct: Job_aggregated_fields
-  sumDistinct: Job_aggregated_fields
-  min: Job_aggregated_fields
-  max: Job_aggregated_fields
-}
-
-type Job_aggregated_count {
-  date_created: Int
-  date_updated: Int
-  id: Int
-  sort: Int
-  status: Int
-  user_created: Int
-  user_updated: Int
-}
-
-type Job_aggregated_fields {
-  sort: Float
-}
-
-type Job_mutated {
-  key: ID!
-  event: EventEnum
-  data: Job
-}
-
 type Race {
   city: String
   country: String
@@ -1059,17 +1002,6 @@ type version_directus_sync_id_map {
 }
 
 """"""
-type version_Job {
-  date_created: Date
-  date_updated: Date
-  id: ID
-  sort: Int
-  status: String
-  user_created: JSON
-  user_updated: JSON
-}
-
-""""""
 type version_Race {
   city: String
   country: String
@@ -1298,16 +1230,6 @@ input create_directus_users_input {
   composedIdentifierSolv: String
   races: [create_UserDeparture_input]
   policies: [create_directus_access_input]
-}
-
-input create_Job_input {
-  date_created: Date
-  date_updated: Date
-  id: ID
-  sort: Int
-  status: String
-  user_created: create_directus_users_input
-  user_updated: create_directus_users_input
 }
 
 input create_Race_input {
@@ -1717,20 +1639,6 @@ input hash_filter_operators {
   _nempty: Boolean
 }
 
-input Job_filter {
-  date_created: date_filter_operators
-  date_created_func: datetime_function_filter_operators
-  date_updated: date_filter_operators
-  date_updated_func: datetime_function_filter_operators
-  id: string_filter_operators
-  sort: number_filter_operators
-  status: string_filter_operators
-  user_created: directus_users_filter
-  user_updated: directus_users_filter
-  _and: [Job_filter]
-  _or: [Job_filter]
-}
-
 input number_filter_operators {
   _eq: GraphQLStringOrFloat
   _neq: GraphQLStringOrFloat
@@ -1968,16 +1876,6 @@ input update_directus_users_input {
   composedIdentifierSolv: String
   races: [update_UserDeparture_input]
   policies: [update_directus_access_input]
-}
-
-input update_Job_input {
-  date_created: Date
-  date_updated: Date
-  id: ID
-  sort: Int
-  status: String
-  user_created: update_directus_users_input
-  user_updated: update_directus_users_input
 }
 
 input update_Race_input {
