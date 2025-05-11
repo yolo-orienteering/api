@@ -118,7 +118,7 @@ export class SolvDepartures extends Crawler implements ICrawler {
   
           // get departures
           const rawDepartures: RawDeparture[] = lines.map(line => {
-            const match = line.match(/^\s*\d+\s+(.+?)\s+(\d{2})\s+(.+?)\s+(.+?)\s+(\d{2}:\d{2})$/)
+            const match = line.match(/^\s*\d+\s+(.+?)\s+(\d{2})\s+(.+?)\s+(.+?)\s+(\d{1,2}:\d{2})$/)
             if (match) {
               const [, firstAndLastName, birthYear, location, club, startTime] = match
               return {
