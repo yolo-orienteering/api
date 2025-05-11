@@ -8,6 +8,7 @@ import * as cheerio from 'cheerio'
 export class SolvInstructions extends Crawler implements ICrawler {
   private racesHavingWebsites?: Race[]
   private racesService: ItemsService
+  private raceInstructionsService: ItemsService
   private browser?: Browser
   private browserPage?: Page
   private instructionLinkCounter: number
@@ -15,6 +16,7 @@ export class SolvInstructions extends Crawler implements ICrawler {
   constructor(options: CrawlerOptions) {
     super(options)
     this.racesService = this.createItemsService('Race')
+    this.raceInstructionsService = this.createItemsService('RaceInstruction')
     this.instructionLinkCounter = 0
   }
 
@@ -122,7 +124,18 @@ export class SolvInstructions extends Crawler implements ICrawler {
     console.log('Found link and store it.')
 
     // save instruction link
-    await this.racesService.updateOne(id, {instructionLink})
+    const raceInstruction = await this.raceInstructionsService.readByQuery({
+      filter: {
+        race: {
+          _eq: id
+        }
+      }
+    })
+    await this.raceInstructionsService.upsertOne({
+      id: raceInstruction?.[0]?.id,
+      race: id,
+      linkCrawled: instructionLink
+    })
     this.instructionLinkCounter++
   }
 

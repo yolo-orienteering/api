@@ -1,0 +1,29 @@
+{
+  "collection": "Race",
+  "field": "instruction",
+  "type": "alias",
+  "meta": {
+    "collection": "Race",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "instruction",
+    "group": null,
+    "hidden": false,
+    "interface": "list-o2m",
+    "note": null,
+    "options": {
+      "enableLink": true
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 26,
+    "special": [
+      "o2m"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "half"
+  }
+}

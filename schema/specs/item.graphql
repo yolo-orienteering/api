@@ -11,6 +11,10 @@ type Query {
   UserDeparture_by_id(id: ID!, version: String): UserDeparture
   UserDeparture_aggregated(groupBy: [String], filter: UserDeparture_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [UserDeparture_aggregated!]!
   UserDeparture_by_version(version: String!, id: ID!): version_UserDeparture
+  RaceInstruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction!]!
+  RaceInstruction_by_id(id: ID!, version: String): RaceInstruction
+  RaceInstruction_aggregated(groupBy: [String], filter: RaceInstruction_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [RaceInstruction_aggregated!]!
+  RaceInstruction_by_version(version: String!, id: ID!): version_RaceInstruction
   Race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Race!]!
   Race_by_id(id: ID!, version: String): Race
   Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
@@ -24,6 +28,8 @@ type Mutation {
   create_RaceCategory_item(data: create_RaceCategory_input!): RaceCategory
   create_UserDeparture_items(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_UserDeparture_input!]): [UserDeparture!]!
   create_UserDeparture_item(data: create_UserDeparture_input!): UserDeparture
+  create_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_RaceInstruction_input!]): [RaceInstruction!]!
+  create_RaceInstruction_item(data: create_RaceInstruction_input!): RaceInstruction
   create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
   create_Race_item(data: create_Race_input!): Race
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
@@ -35,6 +41,9 @@ type Mutation {
   update_UserDeparture_items(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_UserDeparture_input!): [UserDeparture!]!
   update_UserDeparture_batch(filter: UserDeparture_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_UserDeparture_input!]): [UserDeparture!]!
   update_UserDeparture_item(id: ID!, data: update_UserDeparture_input!): UserDeparture
+  update_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_RaceInstruction_input!): [RaceInstruction!]!
+  update_RaceInstruction_batch(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_RaceInstruction_input!]): [RaceInstruction!]!
+  update_RaceInstruction_item(id: ID!, data: update_RaceInstruction_input!): RaceInstruction
   update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
   update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
   update_Race_item(id: ID!, data: update_Race_input!): Race
@@ -44,6 +53,8 @@ type Mutation {
   delete_RaceCategory_item(id: ID!): delete_one
   delete_UserDeparture_items(ids: [ID]!): delete_many
   delete_UserDeparture_item(id: ID!): delete_one
+  delete_RaceInstruction_items(ids: [ID]!): delete_many
+  delete_RaceInstruction_item(id: ID!): delete_one
   delete_Race_items(ids: [ID]!): delete_many
   delete_Race_item(id: ID!): delete_one
 }
@@ -73,6 +84,7 @@ type Subscription {
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
+  RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
 }
 
@@ -748,6 +760,8 @@ type Race {
   distance: String
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
+  instruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction]
+  instruction_func: count_functions
 }
 
 type Race_aggregated {
@@ -792,6 +806,7 @@ type Race_aggregated_count {
   terrain: Int
   distance: Int
   categories: Int
+  instruction: Int
 }
 
 type Race_aggregated_fields {
@@ -860,6 +875,67 @@ type RaceCategory_mutated {
   key: ID!
   event: EventEnum
   data: RaceCategory
+}
+
+type RaceInstruction {
+  date_created: Date
+  date_created_func: datetime_functions
+  date_updated: Date
+  date_updated_func: datetime_functions
+  id: ID!
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
+}
+
+type RaceInstruction_aggregated {
+  group: JSON
+  countAll: Int
+  count: RaceInstruction_aggregated_count
+  countDistinct: RaceInstruction_aggregated_count
+  avg: RaceInstruction_aggregated_fields
+  sum: RaceInstruction_aggregated_fields
+  avgDistinct: RaceInstruction_aggregated_fields
+  sumDistinct: RaceInstruction_aggregated_fields
+  min: RaceInstruction_aggregated_fields
+  max: RaceInstruction_aggregated_fields
+}
+
+type RaceInstruction_aggregated_count {
+  date_created: Int
+  date_updated: Int
+  id: Int
+  linkCrawled: Int
+  linkOverwritten: Int
+  publicTransportAI: Int
+  race: Int
+  sort: Int
+  user_created: Int
+  user_updated: Int
+  fileIdAI: Int
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: Int
+  summaryAI: Int
+}
+
+type RaceInstruction_aggregated_fields {
+  sort: Float
+}
+
+type RaceInstruction_mutated {
+  key: ID!
+  event: EventEnum
+  data: RaceInstruction
 }
 
 type UserDeparture {
@@ -955,6 +1031,7 @@ type version_Race {
   terrain: String
   distance: String
   categories: JSON
+  instruction: JSON
 }
 
 """"""
@@ -971,6 +1048,25 @@ type version_RaceCategory {
   status: String
   user_created: JSON
   user_updated: JSON
+}
+
+""""""
+type version_RaceInstruction {
+  date_created: Date
+  date_updated: Date
+  id: ID
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race: JSON
+  sort: Int
+  user_created: JSON
+  user_updated: JSON
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
 }
 
 """"""
@@ -1165,6 +1261,7 @@ input create_Race_input {
   terrain: String
   distance: String
   categories: [create_RaceCategory_input]
+  instruction: [create_RaceInstruction_input]
 }
 
 input create_RaceCategory_input {
@@ -1180,6 +1277,24 @@ input create_RaceCategory_input {
   status: String
   user_created: create_directus_users_input
   user_updated: create_directus_users_input
+}
+
+input create_RaceInstruction_input {
+  date_created: Date
+  date_updated: Date
+  id: ID
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race: create_Race_input
+  sort: Int
+  user_created: create_directus_users_input
+  user_updated: create_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
 }
 
 input create_UserDeparture_input {
@@ -1574,6 +1689,8 @@ input Race_filter {
   distance: string_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
+  instruction: RaceInstruction_filter
+  instruction_func: count_function_filter_operators
   _and: [Race_filter]
   _or: [Race_filter]
 }
@@ -1595,6 +1712,26 @@ input RaceCategory_filter {
   user_updated: directus_users_filter
   _and: [RaceCategory_filter]
   _or: [RaceCategory_filter]
+}
+
+input RaceInstruction_filter {
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  id: string_filter_operators
+  linkCrawled: string_filter_operators
+  linkOverwritten: string_filter_operators
+  publicTransportAI: string_filter_operators
+  race: Race_filter
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  user_updated: directus_users_filter
+  fileIdAI: string_filter_operators
+  fileHash: string_filter_operators
+  summaryAI: string_filter_operators
+  _and: [RaceInstruction_filter]
+  _or: [RaceInstruction_filter]
 }
 
 input string_filter_operators {
@@ -1770,6 +1907,7 @@ input update_Race_input {
   terrain: String
   distance: String
   categories: [update_RaceCategory_input]
+  instruction: [update_RaceInstruction_input]
 }
 
 input update_RaceCategory_input {
@@ -1785,6 +1923,24 @@ input update_RaceCategory_input {
   status: String
   user_created: update_directus_users_input
   user_updated: update_directus_users_input
+}
+
+input update_RaceInstruction_input {
+  date_created: Date
+  date_updated: Date
+  id: ID
+  linkCrawled: String
+  linkOverwritten: String
+  publicTransportAI: String
+  race: update_Race_input
+  sort: Int
+  user_created: update_directus_users_input
+  user_updated: update_directus_users_input
+  fileIdAI: String
+
+  """A hash file of the file from the crawled or overwritten link."""
+  fileHash: String
+  summaryAI: String
 }
 
 input update_UserDeparture_input {

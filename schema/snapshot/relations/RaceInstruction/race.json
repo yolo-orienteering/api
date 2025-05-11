@@ -1,0 +1,25 @@
+{
+  "collection": "RaceInstruction",
+  "field": "race",
+  "related_collection": "Race",
+  "meta": {
+    "junction_field": null,
+    "many_collection": "RaceInstruction",
+    "many_field": "race",
+    "one_allowed_collections": null,
+    "one_collection": "Race",
+    "one_collection_field": null,
+    "one_deselect_action": "nullify",
+    "one_field": "instruction",
+    "sort_field": null
+  },
+  "schema": {
+    "table": "RaceInstruction",
+    "column": "race",
+    "foreign_key_table": "Race",
+    "foreign_key_column": "id",
+    "constraint_name": "raceinstruction_race_foreign",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

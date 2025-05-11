@@ -46,7 +46,8 @@
       "departureLink",
       "instructionLink",
       "terrain",
-      "distance"
+      "distance",
+      "instruction"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "18f5e830-1c05-4a14-b84f-a49cbfb0c8b2"
@@ -70,6 +71,23 @@
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "ba180eb8-08f7-41a5-b10e-18a8fa152293"
+  },
+  {
+    "collection": "RaceInstruction",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "linkCrawled",
+      "race",
+      "linkOverwritten",
+      "publicTransportAI",
+      "summaryAI"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "8ce2da0c-cd1e-41aa-8a58-506e60f3a679"
   },
   {
     "collection": "UserDeparture",
