@@ -1,5 +1,29 @@
 [
   {
+    "collection": "directus_files",
+    "action": "read",
+    "permissions": {
+      "_and": [
+        {
+          "folder": {
+            "name": {
+              "_eq": "games"
+            }
+          }
+        }
+      ]
+    },
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "title",
+      "description"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "a4c0364a-3244-41ef-bbe4-8bc0b285f272"
+  },
+  {
     "collection": "directus_users",
     "action": "read",
     "permissions": null,
@@ -13,6 +37,37 @@
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "eb6d7a59-e00f-455c-bd3c-89eaa7786173"
+  },
+  {
+    "collection": "Game",
+    "action": "read",
+    "permissions": {
+      "_and": [
+        {
+          "status": {
+            "_eq": "published"
+          }
+        }
+      ]
+    },
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "status",
+      "sort",
+      "date_created",
+      "date_updated",
+      "title",
+      "subtitle",
+      "description",
+      "image",
+      "externalUrl",
+      "creditName",
+      "creditUrl"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "7b221992-9667-454d-8e4e-99857c2e6660"
   },
   {
     "collection": "Race",
