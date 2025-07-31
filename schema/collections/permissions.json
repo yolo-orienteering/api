@@ -64,10 +64,26 @@
       "image",
       "externalUrl",
       "creditName",
-      "creditUrl"
+      "creditUrl",
+      "author",
+      "openOutsideApp"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "7b221992-9667-454d-8e4e-99857c2e6660"
+  },
+  {
+    "collection": "GameAuthor",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "name",
+      "url"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "2a7b1a29-69bc-4d65-ab10-1cf0e30e3e5b"
   },
   {
     "collection": "Race",

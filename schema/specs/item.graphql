@@ -19,6 +19,10 @@ type Query {
   Race_by_id(id: ID!, version: String): Race
   Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
   Race_by_version(version: String!, id: ID!): version_Race
+  GameAuthor(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [GameAuthor!]!
+  GameAuthor_by_id(id: ID!, version: String): GameAuthor
+  GameAuthor_aggregated(groupBy: [String], filter: GameAuthor_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [GameAuthor_aggregated!]!
+  GameAuthor_by_version(version: String!, id: ID!): version_GameAuthor
   Game(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Game!]!
   Game_by_id(id: ID!, version: String): Game
   Game_aggregated(groupBy: [String], filter: Game_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Game_aggregated!]!
@@ -36,6 +40,8 @@ type Mutation {
   create_RaceInstruction_item(data: create_RaceInstruction_input!): RaceInstruction
   create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
   create_Race_item(data: create_Race_input!): Race
+  create_GameAuthor_items(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_GameAuthor_input!]): [GameAuthor!]!
+  create_GameAuthor_item(data: create_GameAuthor_input!): GameAuthor
   create_Game_items(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Game_input!]): [Game!]!
   create_Game_item(data: create_Game_input!): Game
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
@@ -53,6 +59,9 @@ type Mutation {
   update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
   update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
   update_Race_item(id: ID!, data: update_Race_input!): Race
+  update_GameAuthor_items(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_GameAuthor_input!): [GameAuthor!]!
+  update_GameAuthor_batch(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_GameAuthor_input!]): [GameAuthor!]!
+  update_GameAuthor_item(id: ID!, data: update_GameAuthor_input!): GameAuthor
   update_Game_items(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Game_input!): [Game!]!
   update_Game_batch(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Game_input!]): [Game!]!
   update_Game_item(id: ID!, data: update_Game_input!): Game
@@ -66,6 +75,8 @@ type Mutation {
   delete_RaceInstruction_item(id: ID!): delete_one
   delete_Race_items(ids: [ID]!): delete_many
   delete_Race_item(id: ID!): delete_one
+  delete_GameAuthor_items(ids: [ID]!): delete_many
+  delete_GameAuthor_item(id: ID!): delete_one
   delete_Game_items(ids: [ID]!): delete_many
   delete_Game_item(id: ID!): delete_one
 }
@@ -97,6 +108,7 @@ type Subscription {
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
+  GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
 }
 
@@ -752,8 +764,8 @@ type Game {
   description: String
   image(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_files
   externalUrl: String
-  creditName: String
-  creditUrl: String
+  openOutsideApp: Boolean
+  author(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameAuthor
 }
 
 type Game_aggregated {
@@ -782,8 +794,8 @@ type Game_aggregated_count {
   description: Int
   image: Int
   externalUrl: Int
-  creditName: Int
-  creditUrl: Int
+  openOutsideApp: Int
+  author: Int
 }
 
 type Game_aggregated_fields {
@@ -794,6 +806,53 @@ type Game_mutated {
   key: ID!
   event: EventEnum
   data: Game
+}
+
+type GameAuthor {
+  id: ID!
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_updated: Date
+  date_updated_func: datetime_functions
+  name: String!
+  url: String!
+}
+
+type GameAuthor_aggregated {
+  group: JSON
+  countAll: Int
+  count: GameAuthor_aggregated_count
+  countDistinct: GameAuthor_aggregated_count
+  avg: GameAuthor_aggregated_fields
+  sum: GameAuthor_aggregated_fields
+  avgDistinct: GameAuthor_aggregated_fields
+  sumDistinct: GameAuthor_aggregated_fields
+  min: GameAuthor_aggregated_fields
+  max: GameAuthor_aggregated_fields
+}
+
+type GameAuthor_aggregated_count {
+  id: Int
+  sort: Int
+  user_created: Int
+  date_created: Int
+  user_updated: Int
+  date_updated: Int
+  name: Int
+  url: Int
+}
+
+type GameAuthor_aggregated_fields {
+  sort: Float
+}
+
+type GameAuthor_mutated {
+  key: ID!
+  event: EventEnum
+  data: GameAuthor
 }
 
 type Race {
@@ -1086,8 +1145,20 @@ type version_Game {
   description: String
   image: JSON
   externalUrl: String
-  creditName: String
-  creditUrl: String
+  openOutsideApp: Boolean
+  author: JSON
+}
+
+""""""
+type version_GameAuthor {
+  id: ID
+  sort: Int
+  user_created: JSON
+  date_created: Date
+  user_updated: JSON
+  date_updated: Date
+  name: String
+  url: String
 }
 
 """"""
@@ -1334,8 +1405,19 @@ input create_Game_input {
   description: String
   image: create_directus_files_input
   externalUrl: String
-  creditName: String
-  creditUrl: String
+  openOutsideApp: Boolean
+  author: create_GameAuthor_input
+}
+
+input create_GameAuthor_input {
+  id: ID
+  sort: Int
+  user_created: create_directus_users_input
+  date_created: Date
+  user_updated: create_directus_users_input
+  date_updated: Date
+  name: String!
+  url: String!
 }
 
 input create_Race_input {
@@ -1753,10 +1835,25 @@ input Game_filter {
   description: string_filter_operators
   image: directus_files_filter
   externalUrl: string_filter_operators
-  creditName: string_filter_operators
-  creditUrl: string_filter_operators
+  openOutsideApp: boolean_filter_operators
+  author: GameAuthor_filter
   _and: [Game_filter]
   _or: [Game_filter]
+}
+
+input GameAuthor_filter {
+  id: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  name: string_filter_operators
+  url: string_filter_operators
+  _and: [GameAuthor_filter]
+  _or: [GameAuthor_filter]
 }
 
 input hash_filter_operators {
@@ -2018,8 +2115,19 @@ input update_Game_input {
   description: String
   image: update_directus_files_input
   externalUrl: String
-  creditName: String
-  creditUrl: String
+  openOutsideApp: Boolean
+  author: update_GameAuthor_input
+}
+
+input update_GameAuthor_input {
+  id: ID
+  sort: Int
+  user_created: update_directus_users_input
+  date_created: Date
+  user_updated: update_directus_users_input
+  date_updated: Date
+  name: String
+  url: String
 }
 
 input update_Race_input {

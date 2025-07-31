@@ -267,6 +267,7 @@ type Subscription {
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
   Race_mutated(event: EventEnum): Race_mutated
+  GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
 }
 
@@ -1638,14 +1639,33 @@ type Game {
   description: String
   image(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_files
   externalUrl: String
-  creditName: String
-  creditUrl: String
+  openOutsideApp: Boolean
+  author(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameAuthor
 }
 
 type Game_mutated {
   key: ID!
   event: EventEnum
   data: Game
+}
+
+type GameAuthor {
+  id: ID!
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_updated: Date
+  date_updated_func: datetime_functions
+  name: String!
+  url: String!
+}
+
+type GameAuthor_mutated {
+  key: ID!
+  event: EventEnum
+  data: GameAuthor
 }
 
 type policy_me_globals_type {
@@ -2707,6 +2727,21 @@ input directus_webhooks_filter {
   migrated_flow: directus_flows_filter
   _and: [directus_webhooks_filter]
   _or: [directus_webhooks_filter]
+}
+
+input GameAuthor_filter {
+  id: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  name: string_filter_operators
+  url: string_filter_operators
+  _and: [GameAuthor_filter]
+  _or: [GameAuthor_filter]
 }
 
 input hash_filter_operators {

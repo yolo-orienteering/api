@@ -1,35 +1,37 @@
 {
-  "collection": "Game",
-  "field": "externalUrl",
-  "type": "string",
+  "collection": "GameAuthor",
+  "field": "date_created",
+  "type": "timestamp",
   "meta": {
-    "collection": "Game",
+    "collection": "GameAuthor",
     "conditions": null,
-    "display": null,
-    "display_options": null,
-    "field": "externalUrl",
-    "group": null,
-    "hidden": false,
-    "interface": "input",
-    "note": null,
-    "options": {
-      "placeholder": "valid url pointing to the game. e.g. https://orienteering-games.vercel.app/game/photomemory/play"
+    "display": "datetime",
+    "display_options": {
+      "relative": true
     },
-    "readonly": false,
+    "field": "date_created",
+    "group": null,
+    "hidden": true,
+    "interface": "datetime",
+    "note": null,
+    "options": null,
+    "readonly": true,
     "required": false,
-    "sort": 12,
-    "special": null,
+    "sort": 4,
+    "special": [
+      "date-created"
+    ],
     "translations": null,
     "validation": null,
     "validation_message": null,
     "width": "half"
   },
   "schema": {
-    "name": "externalUrl",
-    "table": "Game",
-    "data_type": "character varying",
+    "name": "date_created",
+    "table": "GameAuthor",
+    "data_type": "timestamp with time zone",
     "default_value": null,
-    "max_length": 255,
+    "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
     "is_nullable": true,

@@ -1,35 +1,35 @@
 {
   "collection": "Game",
-  "field": "externalUrl",
-  "type": "string",
+  "field": "openOutsideApp",
+  "type": "boolean",
   "meta": {
     "collection": "Game",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "externalUrl",
+    "field": "openOutsideApp",
     "group": null,
     "hidden": false,
-    "interface": "input",
+    "interface": "boolean",
     "note": null,
-    "options": {
-      "placeholder": "valid url pointing to the game. e.g. https://orienteering-games.vercel.app/game/photomemory/play"
-    },
+    "options": null,
     "readonly": false,
     "required": false,
-    "sort": 12,
-    "special": null,
+    "sort": 13,
+    "special": [
+      "cast-boolean"
+    ],
     "translations": null,
     "validation": null,
     "validation_message": null,
     "width": "half"
   },
   "schema": {
-    "name": "externalUrl",
+    "name": "openOutsideApp",
     "table": "Game",
-    "data_type": "character varying",
-    "default_value": null,
-    "max_length": 255,
+    "data_type": "boolean",
+    "default_value": false,
+    "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
     "is_nullable": true,
