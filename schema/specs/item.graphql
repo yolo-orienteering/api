@@ -27,14 +27,14 @@ type Query {
   Game_by_id(id: ID!, version: String): Game
   Game_aggregated(groupBy: [String], filter: Game_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Game_aggregated!]!
   Game_by_version(version: String!, id: ID!): version_Game
-  Game_GameCategory(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Game_GameCategory!]!
-  Game_GameCategory_by_id(id: ID!, version: String): Game_GameCategory
-  Game_GameCategory_aggregated(groupBy: [String], filter: Game_GameCategory_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Game_GameCategory_aggregated!]!
-  Game_GameCategory_by_version(version: String!, id: ID!): version_Game_GameCategory
   GameCategory(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [GameCategory!]!
   GameCategory_by_id(id: ID!, version: String): GameCategory
   GameCategory_aggregated(groupBy: [String], filter: GameCategory_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [GameCategory_aggregated!]!
   GameCategory_by_version(version: String!, id: ID!): version_GameCategory
+  Game_GameCategory(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Game_GameCategory!]!
+  Game_GameCategory_by_id(id: ID!, version: String): Game_GameCategory
+  Game_GameCategory_aggregated(groupBy: [String], filter: Game_GameCategory_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Game_GameCategory_aggregated!]!
+  Game_GameCategory_by_version(version: String!, id: ID!): version_Game_GameCategory
 }
 
 type Mutation {
@@ -52,10 +52,10 @@ type Mutation {
   create_GameAuthor_item(data: create_GameAuthor_input!): GameAuthor
   create_Game_items(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Game_input!]): [Game!]!
   create_Game_item(data: create_Game_input!): Game
-  create_Game_GameCategory_items(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Game_GameCategory_input!]): [Game_GameCategory!]!
-  create_Game_GameCategory_item(data: create_Game_GameCategory_input!): Game_GameCategory
   create_GameCategory_items(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_GameCategory_input!]): [GameCategory!]!
   create_GameCategory_item(data: create_GameCategory_input!): GameCategory
+  create_Game_GameCategory_items(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Game_GameCategory_input!]): [Game_GameCategory!]!
+  create_Game_GameCategory_item(data: create_Game_GameCategory_input!): Game_GameCategory
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
@@ -77,12 +77,12 @@ type Mutation {
   update_Game_items(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Game_input!): [Game!]!
   update_Game_batch(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Game_input!]): [Game!]!
   update_Game_item(id: ID!, data: update_Game_input!): Game
-  update_Game_GameCategory_items(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Game_GameCategory_input!): [Game_GameCategory!]!
-  update_Game_GameCategory_batch(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Game_GameCategory_input!]): [Game_GameCategory!]!
-  update_Game_GameCategory_item(id: ID!, data: update_Game_GameCategory_input!): Game_GameCategory
   update_GameCategory_items(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_GameCategory_input!): [GameCategory!]!
   update_GameCategory_batch(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_GameCategory_input!]): [GameCategory!]!
   update_GameCategory_item(id: ID!, data: update_GameCategory_input!): GameCategory
+  update_Game_GameCategory_items(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Game_GameCategory_input!): [Game_GameCategory!]!
+  update_Game_GameCategory_batch(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Game_GameCategory_input!]): [Game_GameCategory!]!
+  update_Game_GameCategory_item(id: ID!, data: update_Game_GameCategory_input!): Game_GameCategory
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
   delete_RaceCategory_items(ids: [ID]!): delete_many
@@ -97,10 +97,10 @@ type Mutation {
   delete_GameAuthor_item(id: ID!): delete_one
   delete_Game_items(ids: [ID]!): delete_many
   delete_Game_item(id: ID!): delete_one
-  delete_Game_GameCategory_items(ids: [ID]!): delete_many
-  delete_Game_GameCategory_item(id: ID!): delete_one
   delete_GameCategory_items(ids: [ID]!): delete_many
   delete_GameCategory_item(id: ID!): delete_one
+  delete_Game_GameCategory_items(ids: [ID]!): delete_many
+  delete_Game_GameCategory_item(id: ID!): delete_one
 }
 
 type Subscription {
@@ -132,8 +132,8 @@ type Subscription {
   Race_mutated(event: EventEnum): Race_mutated
   GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
-  Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
+  Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -833,6 +833,7 @@ type Game_GameCategory {
   id: ID!
   Game_id(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Game
   GameCategory_id(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameCategory
+  sort: Int
 }
 
 type Game_GameCategory_aggregated {
@@ -852,10 +853,12 @@ type Game_GameCategory_aggregated_count {
   id: Int
   Game_id: Int
   GameCategory_id: Int
+  sort: Int
 }
 
 type Game_GameCategory_aggregated_fields {
   id: Float
+  sort: Float
 }
 
 type Game_GameCategory_mutated {
@@ -1266,6 +1269,7 @@ type version_Game_GameCategory {
   id: ID
   Game_id: JSON
   GameCategory_id: JSON
+  sort: Int
 }
 
 """"""
@@ -1528,6 +1532,7 @@ input create_Game_GameCategory_input {
   id: ID
   Game_id: create_Game_input
   GameCategory_id: create_GameCategory_input
+  sort: Int
 }
 
 input create_Game_input {
@@ -1998,6 +2003,7 @@ input Game_GameCategory_filter {
   id: number_filter_operators
   Game_id: Game_filter
   GameCategory_id: GameCategory_filter
+  sort: number_filter_operators
   _and: [Game_GameCategory_filter]
   _or: [Game_GameCategory_filter]
 }
@@ -2283,6 +2289,7 @@ input update_Game_GameCategory_input {
   id: ID
   Game_id: update_Game_input
   GameCategory_id: update_GameCategory_input
+  sort: Int
 }
 
 input update_Game_input {

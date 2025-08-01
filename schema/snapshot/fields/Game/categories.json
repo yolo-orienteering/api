@@ -22,7 +22,8 @@
             }
           }
         ]
-      }
+      },
+      "template": "{{GameCategory_id.name}}"
     },
     "readonly": false,
     "required": false,

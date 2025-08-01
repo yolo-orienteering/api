@@ -269,8 +269,8 @@ type Subscription {
   Race_mutated(event: EventEnum): Race_mutated
   GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
-  Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
+  Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1651,6 +1651,7 @@ type Game_GameCategory {
   id: ID!
   Game_id(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Game
   GameCategory_id(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameCategory
+  sort: Int
 }
 
 type Game_GameCategory_mutated {
@@ -2792,6 +2793,7 @@ input Game_GameCategory_filter {
   id: number_filter_operators
   Game_id: Game_filter
   GameCategory_id: GameCategory_filter
+  sort: number_filter_operators
   _and: [Game_GameCategory_filter]
   _or: [Game_GameCategory_filter]
 }

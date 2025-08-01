@@ -47,7 +47,8 @@
     "fields": [
       "GameCategory_id",
       "id",
-      "Game_id"
+      "Game_id",
+      "sort"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "21079ee3-9411-4978-8af0-7a8c858cacea"
