@@ -269,6 +269,8 @@ type Subscription {
   Race_mutated(event: EventEnum): Race_mutated
   GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
+  Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
+  GameCategory_mutated(event: EventEnum): GameCategory_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1641,8 +1643,20 @@ type Game {
   externalUrl: String
   openOutsideApp: Boolean
   author(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameAuthor
-  categories: JSON
+  categories(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Game_GameCategory]
   categories_func: count_functions
+}
+
+type Game_GameCategory {
+  id: ID!
+  Game_id(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Game
+  GameCategory_id(filter: GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameCategory
+}
+
+type Game_GameCategory_mutated {
+  key: ID!
+  event: EventEnum
+  data: Game_GameCategory
 }
 
 type Game_mutated {
@@ -1668,6 +1682,26 @@ type GameAuthor_mutated {
   key: ID!
   event: EventEnum
   data: GameAuthor
+}
+
+type GameCategory {
+  id: ID!
+  status: String
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_updated: Date
+  date_updated_func: datetime_functions
+  name: String!
+  icon: String!
+}
+
+type GameCategory_mutated {
+  key: ID!
+  event: EventEnum
+  data: GameCategory
 }
 
 type policy_me_globals_type {
@@ -2731,6 +2765,37 @@ input directus_webhooks_filter {
   _or: [directus_webhooks_filter]
 }
 
+input Game_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  subtitle: string_filter_operators
+  title: string_filter_operators
+  description: string_filter_operators
+  image: directus_files_filter
+  externalUrl: string_filter_operators
+  openOutsideApp: boolean_filter_operators
+  author: GameAuthor_filter
+  categories: Game_GameCategory_filter
+  categories_func: count_function_filter_operators
+  _and: [Game_filter]
+  _or: [Game_filter]
+}
+
+input Game_GameCategory_filter {
+  id: number_filter_operators
+  Game_id: Game_filter
+  GameCategory_id: GameCategory_filter
+  _and: [Game_GameCategory_filter]
+  _or: [Game_GameCategory_filter]
+}
+
 input GameAuthor_filter {
   id: string_filter_operators
   sort: number_filter_operators
@@ -2744,6 +2809,22 @@ input GameAuthor_filter {
   url: string_filter_operators
   _and: [GameAuthor_filter]
   _or: [GameAuthor_filter]
+}
+
+input GameCategory_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  name: string_filter_operators
+  icon: string_filter_operators
+  _and: [GameCategory_filter]
+  _or: [GameCategory_filter]
 }
 
 input hash_filter_operators {

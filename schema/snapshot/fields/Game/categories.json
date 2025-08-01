@@ -1,7 +1,7 @@
 {
   "collection": "Game",
   "field": "categories",
-  "type": "json",
+  "type": "alias",
   "meta": {
     "collection": "Game",
     "conditions": null,
@@ -10,59 +10,29 @@
     "field": "categories",
     "group": null,
     "hidden": false,
-    "interface": "select-multiple-dropdown",
+    "interface": "list-m2m",
     "note": null,
     "options": {
-      "choices": [
-        {
-          "text": "Desktop",
-          "value": "desktop"
-        },
-        {
-          "text": "Retro",
-          "value": "retro"
-        },
-        {
-          "text": "Simulator",
-          "value": "simulator"
-        },
-        {
-          "text": "Route choices",
-          "value": "route"
-        },
-        {
-          "text": "Symbols",
-          "value": "symbols"
-        }
-      ]
+      "enableLink": true,
+      "filter": {
+        "_and": [
+          {
+            "status": {
+              "_eq": "published"
+            }
+          }
+        ]
+      }
     },
     "readonly": false,
     "required": false,
     "sort": 17,
     "special": [
-      "cast-json"
+      "m2m"
     ],
     "translations": null,
     "validation": null,
     "validation_message": null,
     "width": "half"
-  },
-  "schema": {
-    "name": "categories",
-    "table": "Game",
-    "data_type": "json",
-    "default_value": null,
-    "max_length": null,
-    "numeric_precision": null,
-    "numeric_scale": null,
-    "is_nullable": true,
-    "is_unique": false,
-    "is_indexed": false,
-    "is_primary_key": false,
-    "is_generated": false,
-    "generation_expression": null,
-    "has_auto_increment": false,
-    "foreign_key_table": null,
-    "foreign_key_column": null
   }
 }

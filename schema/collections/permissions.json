@@ -39,6 +39,20 @@
     "_syncId": "eb6d7a59-e00f-455c-bd3c-89eaa7786173"
   },
   {
+    "collection": "Game_GameCategory",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "GameCategory_id",
+      "id",
+      "Game_id"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "21079ee3-9411-4978-8af0-7a8c858cacea"
+  },
+  {
     "collection": "Game",
     "action": "read",
     "permissions": {
@@ -85,6 +99,28 @@
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "2a7b1a29-69bc-4d65-ab10-1cf0e30e3e5b"
+  },
+  {
+    "collection": "GameCategory",
+    "action": "read",
+    "permissions": {
+      "_and": [
+        {
+          "status": {
+            "_eq": "published"
+          }
+        }
+      ]
+    },
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "name",
+      "icon"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "06051859-2bde-4371-bf55-b57dfb811edd"
   },
   {
     "collection": "Race",

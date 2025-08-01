@@ -1,23 +1,25 @@
 {
-  "collection": "Game",
-  "field": "openOutsideApp",
-  "type": "boolean",
+  "collection": "GameCategory",
+  "field": "date_created",
+  "type": "timestamp",
   "meta": {
-    "collection": "Game",
+    "collection": "GameCategory",
     "conditions": null,
-    "display": "boolean",
-    "display_options": null,
-    "field": "openOutsideApp",
+    "display": "datetime",
+    "display_options": {
+      "relative": true
+    },
+    "field": "date_created",
     "group": null,
-    "hidden": false,
-    "interface": "boolean",
+    "hidden": true,
+    "interface": "datetime",
     "note": null,
     "options": null,
-    "readonly": false,
+    "readonly": true,
     "required": false,
-    "sort": 13,
+    "sort": 5,
     "special": [
-      "cast-boolean"
+      "date-created"
     ],
     "translations": null,
     "validation": null,
@@ -25,10 +27,10 @@
     "width": "half"
   },
   "schema": {
-    "name": "openOutsideApp",
-    "table": "Game",
-    "data_type": "boolean",
-    "default_value": false,
+    "name": "date_created",
+    "table": "GameCategory",
+    "data_type": "timestamp with time zone",
+    "default_value": null,
     "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
