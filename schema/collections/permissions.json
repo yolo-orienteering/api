@@ -82,7 +82,8 @@
       "creditUrl",
       "author",
       "openOutsideApp",
-      "categories"
+      "categories",
+      "variants"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "7b221992-9667-454d-8e4e-99857c2e6660"
@@ -122,6 +123,32 @@
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "06051859-2bde-4371-bf55-b57dfb811edd"
+  },
+  {
+    "collection": "GameVariant",
+    "action": "read",
+    "permissions": {
+      "_and": [
+        {
+          "status": {
+            "_eq": "published"
+          }
+        }
+      ]
+    },
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "title",
+      "externalUrl",
+      "openOutsideApp",
+      "game",
+      "status",
+      "sort"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "fa6e2534-ecae-4c51-bbba-0486cde1a072"
   },
   {
     "collection": "Race",

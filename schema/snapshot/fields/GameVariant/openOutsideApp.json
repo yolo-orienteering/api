@@ -1,36 +1,34 @@
 {
-  "collection": "Game",
-  "field": "image",
-  "type": "uuid",
+  "collection": "GameVariant",
+  "field": "openOutsideApp",
+  "type": "boolean",
   "meta": {
-    "collection": "Game",
+    "collection": "GameVariant",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "image",
+    "field": "openOutsideApp",
     "group": null,
     "hidden": false,
-    "interface": "file-image",
+    "interface": "boolean",
     "note": null,
-    "options": {
-      "folder": "5ed496c9-a507-475c-8367-d65b55d28d2d"
-    },
+    "options": null,
     "readonly": false,
-    "required": true,
-    "sort": 14,
+    "required": false,
+    "sort": 10,
     "special": [
-      "file"
+      "cast-boolean"
     ],
     "translations": null,
     "validation": null,
     "validation_message": null,
-    "width": "full"
+    "width": "half"
   },
   "schema": {
-    "name": "image",
-    "table": "Game",
-    "data_type": "uuid",
-    "default_value": null,
+    "name": "openOutsideApp",
+    "table": "GameVariant",
+    "data_type": "boolean",
+    "default_value": false,
     "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
@@ -41,7 +39,7 @@
     "is_generated": false,
     "generation_expression": null,
     "has_auto_increment": false,
-    "foreign_key_table": "directus_files",
-    "foreign_key_column": "id"
+    "foreign_key_table": null,
+    "foreign_key_column": null
   }
 }

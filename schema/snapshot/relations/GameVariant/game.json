@@ -1,0 +1,25 @@
+{
+  "collection": "GameVariant",
+  "field": "game",
+  "related_collection": "Game",
+  "meta": {
+    "junction_field": null,
+    "many_collection": "GameVariant",
+    "many_field": "game",
+    "one_allowed_collections": null,
+    "one_collection": "Game",
+    "one_collection_field": null,
+    "one_deselect_action": "nullify",
+    "one_field": "variants",
+    "sort_field": null
+  },
+  "schema": {
+    "table": "GameVariant",
+    "column": "game",
+    "foreign_key_table": "Game",
+    "foreign_key_column": "id",
+    "constraint_name": "gamevariant_game_foreign",
+    "on_update": "NO ACTION",
+    "on_delete": "SET NULL"
+  }
+}

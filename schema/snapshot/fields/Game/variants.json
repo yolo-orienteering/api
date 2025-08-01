@@ -1,16 +1,16 @@
 {
   "collection": "Game",
-  "field": "categories",
+  "field": "variants",
   "type": "alias",
   "meta": {
     "collection": "Game",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "categories",
+    "field": "variants",
     "group": null,
     "hidden": false,
-    "interface": "list-m2m",
+    "interface": "list-o2m",
     "note": null,
     "options": {
       "enableLink": true,
@@ -23,17 +23,18 @@
           }
         ]
       },
-      "template": "{{GameCategory_id.name}}"
+      "sort": "sort",
+      "template": "{{title}}"
     },
     "readonly": false,
-    "required": false,
-    "sort": 12,
+    "required": true,
+    "sort": 13,
     "special": [
-      "m2m"
+      "o2m"
     ],
     "translations": null,
     "validation": null,
     "validation_message": null,
-    "width": "half"
+    "width": "full"
   }
 }

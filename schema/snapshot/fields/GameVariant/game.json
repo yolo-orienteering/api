@@ -1,34 +1,30 @@
 {
-  "collection": "Game",
-  "field": "image",
+  "collection": "GameVariant",
+  "field": "game",
   "type": "uuid",
   "meta": {
-    "collection": "Game",
+    "collection": "GameVariant",
     "conditions": null,
     "display": null,
     "display_options": null,
-    "field": "image",
+    "field": "game",
     "group": null,
-    "hidden": false,
-    "interface": "file-image",
+    "hidden": true,
+    "interface": "select-dropdown-m2o",
     "note": null,
-    "options": {
-      "folder": "5ed496c9-a507-475c-8367-d65b55d28d2d"
-    },
+    "options": null,
     "readonly": false,
-    "required": true,
-    "sort": 14,
-    "special": [
-      "file"
-    ],
+    "required": false,
+    "sort": 11,
+    "special": null,
     "translations": null,
     "validation": null,
     "validation_message": null,
     "width": "full"
   },
   "schema": {
-    "name": "image",
-    "table": "Game",
+    "name": "game",
+    "table": "GameVariant",
     "data_type": "uuid",
     "default_value": null,
     "max_length": null,
@@ -41,7 +37,7 @@
     "is_generated": false,
     "generation_expression": null,
     "has_auto_increment": false,
-    "foreign_key_table": "directus_files",
+    "foreign_key_table": "Game",
     "foreign_key_column": "id"
   }
 }
