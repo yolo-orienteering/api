@@ -1641,6 +1641,8 @@ type Game {
   externalUrl: String
   openOutsideApp: Boolean
   author(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameAuthor
+  categories: JSON
+  categories_func: count_functions
 }
 
 type Game_mutated {

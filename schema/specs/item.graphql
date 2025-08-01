@@ -766,6 +766,8 @@ type Game {
   externalUrl: String
   openOutsideApp: Boolean
   author(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): GameAuthor
+  categories: JSON
+  categories_func: count_functions
 }
 
 type Game_aggregated {
@@ -796,6 +798,7 @@ type Game_aggregated_count {
   externalUrl: Int
   openOutsideApp: Int
   author: Int
+  categories: Int
 }
 
 type Game_aggregated_fields {
@@ -1147,6 +1150,7 @@ type version_Game {
   externalUrl: String
   openOutsideApp: Boolean
   author: JSON
+  categories: JSON
 }
 
 """"""
@@ -1407,6 +1411,7 @@ input create_Game_input {
   externalUrl: String
   openOutsideApp: Boolean
   author: create_GameAuthor_input
+  categories: JSON
 }
 
 input create_GameAuthor_input {
@@ -1837,6 +1842,8 @@ input Game_filter {
   externalUrl: string_filter_operators
   openOutsideApp: boolean_filter_operators
   author: GameAuthor_filter
+  categories: string_filter_operators
+  categories_func: count_function_filter_operators
   _and: [Game_filter]
   _or: [Game_filter]
 }
@@ -2117,6 +2124,7 @@ input update_Game_input {
   externalUrl: String
   openOutsideApp: Boolean
   author: update_GameAuthor_input
+  categories: JSON
 }
 
 input update_GameAuthor_input {

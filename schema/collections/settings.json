@@ -50,6 +50,11 @@
         "type": "module",
         "id": "generate-types",
         "enabled": true
+      },
+      {
+        "type": "module",
+        "id": "ts-typegen",
+        "enabled": true
       }
     ],
     "project_descriptor": null,
