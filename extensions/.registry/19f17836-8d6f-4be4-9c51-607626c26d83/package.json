@@ -1,0 +1,48 @@
+{
+  "name": "directus-extension-ts-typegen",
+  "version": "0.3.0",
+  "description": "A directus extension to generate TypeScript types for your schema.",
+  "keywords": [
+    "directus",
+    "directus-extension",
+    "directus-extension-module",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Scalamando/directus-ts-typegen",
+    "directory": "packages/module"
+  },
+  "license": "MIT",
+  "author": "Raimund Canzler <git@rai-canzler.de>",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@directus-ts-typegen/shared": "",
+    "@directus/extensions": "^3.0.6",
+    "@directus/extensions-sdk": "13.1.1",
+    "@shikijs/langs": "^3.6.0",
+    "@shikijs/themes": "^3.6.0",
+    "@types/node": "^22.15.30",
+    "@vueuse/core": "^13.3.0",
+    "prettier": "^3.5.3",
+    "shiki": "^3.6.0",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.16"
+  },
+  "icon": "code",
+  "directus:extension": {
+    "type": "module",
+    "path": "dist/app.js",
+    "source": "src/index.ts",
+    "host": ">= 10.10.0 < 12.0.0"
+  },
+  "scripts": {
+    "build": "directus-extension build",
+    "dev": "directus-extension build -w --no-minify",
+    "link": "directus-extension link",
+    "validate": "directus-extension validate"
+  }
+}
