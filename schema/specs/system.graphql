@@ -272,6 +272,7 @@ type Subscription {
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
   Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
+  Post_mutated(event: EventEnum): Post_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1732,6 +1733,28 @@ type policy_me_globals_type {
   enforce_tfa: Boolean
   app_access: Boolean
   admin_access: Boolean
+}
+
+type Post {
+  id: ID!
+  status: String
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_updated: Date
+  date_updated_func: datetime_functions
+  type: String
+  sourceUrl: String
+  title: String
+  lead: String
+}
+
+type Post_mutated {
+  key: ID!
+  event: EventEnum
+  data: Post
 }
 
 type Race {

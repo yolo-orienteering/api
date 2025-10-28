@@ -22,5 +22,17 @@
     "reject": null,
     "flow": "206b89dc-34ab-4c91-85c5-ca398dd66f3c",
     "_syncId": "2d61a684-e8f0-4f4d-a9f1-2a607abb1508"
+  },
+  {
+    "name": "News Crawler",
+    "key": "o_mate_news_crawler_2v2xc",
+    "type": "o-mate-news-crawler",
+    "position_x": 19,
+    "position_y": 1,
+    "options": {},
+    "resolve": null,
+    "reject": null,
+    "flow": "dc8b0abe-dcb4-4646-adba-e34a869d5b3b",
+    "_syncId": "66294fa8-cc47-4a33-b3b8-5749c6c025d6"
   }
 ]

@@ -31,5 +31,24 @@
     },
     "operation": "e200a9df-d4ed-4ddb-88fa-1f835c4d13fc",
     "_syncId": "52637beb-52d0-4125-80ca-1a3568c88d7f"
+  },
+  {
+    "name": "Manual Trigger News Crawler",
+    "icon": "newspaper",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "manual",
+    "accountability": "all",
+    "options": {
+      "collections": [
+        "Post"
+      ],
+      "confirmationDescription": "Do you want to crawl ",
+      "async": true,
+      "requireSelection": false
+    },
+    "operation": "66294fa8-cc47-4a33-b3b8-5749c6c025d6",
+    "_syncId": "dc8b0abe-dcb4-4646-adba-e34a869d5b3b"
   }
 ]

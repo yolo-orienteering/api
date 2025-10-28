@@ -1,0 +1,39 @@
+{
+	"name": "news-crawler",
+	"description": "Please enter a description for your extension",
+	"icon": "extension",
+	"version": "1.0.0",
+	"keywords": [
+		"directus",
+		"directus-extension",
+		"directus-extension-operation"
+	],
+	"type": "commonjs",
+	"files": [
+		"dist"
+	],
+	"directus:extension": {
+		"type": "operation",
+		"path": {
+			"app": "dist/app.js",
+			"api": "dist/api.js"
+		},
+		"source": {
+			"app": "src/app.ts",
+			"api": "src/api.ts"
+		},
+		"host": "^10.10.0"
+	},
+	"scripts": {
+		"build": "directus-extension build",
+		"dev": "directus-extension build -w --no-minify",
+		"link": "directus-extension link",
+		"validate": "directus-extension validate"
+	},
+	"devDependencies": {
+		"@directus/extensions-sdk": "16.0.2",
+		"@types/node": "^24.9.2",
+		"typescript": "^5.9.3",
+		"vue": "^3.5.22"
+	}
+}
