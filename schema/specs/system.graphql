@@ -273,6 +273,7 @@ type Subscription {
   Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
   Post_mutated(event: EventEnum): Post_mutated
+  PostMedia_mutated(event: EventEnum): PostMedia_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1749,12 +1750,36 @@ type Post {
   sourceUrl: String
   title: String
   lead: String
+  medias(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [PostMedia]
+  medias_func: count_functions
 }
 
 type Post_mutated {
   key: ID!
   event: EventEnum
   data: Post
+}
+
+type PostMedia {
+  id: ID!
+  status: String
+  sort: Int
+  user_created(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_created: Date
+  date_created_func: datetime_functions
+  user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
+  date_updated: Date
+  date_updated_func: datetime_functions
+  post(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Post
+  imageUrl: String
+  youtubeUrl: String
+  caption: String
+}
+
+type PostMedia_mutated {
+  key: ID!
+  event: EventEnum
+  data: PostMedia
 }
 
 type Race {
@@ -2913,6 +2938,44 @@ input number_filter_operators {
   _nnull: Boolean
   _between: [GraphQLStringOrFloat]
   _nbetween: [GraphQLStringOrFloat]
+}
+
+input Post_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  type: string_filter_operators
+  sourceUrl: string_filter_operators
+  title: string_filter_operators
+  lead: string_filter_operators
+  medias: PostMedia_filter
+  medias_func: count_function_filter_operators
+  _and: [Post_filter]
+  _or: [Post_filter]
+}
+
+input PostMedia_filter {
+  id: string_filter_operators
+  status: string_filter_operators
+  sort: number_filter_operators
+  user_created: directus_users_filter
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  user_updated: directus_users_filter
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  post: Post_filter
+  imageUrl: string_filter_operators
+  youtubeUrl: string_filter_operators
+  caption: string_filter_operators
+  _and: [PostMedia_filter]
+  _or: [PostMedia_filter]
 }
 
 input Race_filter {

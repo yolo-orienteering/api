@@ -1,0 +1,25 @@
+{
+  "collection": "PostMedia",
+  "field": "post",
+  "related_collection": "Post",
+  "meta": {
+    "junction_field": null,
+    "many_collection": "PostMedia",
+    "many_field": "post",
+    "one_allowed_collections": null,
+    "one_collection": "Post",
+    "one_collection_field": null,
+    "one_deselect_action": "nullify",
+    "one_field": "medias",
+    "sort_field": null
+  },
+  "schema": {
+    "table": "PostMedia",
+    "column": "post",
+    "foreign_key_table": "Post",
+    "foreign_key_column": "id",
+    "constraint_name": "postmedia_post_foreign",
+    "on_update": "NO ACTION",
+    "on_delete": "SET NULL"
+  }
+}

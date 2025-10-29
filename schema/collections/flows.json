@@ -33,6 +33,20 @@
     "_syncId": "52637beb-52d0-4125-80ca-1a3568c88d7f"
   },
   {
+    "name": "Cronjob News Crawler",
+    "icon": "newspaper",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "schedule",
+    "accountability": "all",
+    "options": {
+      "cron": "0 */15 * * * *"
+    },
+    "operation": "86f756bf-4485-40fe-bf0b-fd1554775018",
+    "_syncId": "8e376c51-5bcf-43cd-9c7e-88161326ac20"
+  },
+  {
     "name": "Manual Trigger News Crawler",
     "icon": "newspaper",
     "color": null,

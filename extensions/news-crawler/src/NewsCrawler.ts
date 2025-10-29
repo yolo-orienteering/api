@@ -1,13 +1,27 @@
 import puppeteer, { Browser, Page } from 'puppeteer'
 import * as cheerio from 'cheerio'
+import { Post, PostMedia } from './types/DirectusTypes'
+import { ItemsService } from '@directus/api/dist/services/items'
+import { TableName } from './api'
+import { Item } from '@directus/types'
+
+interface NewsCrawlerProps {
+  createItemsService: <T extends Item>(tableName: TableName) => ItemsService<T>
+}
 
 export default class NewsCrawler {
-  private newsList: string[]
+  private newsUrlList: string[]
+  private newsListToSave: Partial<Post>[]
   private browser?: Browser
   private browserPage?: Page
+  private postsService: ItemsService
+  private postMediasService: ItemsService
 
-  constructor() {
-    this.newsList = []
+  constructor({ createItemsService }: NewsCrawlerProps) {
+    this.newsUrlList = []
+    this.newsListToSave = []
+    this.postsService = createItemsService<Post>('Post')
+    this.postMediasService = createItemsService<PostMedia>('PostMedia')
   }
 
   public async crawl(): Promise<void> {
@@ -15,6 +29,7 @@ export default class NewsCrawler {
     await this.setupBrowserPage()
     await this.listNews()
     await this.downloadAllNews()
+    await this.saveAllNews()
     console.log('Finished crawling news from SOLV.')
   }
 
@@ -32,17 +47,17 @@ export default class NewsCrawler {
       .map((_, el) => $(el).attr("href"))
       .get()
 
-    this.newsList = links.map(link => `${baseUrl}${link}`)
+    this.newsUrlList = links.map(link => `${baseUrl}${link}`)
   }
 
   private async downloadAllNews() {
-    for (const news of this.newsList) {
+    for (const news of this.newsUrlList) {
       await this.downloadANews(news)
     }
   }
 
   private async downloadANews(newsUrl: string) {
-    console.log(`Reading content of ${newsUrl}`)
+    console.log(`Reading content from ${newsUrl}`)
     const content = await this.getContentFromWebsite(newsUrl)
     if (!content) {
       console.warn(`No content found for ${newsUrl}`)
@@ -53,9 +68,63 @@ export default class NewsCrawler {
     const title = $('.page-header h1').text().trim()
     const lead = $('.com-content-article__body strong').first().text().trim()
 
-    // TODO: continue here
-    console.log(title)
-    console.log(lead)
+    const images: Partial<PostMedia>[] = []
+    $(".imagebox").each(function () {
+      const imageUrl = $(this).find("img").attr("src") || null
+      const caption = $(this).find(".text").text().trim()
+
+      images.push({ imageUrl: `https://www.swiss-orienteering.ch${imageUrl}`, caption })
+    })
+
+    this.newsListToSave.push({
+      title,
+      lead,
+      sourceUrl: newsUrl,
+      type: 'news-post',
+      status: 'published',
+      medias: images as PostMedia[]
+    })
+  }
+
+  private async saveAllNews(): Promise<void> {
+    console.log('Upsert crawled news.')
+    const newsUrls = this.newsListToSave.map(news => news.sourceUrl).filter(news => news !== null && news !== undefined)
+    // get existing posts with urls
+    const existingPosts = await this.postsService.readByQuery({
+      filter: {
+        sourceUrl: {
+          _in: newsUrls || []
+        }
+      },
+      fields: ['*', 'medias.id']
+    }) as Post[]
+
+    // delete futur unrelated post medias
+    let postMediasToDelete: string[] = []
+
+    // merge existing news with crawled ones
+    if (existingPosts.length) {
+      this.newsListToSave = this.newsListToSave.map(aNewsToSave => {
+        const existingPost = existingPosts.find(tmpPost => tmpPost.sourceUrl === aNewsToSave.sourceUrl)
+        if (!existingPost) {
+          return aNewsToSave
+        }
+
+        // delete futur unrelated post medias
+        postMediasToDelete = [...postMediasToDelete, ...(existingPost?.medias.map(media => (media as PostMedia).id) || [])]
+
+        return {
+          ...existingPost,
+          ...aNewsToSave,
+        }
+      })
+    }
+
+    // save existing and new posts
+    await this.postsService.upsertMany(this.newsListToSave)
+
+    // delete connected post media to avoid garbage media
+    await this.postMediasService.deleteMany(postMediasToDelete)
   }
 
   /**
