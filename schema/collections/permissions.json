@@ -151,6 +151,47 @@
     "_syncId": "fa6e2534-ecae-4c51-bbba-0486cde1a072"
   },
   {
+    "collection": "Post",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "date_created",
+      "date_updated",
+      "type",
+      "sourceUrl",
+      "title",
+      "lead",
+      "medias",
+      "sort",
+      "status"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "ce18f72a-ec61-43b1-b984-bdc9a1ff9dc6"
+  },
+  {
+    "collection": "PostMedia",
+    "action": "read",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "id",
+      "status",
+      "sort",
+      "date_created",
+      "date_updated",
+      "post",
+      "imageUrl",
+      "youtubeUrl",
+      "caption"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "6154e441-13ea-4a93-abeb-d27cc2151607"
+  },
+  {
     "collection": "Race",
     "action": "read",
     "permissions": null,
