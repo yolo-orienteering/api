@@ -1,0 +1,1 @@
+import{defineOperationApp as e}from"@directus/extensions-sdk";var r=e({id:"o-mate-news-crawler",name:"News Crawler",icon:"box",description:"Crawling for news for users feed",overview:({text:e})=>[{label:"Text",text:e}],options:[]});export{r as default};

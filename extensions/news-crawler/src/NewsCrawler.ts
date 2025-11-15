@@ -5,6 +5,16 @@ import { ItemsService } from '@directus/api/dist/services/items'
 import { TableName } from './api'
 import { Item } from '@directus/types'
 
+const BASE_URL = 'https://www.swiss-orienteering.ch'
+
+const NEWS_SITES: string[] = [
+  '/news/ol',
+  '/news/ski-ol',
+  '/news/bike-ol',
+  '/news/verband',
+  '/news/news-ausbildung'
+]
+
 interface NewsCrawlerProps {
   createItemsService: <T extends Item>(tableName: TableName) => ItemsService<T>
 }
@@ -27,30 +37,40 @@ export default class NewsCrawler {
   public async crawl(): Promise<void> {
     console.log('Start crawling News from SOLV.')
     await this.setupBrowserPage()
-    await this.listNews()
+    await this.iterateNewsSites()
     await this.downloadAllNews()
     await this.saveAllNews()
     console.log('Finished crawling news from SOLV.')
   }
 
-  private async listNews() {
-    const baseUrl = 'https://www.swiss-orienteering.ch'
-    const url = `${baseUrl}/news/ol.html`
-    const content = await this.getContentFromWebsite(url)
+  private async iterateNewsSites() {
+    for (const newsSite of NEWS_SITES) {
+      const siteUrl = `${BASE_URL}${newsSite}.html`
+      await this.listNews(siteUrl, newsSite)
+    }
+  }
+
+  private async listNews(siteUrl: string, path: string) {
+    const content = await this.getContentFromWebsite(siteUrl)
     if (!content) {
-      console.warn('Website content was empty for url', url)
+      console.warn('Website content was empty for url', siteUrl)
       return
     }
     // get all the links from the website
+    const hrefFilter = `a[href*="${path}/"]`
+    console.log(hrefFilter)
     const $ = cheerio.load(content)
-    const links = $('a[href*="/news/ol/"]')
+    const links = $(hrefFilter)
       .map((_, el) => $(el).attr("href"))
       .get()
 
-    this.newsUrlList = links.map(link => `${baseUrl}${link}`)
+    console.log(links)
+
+    this.newsUrlList = [...this.newsUrlList, ...links.map(link => `${BASE_URL}${link}`)]
   }
 
   private async downloadAllNews() {
+    console.log('download all news', this.newsUrlList)
     for (const news of this.newsUrlList) {
       await this.downloadANews(news)
     }
@@ -128,7 +148,7 @@ export default class NewsCrawler {
   }
 
   /**
-   * TODO > Same functions (copied) from SolvInstructions > merge them
+   * TODO > Same functions (copied) from SolvInstructions > merge them using BUNDLES > https://directus.io/docs/guides/extensions/bundles
    * Helper functions
    */
   private async setupBrowserPage(): Promise<void> {
