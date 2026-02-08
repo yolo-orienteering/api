@@ -41,7 +41,7 @@
     "trigger": "schedule",
     "accountability": "all",
     "options": {
-      "cron": "0 */15 * * * *"
+      "cron": "0 0 * * * *"
     },
     "operation": "86f756bf-4485-40fe-bf0b-fd1554775018",
     "_syncId": "8e376c51-5bcf-43cd-9c7e-88161326ac20"
