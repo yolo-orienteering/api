@@ -4,6 +4,7 @@ import { Post, PostMedia } from './types/DirectusTypes'
 import { ItemsService } from '@directus/api/dist/services/items'
 import { TableName } from './api'
 import { Item } from '@directus/types'
+import { parse } from 'date-fns'
 
 const BASE_URL = 'https://www.swiss-orienteering.ch'
 
@@ -19,8 +20,13 @@ interface NewsCrawlerProps {
   createItemsService: <T extends Item>(tableName: TableName) => ItemsService<T>
 }
 
+interface UrlList {
+  url: string
+  date: Date
+}
+
 export default class NewsCrawler {
-  private newsUrlList: string[]
+  private newsUrlList: UrlList[]
   private newsListToSave: Partial<Post>[]
   private browser?: Browser
   private browserPage?: Page
@@ -35,12 +41,18 @@ export default class NewsCrawler {
   }
 
   public async crawl(): Promise<void> {
-    console.log('Start crawling News from SOLV.')
-    await this.setupBrowserPage()
-    await this.iterateNewsSites()
-    await this.downloadAllNews()
-    await this.saveAllNews()
-    console.log('Finished crawling news from SOLV.')
+    try {
+      console.log('Start crawling News from SOLV.')
+      await this.setupBrowserPage()
+      await this.iterateNewsSites()
+      await this.downloadAllNews()
+      await this.saveAllNews()
+      console.log('Finished crawling news from SOLV.')
+    } catch (error) {
+      console.error(error)
+    } finally {
+      this.browser?.close()
+    }
   }
 
   private async iterateNewsSites() {
@@ -61,12 +73,20 @@ export default class NewsCrawler {
     console.log(hrefFilter)
     const $ = cheerio.load(content)
     const links = $(hrefFilter)
-      .map((_, el) => $(el).attr("href"))
+      .map((_, el) => {
+        const href = $(el).attr("href")
+        const date = $(el).closest("tr").find("td").text().trim()
+        return { href, date }
+      })
       .get()
 
-    console.log(links)
-
-    this.newsUrlList = [...this.newsUrlList, ...links.map(link => `${BASE_URL}${link}`)]
+    this.newsUrlList = [
+      ...this.newsUrlList,
+      ...links.map(link => ({
+        url: `${BASE_URL}${link.href}`,
+        date: parse(link.date, 'dd.MM.yyyy', new Date()),
+      })),
+    ]
   }
 
   private async downloadAllNews() {
@@ -76,11 +96,11 @@ export default class NewsCrawler {
     }
   }
 
-  private async downloadANews(newsUrl: string) {
-    console.log(`Reading content from ${newsUrl}`)
-    const content = await this.getContentFromWebsite(newsUrl)
+  private async downloadANews(urlWithDate: UrlList) {
+    console.log(`Reading content from ${urlWithDate.url}`)
+    const content = await this.getContentFromWebsite(urlWithDate.url)
     if (!content) {
-      console.warn(`No content found for ${newsUrl}`)
+      console.warn(`No content found for ${urlWithDate}`)
       return
     }
 
@@ -96,10 +116,13 @@ export default class NewsCrawler {
       images.push({ imageUrl: `https://www.swiss-orienteering.ch${imageUrl}`, caption })
     })
 
+    console.log('## date', urlWithDate)
+
     this.newsListToSave.push({
       title,
       lead,
-      sourceUrl: newsUrl,
+      sourceUrl: urlWithDate.url,
+      date_created: urlWithDate.date.toISOString(),
       type: 'news-post',
       status: 'published',
       medias: images as PostMedia[]
