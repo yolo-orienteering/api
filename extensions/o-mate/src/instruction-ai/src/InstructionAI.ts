@@ -94,28 +94,33 @@ export default class InstructionAI {
     }
 
     for (const instruction of instructions) {
-      console.log('Ask AI and waiting for response...')
-      const [publicTransportAI, summary] = await Promise.all([
-        this.askAI({
-          instruction,
-          aiInstructions:
-            'return only the name of the public transport station. Bahnhof is not a valid answer.',
-          text: 'Wie lautet die Haltestelle ÖV?',
-        }),
-        this.askAI({
-          instruction,
-          aiInstructions:
-            'return a short answer in bullet points. return format in plain text. you can use line breaks.',
-          text: 'Fasse die Datei zusammen zu folgenden Punkten: Weg von der ÖV-Station zum Wettkampfzentrum (WKZ) und von dort zum Start? Wie lang ist der Gesamtweg und die Gesamtdauer? / Von wann bis wann kann man starten? / Kleiderdepot vorhanden? / Wo sind WC vorhanden?',
-        }),
-      ])
+      try {
+        console.log('Ask AI and waiting for response...')
 
-      // save data
-      this.instructionsService.upsertOne({
-        id: instruction.id,
-        publicTransportAI: publicTransportAI?.output_text,
-        summaryAI: summary?.output_text,
-      })
+        const [publicTransportAI, summary] = await Promise.all([
+          this.askAI({
+            instruction,
+            aiInstructions:
+              'return only the name of the public transport station. Bahnhof is not a valid answer.',
+            text: 'Wie lautet die Haltestelle ÖV?',
+          }),
+          this.askAI({
+            instruction,
+            aiInstructions:
+              'return a short answer in bullet points. return format in plain text. you can use line breaks.',
+            text: 'Fasse die Datei zusammen zu folgenden Punkten: Weg von der ÖV-Station zum Wettkampfzentrum (WKZ) und von dort zum Start? Wie lang ist der Gesamtweg und die Gesamtdauer? / Von wann bis wann kann man starten? / Kleiderdepot vorhanden? / Wo sind WC vorhanden?',
+          }),
+        ])
+
+        // save data
+        this.instructionsService.upsertOne({
+          id: instruction.id,
+          publicTransportAI: publicTransportAI?.output_text,
+          summaryAI: summary?.output_text,
+        })
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 
