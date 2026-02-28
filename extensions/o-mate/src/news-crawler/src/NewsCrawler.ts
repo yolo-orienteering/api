@@ -4,6 +4,7 @@ import { ItemsService } from '@directus/api/dist/services/items'
 import { TableName } from './api'
 import { Item } from '@directus/types'
 import { SolvNews } from './news-sites/SolvNews'
+import { SrfNews } from './news-sites/SrfNews'
 
 export interface NewsSite {
   path: string
@@ -68,12 +69,12 @@ export default class NewsCrawler {
 
   public async crawl(): Promise<void> {
     try {
-      console.log('Start crawling News from SOLV.')
+      console.log('Start crawling news.')
       await this.setupBrowserPage()
       await this.iterateNewsSites()
       await this.downloadAllNews()
       await this.saveAllNews()
-      console.log('Finished crawling news from SOLV.')
+      console.log('Finished crawling news.')
     } catch (error) {
       console.error(error)
     } finally {
@@ -155,6 +156,8 @@ export default class NewsCrawler {
     switch (newsSite.source) {
       case 'solv':
         return new SolvNews(this.browserPage)
+      case 'srf':
+        return new SrfNews(this.browserPage)
       default:
         throw new Error(
           `Implementation for news site ${newsSite.source} is missing`,
