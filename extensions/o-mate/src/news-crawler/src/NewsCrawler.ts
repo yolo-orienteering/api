@@ -1,6 +1,6 @@
 import puppeteer, { Browser, Page } from 'puppeteer'
 import * as cheerio from 'cheerio'
-import { Post, PostMedia } from './types/DirectusTypes'
+import { Post, PostMedia } from '../../types/DirectusTypes'
 import { ItemsService } from '@directus/api/dist/services/items'
 import { TableName } from './api'
 import { Item } from '@directus/types'

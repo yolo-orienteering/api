@@ -26,6 +26,14 @@
           "app": "src/news-crawler/src/app.ts",
           "api": "src/news-crawler/src/api.ts"
         }
+      },
+      {
+        "name": "instruction-ai",
+        "type": "operation",
+        "source": {
+          "app": "src/instruction-ai/src/app.ts",
+          "api": "src/instruction-ai/src/api.ts"
+        }
       }
     ],
     "host": "^10.10.0"
