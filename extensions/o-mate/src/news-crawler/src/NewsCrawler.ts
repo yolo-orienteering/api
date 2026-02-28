@@ -5,6 +5,7 @@ import { TableName } from './api'
 import { Item } from '@directus/types'
 import { SolvNews } from './news-sites/SolvNews'
 import { SrfNews } from './news-sites/SrfNews'
+import { TamediaNews } from './news-sites/TamediaNews'
 import { NewsSiteAdapterProps } from './news-sites/NewsSiteAdapter'
 
 export interface NewsSite {
@@ -41,6 +42,10 @@ const NEWS_SITES: NewsSite[] = [
     path: '/sport/mehr-sport/orientierungslauf',
     source: 'srf',
   },
+  {
+    path: '/search?q=orientierungslauf',
+    source: 'tamedia',
+  },
 ]
 
 interface NewsCrawlerProps {
@@ -50,7 +55,7 @@ interface NewsCrawlerProps {
 export interface UrlList {
   newsSite: NewsSite
   url: string
-  date: Date
+  date?: Date
 }
 
 export default class NewsCrawler {
@@ -103,6 +108,8 @@ export default class NewsCrawler {
         return new SolvNews(newsConstructorProps)
       case 'srf':
         return new SrfNews(newsConstructorProps)
+      case 'tamedia':
+        return new TamediaNews(newsConstructorProps)
       default:
         throw new Error(
           `Implementation for news site ${newsSite.source} is missing`,

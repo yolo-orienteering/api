@@ -2,7 +2,7 @@ import { parse } from 'date-fns'
 import { UrlList } from '../NewsCrawler'
 import { NewsSiteAdapter } from './NewsSiteAdapter'
 import * as cheerio from 'cheerio'
-import { Post, PostMedia } from '../../../types/DirectusTypes'
+import { PostMedia } from '../../../types/DirectusTypes'
 
 export class SolvNews extends NewsSiteAdapter {
   BASE_URL: string = 'https://www.swiss-orienteering.ch'
@@ -63,7 +63,7 @@ export class SolvNews extends NewsSiteAdapter {
       title,
       lead,
       sourceUrl: urlWithDate.url,
-      date_created: urlWithDate.date.toISOString(),
+      date_created: (urlWithDate.date || new Date()).toISOString(),
       type: 'news-post',
       status: 'published',
       medias: images as PostMedia[],
