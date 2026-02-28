@@ -1,0 +1,80 @@
+import { parse } from 'date-fns'
+import { NewsSite, UrlList } from '../NewsCrawler'
+import { NewsSiteAdapter } from './NewsSiteAdapter'
+import * as cheerio from 'cheerio'
+import { Post, PostMedia } from '../../../types/DirectusTypes'
+
+export class SolvNews extends NewsSiteAdapter {
+  protected BASE_URL: string = 'https://www.swiss-orienteering.ch'
+
+  public async listNews(
+    newsSite: NewsSite,
+    newsUrlList: UrlList[],
+  ): Promise<void> {
+    const { path } = newsSite
+
+    const siteUrl = `${this.BASE_URL}${path}.html`
+
+    const content = await this.getContentFromWebsite(siteUrl)
+    if (!content) {
+      console.warn('Website content was empty for url', siteUrl)
+      return
+    }
+    // get all the links from the website
+    const hrefFilter = `a[href*="${path}/"]`
+    const $ = cheerio.load(content)
+    const links = $(hrefFilter)
+      .map((_, el) => {
+        const href = $(el).attr('href')
+        const date = $(el).closest('tr').find('td').text().trim()
+        return { href, date }
+      })
+      .get()
+
+    newsUrlList = [
+      ...newsUrlList,
+      ...links.map((link) => ({
+        newsSite: newsSite,
+        url: `${this.BASE_URL}${link.href}`,
+        date: parse(link.date, 'dd.MM.yyyy', new Date()),
+      })),
+    ]
+  }
+
+  async downloadANews(
+    urlWithDate: UrlList,
+    newsListToSave: Partial<Post>[],
+  ): Promise<void> {
+    console.log(`Reading content from ${urlWithDate.url}`)
+    const content = await this.getContentFromWebsite(urlWithDate.url)
+    if (!content) {
+      console.warn(`No content found for ${urlWithDate}`)
+      return
+    }
+
+    const $ = cheerio.load(content)
+    const title = $('.page-header h1').text().trim()
+    const lead = $('.com-content-article__body strong').first().text().trim()
+
+    const images: Partial<PostMedia>[] = []
+    $('.imagebox').each(function () {
+      const imageUrl = $(this).find('img').attr('src') || null
+      const caption = $(this).find('.text').text().trim()
+
+      images.push({
+        imageUrl: `https://www.swiss-orienteering.ch${imageUrl}`,
+        caption,
+      })
+    })
+
+    newsListToSave.push({
+      title,
+      lead,
+      sourceUrl: urlWithDate.url,
+      date_created: urlWithDate.date.toISOString(),
+      type: 'news-post',
+      status: 'published',
+      medias: images as PostMedia[],
+    })
+  }
+}

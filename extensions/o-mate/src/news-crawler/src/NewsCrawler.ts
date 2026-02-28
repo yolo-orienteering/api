@@ -1,26 +1,52 @@
 import puppeteer, { Browser, Page } from 'puppeteer'
-import * as cheerio from 'cheerio'
 import { Post, PostMedia } from '../../types/DirectusTypes'
 import { ItemsService } from '@directus/api/dist/services/items'
 import { TableName } from './api'
 import { Item } from '@directus/types'
-import { parse } from 'date-fns'
+import { SolvNews } from './news-sites/SolvNews'
 
-const BASE_URL = 'https://www.swiss-orienteering.ch'
+export interface NewsSite {
+  path: string
+  source: 'solv' | 'srf' | 'blick' | 'tamedia'
+}
 
-const NEWS_SITES: string[] = [
-  '/news/ol',
-  '/news/ski-ol',
-  '/news/bike-ol',
-  '/news/verband',
-  '/news/news-ausbildung',
+const NEWS_SITES: NewsSite[] = [
+  {
+    path: '/news/ol',
+    source: 'solv',
+  },
+  {
+    path: '/news/ol',
+    source: 'solv',
+  },
+  {
+    path: '/news/ski-ol',
+    source: 'solv',
+  },
+  {
+    path: '/news/bike-ol',
+    source: 'solv',
+  },
+  {
+    path: '/news/verband',
+    source: 'solv',
+  },
+  {
+    path: '/news/news-ausbildung',
+    source: 'solv',
+  },
+  {
+    path: '/sport/mehr-sport/orientierungslauf',
+    source: 'srf',
+  },
 ]
 
 interface NewsCrawlerProps {
   createItemsService: <T extends Item>(tableName: TableName) => ItemsService<T>
 }
 
-interface UrlList {
+export interface UrlList {
+  newsSite: NewsSite
   url: string
   date: Date
 }
@@ -57,76 +83,19 @@ export default class NewsCrawler {
 
   private async iterateNewsSites() {
     for (const newsSite of NEWS_SITES) {
-      const siteUrl = `${BASE_URL}${newsSite}.html`
-      await this.listNews(siteUrl, newsSite)
-    }
-  }
+      const newsSiteInstance = this.getNewsAdapterInstance(newsSite)
 
-  private async listNews(siteUrl: string, path: string) {
-    const content = await this.getContentFromWebsite(siteUrl)
-    if (!content) {
-      console.warn('Website content was empty for url', siteUrl)
-      return
+      await newsSiteInstance?.listNews(newsSite, this.newsUrlList)
     }
-    // get all the links from the website
-    const hrefFilter = `a[href*="${path}/"]`
-    const $ = cheerio.load(content)
-    const links = $(hrefFilter)
-      .map((_, el) => {
-        const href = $(el).attr('href')
-        const date = $(el).closest('tr').find('td').text().trim()
-        return { href, date }
-      })
-      .get()
-
-    this.newsUrlList = [
-      ...this.newsUrlList,
-      ...links.map((link) => ({
-        url: `${BASE_URL}${link.href}`,
-        date: parse(link.date, 'dd.MM.yyyy', new Date()),
-      })),
-    ]
   }
 
   private async downloadAllNews() {
     console.log('download all news...')
     for (const news of this.newsUrlList) {
-      await this.downloadANews(news)
+      const newsSiteInstance = this.getNewsAdapterInstance(news.newsSite)
+
+      await newsSiteInstance?.downloadANews(news, this.newsListToSave)
     }
-  }
-
-  private async downloadANews(urlWithDate: UrlList) {
-    console.log(`Reading content from ${urlWithDate.url}`)
-    const content = await this.getContentFromWebsite(urlWithDate.url)
-    if (!content) {
-      console.warn(`No content found for ${urlWithDate}`)
-      return
-    }
-
-    const $ = cheerio.load(content)
-    const title = $('.page-header h1').text().trim()
-    const lead = $('.com-content-article__body strong').first().text().trim()
-
-    const images: Partial<PostMedia>[] = []
-    $('.imagebox').each(function () {
-      const imageUrl = $(this).find('img').attr('src') || null
-      const caption = $(this).find('.text').text().trim()
-
-      images.push({
-        imageUrl: `https://www.swiss-orienteering.ch${imageUrl}`,
-        caption,
-      })
-    })
-
-    this.newsListToSave.push({
-      title,
-      lead,
-      sourceUrl: urlWithDate.url,
-      date_created: urlWithDate.date.toISOString(),
-      type: 'news-post',
-      status: 'published',
-      medias: images as PostMedia[],
-    })
   }
 
   private async saveAllNews(): Promise<void> {
@@ -178,6 +147,21 @@ export default class NewsCrawler {
     await this.postMediasService.deleteMany(postMediasToDelete)
   }
 
+  private getNewsAdapterInstance(newsSite: NewsSite) {
+    if (!this.browserPage) {
+      console.error('Browser Page is missing unexpectedly.')
+      return
+    }
+    switch (newsSite.source) {
+      case 'solv':
+        return new SolvNews(this.browserPage)
+      default:
+        throw new Error(
+          `Implementation for news site ${newsSite.source} is missing`,
+        )
+    }
+  }
+
   /**
    * TODO > Same functions (copied) from SolvInstructions > merge them using BUNDLES > https://directus.io/docs/guides/extensions/bundles
    * Helper functions
@@ -189,22 +173,5 @@ export default class NewsCrawler {
     })
     this.browserPage = await this.browser.newPage()
     await this.browserPage.setViewport({ width: 1920, height: 1080 })
-  }
-
-  private async getContentFromWebsite(
-    url: string,
-  ): Promise<string | undefined> {
-    if (!this.browserPage) {
-      console.warn('Browser page is not available. Initialization missing?')
-      return
-    }
-    try {
-      await this.browserPage.goto(url, {
-        waitUntil: 'networkidle2',
-      })
-      return this.browserPage.content()
-    } catch (error) {
-      return
-    }
   }
 }
