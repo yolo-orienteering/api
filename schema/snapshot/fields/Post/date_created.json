@@ -11,16 +11,14 @@
     },
     "field": "date_created",
     "group": null,
-    "hidden": true,
+    "hidden": false,
     "interface": "datetime",
     "note": null,
     "options": null,
     "readonly": true,
     "required": false,
     "sort": 5,
-    "special": [
-      "date-created"
-    ],
+    "special": null,
     "translations": null,
     "validation": null,
     "validation_message": null,
