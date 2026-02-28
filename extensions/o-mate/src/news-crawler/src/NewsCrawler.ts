@@ -7,11 +7,12 @@ import { SolvNews } from './news-sites/SolvNews'
 import { SrfNews } from './news-sites/SrfNews'
 import { TamediaNews } from './news-sites/TamediaNews'
 import { BlickNews } from './news-sites/BlickNews'
+import { AargauerZeitungNews } from './news-sites/AargauerZeitungNews'
 import { NewsSiteAdapterProps } from './news-sites/NewsSiteAdapter'
 
 export interface NewsSite {
   path: string
-  source: 'solv' | 'srf' | 'blick' | 'tamedia'
+  source: 'solv' | 'srf' | 'blick' | 'tamedia' | 'aargauerzeitung'
 }
 
 const NEWS_SITES: NewsSite[] = [
@@ -50,6 +51,10 @@ const NEWS_SITES: NewsSite[] = [
   {
     path: '/search?pub=blick&q=orientierungslauf&page=0',
     source: 'blick',
+  },
+  {
+    path: '/suche?q=orientierungslauf&filter=y1',
+    source: 'aargauerzeitung',
   },
 ]
 
@@ -117,6 +122,8 @@ export default class NewsCrawler {
         return new TamediaNews(newsConstructorProps)
       case 'blick':
         return new BlickNews(newsConstructorProps)
+      case 'aargauerzeitung':
+        return new AargauerZeitungNews(newsConstructorProps)
       default:
         throw new Error(
           `Implementation for news site ${newsSite.source} is missing`,
