@@ -3,7 +3,7 @@ import { NewsSite, UrlList } from '../NewsCrawler'
 import { Post } from '../../../types/DirectusTypes'
 
 export abstract class NewsSiteAdapter {
-  protected abstract BASE_URL: string
+  public abstract BASE_URL: string
   private browserPage: Page
 
   constructor(browserPage: Page) {

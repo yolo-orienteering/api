@@ -5,7 +5,7 @@ import { NewsSiteAdapter } from './NewsSiteAdapter'
 import * as cheerio from 'cheerio'
 
 export class SrfNews extends NewsSiteAdapter {
-  protected BASE_URL: string = 'https://www.srf.ch'
+  BASE_URL: string = 'https://www.srf.ch'
 
   async listNews(newsSite: NewsSite, newsUrlList: UrlList[]): Promise<void> {
     const { path } = newsSite

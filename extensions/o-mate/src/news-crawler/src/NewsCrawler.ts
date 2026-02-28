@@ -85,13 +85,12 @@ export default class NewsCrawler {
   private async iterateNewsSites() {
     for (const newsSite of NEWS_SITES) {
       const newsSiteInstance = this.getNewsAdapterInstance(newsSite)
-
       await newsSiteInstance?.listNews(newsSite, this.newsUrlList)
     }
   }
 
   private async downloadAllNews() {
-    console.log('download all news...')
+    console.log('download all news...', this.newsUrlList)
     for (const news of this.newsUrlList) {
       const newsSiteInstance = this.getNewsAdapterInstance(news.newsSite)
 

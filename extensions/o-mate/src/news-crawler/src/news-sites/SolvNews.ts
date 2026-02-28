@@ -5,7 +5,7 @@ import * as cheerio from 'cheerio'
 import { Post, PostMedia } from '../../../types/DirectusTypes'
 
 export class SolvNews extends NewsSiteAdapter {
-  protected BASE_URL: string = 'https://www.swiss-orienteering.ch'
+  BASE_URL: string = 'https://www.swiss-orienteering.ch'
 
   public async listNews(
     newsSite: NewsSite,
@@ -31,14 +31,13 @@ export class SolvNews extends NewsSiteAdapter {
       })
       .get()
 
-    newsUrlList = [
-      ...newsUrlList,
+    newsUrlList.push(
       ...links.map((link) => ({
         newsSite: newsSite,
         url: `${this.BASE_URL}${link.href}`,
         date: parse(link.date, 'dd.MM.yyyy', new Date()),
       })),
-    ]
+    )
   }
 
   async downloadANews(
