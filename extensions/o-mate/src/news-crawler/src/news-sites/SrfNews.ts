@@ -1,14 +1,14 @@
 import { parseISO } from 'date-fns'
-import { Post, PostMedia } from '../../../types/DirectusTypes'
-import { NewsSite, UrlList } from '../NewsCrawler'
+import { PostMedia } from '../../../types/DirectusTypes'
+import { UrlList } from '../NewsCrawler'
 import { NewsSiteAdapter } from './NewsSiteAdapter'
 import * as cheerio from 'cheerio'
 
 export class SrfNews extends NewsSiteAdapter {
   BASE_URL: string = 'https://www.srf.ch'
 
-  async listNews(newsSite: NewsSite, newsUrlList: UrlList[]): Promise<void> {
-    const { path } = newsSite
+  async listNews(): Promise<void> {
+    const { path } = this.newsSite
 
     const siteUrl = `${this.BASE_URL}${path}`
 
@@ -28,22 +28,18 @@ export class SrfNews extends NewsSiteAdapter {
 
       if (href && dateString) {
         links.push({
-          newsSite,
+          newsSite: this.newsSite,
           url: href.startsWith('http') ? href : `${this.BASE_URL}${href}`,
           date: parseISO(dateString),
         })
       }
     })
 
-    newsUrlList.push(...links)
+    this.newsUrlList.push(...links)
   }
 
-  async downloadANews(
-    urlWithDate: UrlList,
-    newsListToSave: Partial<Post>[],
-  ): Promise<void> {
+  async downloadANews(urlWithDate: UrlList): Promise<void> {
     const { url, date } = urlWithDate
-    console.log(`Reading content from ${url}`)
 
     const content = await this.getContentFromWebsite(url)
 
@@ -106,7 +102,7 @@ export class SrfNews extends NewsSiteAdapter {
       }
     })
 
-    newsListToSave.push({
+    this.newsListToSave.push({
       title,
       lead,
       sourceUrl: url,

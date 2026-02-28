@@ -1,5 +1,5 @@
 import { parse } from 'date-fns'
-import { NewsSite, UrlList } from '../NewsCrawler'
+import { UrlList } from '../NewsCrawler'
 import { NewsSiteAdapter } from './NewsSiteAdapter'
 import * as cheerio from 'cheerio'
 import { Post, PostMedia } from '../../../types/DirectusTypes'
@@ -7,11 +7,8 @@ import { Post, PostMedia } from '../../../types/DirectusTypes'
 export class SolvNews extends NewsSiteAdapter {
   BASE_URL: string = 'https://www.swiss-orienteering.ch'
 
-  public async listNews(
-    newsSite: NewsSite,
-    newsUrlList: UrlList[],
-  ): Promise<void> {
-    const { path } = newsSite
+  public async listNews(): Promise<void> {
+    const { path } = this.newsSite
 
     const siteUrl = `${this.BASE_URL}${path}.html`
 
@@ -31,20 +28,16 @@ export class SolvNews extends NewsSiteAdapter {
       })
       .get()
 
-    newsUrlList.push(
+    this.newsUrlList.push(
       ...links.map((link) => ({
-        newsSite: newsSite,
+        newsSite: this.newsSite,
         url: `${this.BASE_URL}${link.href}`,
         date: parse(link.date, 'dd.MM.yyyy', new Date()),
       })),
     )
   }
 
-  async downloadANews(
-    urlWithDate: UrlList,
-    newsListToSave: Partial<Post>[],
-  ): Promise<void> {
-    console.log(`Reading content from ${urlWithDate.url}`)
+  async downloadANews(urlWithDate: UrlList): Promise<void> {
     const content = await this.getContentFromWebsite(urlWithDate.url)
     if (!content) {
       console.warn(`No content found for ${urlWithDate}`)
@@ -66,7 +59,7 @@ export class SolvNews extends NewsSiteAdapter {
       })
     })
 
-    newsListToSave.push({
+    this.newsListToSave.push({
       title,
       lead,
       sourceUrl: urlWithDate.url,
