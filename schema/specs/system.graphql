@@ -272,8 +272,8 @@ type Subscription {
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
   Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
-  Post_mutated(event: EventEnum): Post_mutated
   PostMedia_mutated(event: EventEnum): PostMedia_mutated
+  Post_mutated(event: EventEnum): Post_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1750,6 +1750,7 @@ type Post {
   sourceUrl: String
   title: String
   lead: String
+  forumUserName: String
   medias(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [PostMedia]
   medias_func: count_functions
 }
@@ -2954,6 +2955,7 @@ input Post_filter {
   sourceUrl: string_filter_operators
   title: string_filter_operators
   lead: string_filter_operators
+  forumUserName: string_filter_operators
   medias: PostMedia_filter
   medias_func: count_function_filter_operators
   _and: [Post_filter]

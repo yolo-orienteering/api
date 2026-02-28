@@ -8,14 +8,25 @@ import { SrfNews } from './news-sites/SrfNews'
 import { TamediaNews } from './news-sites/TamediaNews'
 import { BlickNews } from './news-sites/BlickNews'
 import { AargauerZeitungNews } from './news-sites/AargauerZeitungNews'
+import { SolvForumNews } from './news-sites/SolvForumNews'
 import { NewsSiteAdapterProps } from './news-sites/NewsSiteAdapter'
 
 export interface NewsSite {
   path: string
-  source: 'solv' | 'srf' | 'blick' | 'tamedia' | 'aargauerzeitung'
+  source:
+    | 'solv'
+    | 'srf'
+    | 'blick'
+    | 'tamedia'
+    | 'aargauerzeitung'
+    | 'solv-forum'
 }
 
 const NEWS_SITES: NewsSite[] = [
+  {
+    path: '/de/forum/neu.html',
+    source: 'solv-forum',
+  },
   {
     path: '/news/ol',
     source: 'solv',
@@ -124,6 +135,8 @@ export default class NewsCrawler {
         return new BlickNews(newsConstructorProps)
       case 'aargauerzeitung':
         return new AargauerZeitungNews(newsConstructorProps)
+      case 'solv-forum':
+        return new SolvForumNews(newsConstructorProps)
       default:
         throw new Error(
           `Implementation for news site ${newsSite.source} is missing`,

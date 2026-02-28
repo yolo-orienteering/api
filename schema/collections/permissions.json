@@ -166,7 +166,8 @@
       "lead",
       "medias",
       "sort",
-      "status"
+      "status",
+      "forumUserName"
     ],
     "policy": "_sync_default_public_policy",
     "_syncId": "ce18f72a-ec61-43b1-b984-bdc9a1ff9dc6"

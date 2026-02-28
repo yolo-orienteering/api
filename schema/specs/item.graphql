@@ -39,14 +39,14 @@ type Query {
   GameVariant_by_id(id: ID!, version: String): GameVariant
   GameVariant_aggregated(groupBy: [String], filter: GameVariant_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [GameVariant_aggregated!]!
   GameVariant_by_version(version: String!, id: ID!): version_GameVariant
-  Post(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Post!]!
-  Post_by_id(id: ID!, version: String): Post
-  Post_aggregated(groupBy: [String], filter: Post_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Post_aggregated!]!
-  Post_by_version(version: String!, id: ID!): version_Post
   PostMedia(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [PostMedia!]!
   PostMedia_by_id(id: ID!, version: String): PostMedia
   PostMedia_aggregated(groupBy: [String], filter: PostMedia_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [PostMedia_aggregated!]!
   PostMedia_by_version(version: String!, id: ID!): version_PostMedia
+  Post(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Post!]!
+  Post_by_id(id: ID!, version: String): Post
+  Post_aggregated(groupBy: [String], filter: Post_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Post_aggregated!]!
+  Post_by_version(version: String!, id: ID!): version_Post
 }
 
 type Mutation {
@@ -70,10 +70,10 @@ type Mutation {
   create_Game_GameCategory_item(data: create_Game_GameCategory_input!): Game_GameCategory
   create_GameVariant_items(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_GameVariant_input!]): [GameVariant!]!
   create_GameVariant_item(data: create_GameVariant_input!): GameVariant
-  create_Post_items(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Post_input!]): [Post!]!
-  create_Post_item(data: create_Post_input!): Post
   create_PostMedia_items(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_PostMedia_input!]): [PostMedia!]!
   create_PostMedia_item(data: create_PostMedia_input!): PostMedia
+  create_Post_items(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Post_input!]): [Post!]!
+  create_Post_item(data: create_Post_input!): Post
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
@@ -104,12 +104,12 @@ type Mutation {
   update_GameVariant_items(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_GameVariant_input!): [GameVariant!]!
   update_GameVariant_batch(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_GameVariant_input!]): [GameVariant!]!
   update_GameVariant_item(id: ID!, data: update_GameVariant_input!): GameVariant
-  update_Post_items(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Post_input!): [Post!]!
-  update_Post_batch(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Post_input!]): [Post!]!
-  update_Post_item(id: ID!, data: update_Post_input!): Post
   update_PostMedia_items(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_PostMedia_input!): [PostMedia!]!
   update_PostMedia_batch(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_PostMedia_input!]): [PostMedia!]!
   update_PostMedia_item(id: ID!, data: update_PostMedia_input!): PostMedia
+  update_Post_items(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Post_input!): [Post!]!
+  update_Post_batch(filter: Post_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Post_input!]): [Post!]!
+  update_Post_item(id: ID!, data: update_Post_input!): Post
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
   delete_RaceCategory_items(ids: [ID]!): delete_many
@@ -130,10 +130,10 @@ type Mutation {
   delete_Game_GameCategory_item(id: ID!): delete_one
   delete_GameVariant_items(ids: [ID]!): delete_many
   delete_GameVariant_item(id: ID!): delete_one
-  delete_Post_items(ids: [ID]!): delete_many
-  delete_Post_item(id: ID!): delete_one
   delete_PostMedia_items(ids: [ID]!): delete_many
   delete_PostMedia_item(id: ID!): delete_one
+  delete_Post_items(ids: [ID]!): delete_many
+  delete_Post_item(id: ID!): delete_one
 }
 
 type Subscription {
@@ -168,8 +168,8 @@ type Subscription {
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
   Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
-  Post_mutated(event: EventEnum): Post_mutated
   PostMedia_mutated(event: EventEnum): PostMedia_mutated
+  Post_mutated(event: EventEnum): Post_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1071,6 +1071,7 @@ type Post {
   sourceUrl: String
   title: String
   lead: String
+  forumUserName: String
   medias(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [PostMedia]
   medias_func: count_functions
 }
@@ -1100,6 +1101,7 @@ type Post_aggregated_count {
   sourceUrl: Int
   title: Int
   lead: Int
+  forumUserName: Int
   medias: Int
 }
 
@@ -1521,6 +1523,7 @@ type version_Post {
   sourceUrl: String
   title: String
   lead: String
+  forumUserName: String
   medias: JSON
 }
 
@@ -1843,6 +1846,7 @@ input create_Post_input {
   sourceUrl: String
   title: String
   lead: String
+  forumUserName: String
   medias: [create_PostMedia_input]
 }
 
@@ -2377,6 +2381,7 @@ input Post_filter {
   sourceUrl: string_filter_operators
   title: string_filter_operators
   lead: string_filter_operators
+  forumUserName: string_filter_operators
   medias: PostMedia_filter
   medias_func: count_function_filter_operators
   _and: [Post_filter]
@@ -2698,6 +2703,7 @@ input update_Post_input {
   sourceUrl: String
   title: String
   lead: String
+  forumUserName: String
   medias: [update_PostMedia_input]
 }
 

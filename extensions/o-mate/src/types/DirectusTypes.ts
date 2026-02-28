@@ -85,10 +85,11 @@ export interface Post {
   date_created: string | null
   user_updated: string | DirectusUser<Schema> | null
   date_updated: string | null
-  type: 'user-post' | 'news-post' | null
+  type: 'user-post' | 'news-post' | 'forum-post' | null
   sourceUrl: string | null
   title: string | null
   lead: string | null
+  forumUserName: string | null
   medias: string[] | PostMedia[]
 }
 
