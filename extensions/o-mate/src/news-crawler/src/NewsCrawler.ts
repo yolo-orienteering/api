@@ -6,6 +6,7 @@ import { Item } from '@directus/types'
 import { SolvNews } from './news-sites/SolvNews'
 import { SrfNews } from './news-sites/SrfNews'
 import { TamediaNews } from './news-sites/TamediaNews'
+import { BlickNews } from './news-sites/BlickNews'
 import { NewsSiteAdapterProps } from './news-sites/NewsSiteAdapter'
 
 export interface NewsSite {
@@ -45,6 +46,10 @@ const NEWS_SITES: NewsSite[] = [
   {
     path: '/search?q=orientierungslauf',
     source: 'tamedia',
+  },
+  {
+    path: '/search?pub=blick&q=orientierungslauf&page=0',
+    source: 'blick',
   },
 ]
 
@@ -110,6 +115,8 @@ export default class NewsCrawler {
         return new SrfNews(newsConstructorProps)
       case 'tamedia':
         return new TamediaNews(newsConstructorProps)
+      case 'blick':
+        return new BlickNews(newsConstructorProps)
       default:
         throw new Error(
           `Implementation for news site ${newsSite.source} is missing`,

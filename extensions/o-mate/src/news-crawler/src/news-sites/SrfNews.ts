@@ -106,7 +106,7 @@ export class SrfNews extends NewsSiteAdapter {
       title,
       lead,
       sourceUrl: url,
-      date_created: date.toISOString(),
+      date_created: (date || new Date()).toISOString(),
       type: 'news-post',
       status: 'published',
       medias: images as PostMedia[],

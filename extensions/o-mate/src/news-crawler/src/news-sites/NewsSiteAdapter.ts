@@ -16,7 +16,7 @@ export abstract class NewsSiteAdapter {
   protected postsService: ItemsService<Post>
   protected postMediasService: ItemsService<PostMedia>
 
-  private browserPage: Page
+  protected browserPage: Page
   protected newsSite: NewsSite
   protected newsUrlList: UrlList[]
   protected newsListToSave: Partial<Post>[]
