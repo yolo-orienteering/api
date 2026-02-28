@@ -191,7 +191,7 @@ export interface DirectusSyncIdMap {
   created_at: string | null
 }
 
-export interface CustomDirectusUser {
+export interface CustomDirectusUser extends DirectusUser {
   birthYear: number | null
   composedIdentifierSolv: string | null
   races: string[] | UserDeparture[]

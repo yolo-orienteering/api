@@ -34,6 +34,14 @@
           "app": "src/instruction-ai/src/app.ts",
           "api": "src/instruction-ai/src/api.ts"
         }
+      },
+      {
+        "type": "operation",
+        "name": "race-crawler",
+        "source": {
+          "app": "src/race-crawler/app.ts",
+          "api": "src/race-crawler/api.ts"
+        }
       }
     ],
     "host": "^10.10.0"
@@ -46,6 +54,12 @@
     "add": "directus-extension add"
   },
   "devDependencies": {
-    "@directus/extensions-sdk": "17.0.9"
+    "@directus/extensions-sdk": "17.0.9",
+    "@types/node": "^25.3.2",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.29"
+  },
+  "dependencies": {
+    "csvjson": "^5.1.0"
   }
 }
