@@ -1,0 +1,66 @@
+{
+  "name": "o-mate",
+  "description": "Please enter a description for your extension",
+  "icon": "extension",
+  "version": "1.0.0",
+  "keywords": [
+    "directus",
+    "directus-extension",
+    "directus-extension-bundle"
+  ],
+  "type": "commonjs",
+  "files": [
+    "dist"
+  ],
+  "directus:extension": {
+    "type": "bundle",
+    "path": {
+      "app": "dist/app.js",
+      "api": "dist/api.js"
+    },
+    "entries": [
+      {
+        "type": "operation",
+        "name": "news-crawler",
+        "source": {
+          "app": "src/news-crawler/src/app.ts",
+          "api": "src/news-crawler/src/api.ts"
+        }
+      },
+      {
+        "name": "instruction-ai",
+        "type": "operation",
+        "source": {
+          "app": "src/instruction-ai/src/app.ts",
+          "api": "src/instruction-ai/src/api.ts"
+        }
+      },
+      {
+        "type": "operation",
+        "name": "race-crawler",
+        "source": {
+          "app": "src/race-crawler/app.ts",
+          "api": "src/race-crawler/api.ts"
+        }
+      }
+    ],
+    "host": "^10.10.0"
+  },
+  "scripts": {
+    "build": "directus-extension build",
+    "dev": "directus-extension build -w --no-minify",
+    "link": "directus-extension link",
+    "validate": "directus-extension validate",
+    "add": "directus-extension add"
+  },
+  "devDependencies": {
+    "@directus/extensions-sdk": "17.0.9",
+    "@types/node": "^25.3.2",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.29"
+  },
+  "dependencies": {
+    "csvjson": "^5.1.0",
+    "openai": "^6.25.0"
+  }
+}
