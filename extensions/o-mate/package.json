@@ -60,6 +60,7 @@
     "vue": "^3.5.29"
   },
   "dependencies": {
-    "csvjson": "^5.1.0"
+    "csvjson": "^5.1.0",
+    "openai": "^6.25.0"
   }
 }
