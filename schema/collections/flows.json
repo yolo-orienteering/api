@@ -1,6 +1,6 @@
 [
   {
-    "name": "Manual Trigger Instruction AI",
+    "name": "Generate Instructions with AI",
     "icon": "bolt",
     "color": null,
     "description": null,
@@ -47,7 +47,39 @@
     "_syncId": "8e376c51-5bcf-43cd-9c7e-88161326ac20"
   },
   {
-    "name": "Manual Trigger News Crawler",
+    "name": "Cronjob Race Crawler",
+    "icon": "bolt",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "schedule",
+    "accountability": "all",
+    "options": {
+      "cron": "0 */15 * * * *"
+    },
+    "operation": "76d902a2-fa3d-45cd-9aa0-cf71b748f56a",
+    "_syncId": "a136976e-1ffc-4fd5-b9b9-dc3eb055c71a"
+  },
+  {
+    "name": "Crawl Races",
+    "icon": "breaking_news_alt_1",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "manual",
+    "accountability": "all",
+    "options": {
+      "collections": [
+        "Race"
+      ],
+      "location": "collection",
+      "requireSelection": false
+    },
+    "operation": "8ab7ea2f-d571-4b98-8a9c-a109f1950650",
+    "_syncId": "bd65bc68-e0ff-4451-96eb-a78387061982"
+  },
+  {
+    "name": "Crawl News",
     "icon": "newspaper",
     "color": null,
     "description": null,
