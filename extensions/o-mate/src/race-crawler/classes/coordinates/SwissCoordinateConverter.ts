@@ -18,21 +18,23 @@ export default class SwissCoordinateConverter {
 
     if (!x || !y) return null
 
-    let east = x
-    let north = y
-
-    // Ensure east is the larger value (easting ~480'000–840'000, northing ~75'000–300'000)
-    if (east < north) {
-      const tmp = east
-      east = north
-      north = tmp
+    // WGS84 without decimal separator (e.g., 47197604 / 8789842 → 47.197604° / 8.789842°)
+    // Swiss latitude ~46–48 scaled by 10^6 always exceeds 40'000'000,
+    // well above the LV95 maximum of ~2'840'000
+    if (x > 40_000_000 || y > 40_000_000) {
+      const lat = Math.max(x, y) / 1_000_000
+      const lng = Math.min(x, y) / 1_000_000
+      return {
+        type: 'Point',
+        coordinates: [lng, lat],
+      }
     }
 
-    // Detect LV95 (easting offset by +2'000'000) vs LV03
-    const isLV95 = east > 2000000
+    // LV95 easting is offset by +2'000'000 compared to LV03
+    const isLV95 = x > 2_000_000
     const [lng, lat] = isLV95
-      ? LV95toWGS([east, north])
-      : LV03toWGS([east, north])
+      ? LV95toWGS([x, y])
+      : LV03toWGS([x, y])
 
     return {
       type: 'Point',
