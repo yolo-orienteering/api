@@ -266,11 +266,11 @@ type Subscription {
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
-  Race_mutated(event: EventEnum): Race_mutated
   GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
   Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
+  Race_mutated(event: EventEnum): Race_mutated
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
   PostMedia_mutated(event: EventEnum): PostMedia_mutated
   Post_mutated(event: EventEnum): Post_mutated
@@ -289,6 +289,9 @@ scalar Float
 
 """BigInt value"""
 scalar GraphQLBigInt
+
+"""GeoJSON value"""
+scalar GraphQLGeoJSON
 
 """A Float or a String"""
 scalar GraphQLStringOrFloat
@@ -1816,6 +1819,7 @@ type Race {
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
   instruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction]
@@ -2287,6 +2291,7 @@ input create_Race_input {
   user_updated: create_directus_users_input
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories: [create_RaceCategory_input]
   instruction: [create_RaceInstruction_input]
 }
@@ -2919,6 +2924,17 @@ input GameVariant_filter {
   _or: [GameVariant_filter]
 }
 
+input geometry_filter_operators {
+  _eq: GraphQLGeoJSON
+  _neq: GraphQLGeoJSON
+  _intersects: GraphQLGeoJSON
+  _nintersects: GraphQLGeoJSON
+  _intersects_bbox: GraphQLGeoJSON
+  _nintersects_bbox: GraphQLGeoJSON
+  _null: Boolean
+  _nnull: Boolean
+}
+
 input hash_filter_operators {
   _null: Boolean
   _nnull: Boolean
@@ -3013,6 +3029,7 @@ input Race_filter {
   user_updated: directus_users_filter
   terrain: string_filter_operators
   distance: string_filter_operators
+  coordinates: geometry_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
   instruction: RaceInstruction_filter
@@ -3453,6 +3470,7 @@ input update_Race_input {
   user_updated: update_directus_users_input
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories: [update_RaceCategory_input]
   instruction: [update_RaceInstruction_input]
 }

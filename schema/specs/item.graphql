@@ -15,10 +15,6 @@ type Query {
   RaceInstruction_by_id(id: ID!, version: String): RaceInstruction
   RaceInstruction_aggregated(groupBy: [String], filter: RaceInstruction_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [RaceInstruction_aggregated!]!
   RaceInstruction_by_version(version: String!, id: ID!): version_RaceInstruction
-  Race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Race!]!
-  Race_by_id(id: ID!, version: String): Race
-  Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
-  Race_by_version(version: String!, id: ID!): version_Race
   GameAuthor(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [GameAuthor!]!
   GameAuthor_by_id(id: ID!, version: String): GameAuthor
   GameAuthor_aggregated(groupBy: [String], filter: GameAuthor_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [GameAuthor_aggregated!]!
@@ -35,6 +31,10 @@ type Query {
   Game_GameCategory_by_id(id: ID!, version: String): Game_GameCategory
   Game_GameCategory_aggregated(groupBy: [String], filter: Game_GameCategory_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Game_GameCategory_aggregated!]!
   Game_GameCategory_by_version(version: String!, id: ID!): version_Game_GameCategory
+  Race(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [Race!]!
+  Race_by_id(id: ID!, version: String): Race
+  Race_aggregated(groupBy: [String], filter: Race_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [Race_aggregated!]!
+  Race_by_version(version: String!, id: ID!): version_Race
   GameVariant(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [GameVariant!]!
   GameVariant_by_id(id: ID!, version: String): GameVariant
   GameVariant_aggregated(groupBy: [String], filter: GameVariant_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [GameVariant_aggregated!]!
@@ -58,8 +58,6 @@ type Mutation {
   create_UserDeparture_item(data: create_UserDeparture_input!): UserDeparture
   create_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_RaceInstruction_input!]): [RaceInstruction!]!
   create_RaceInstruction_item(data: create_RaceInstruction_input!): RaceInstruction
-  create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
-  create_Race_item(data: create_Race_input!): Race
   create_GameAuthor_items(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_GameAuthor_input!]): [GameAuthor!]!
   create_GameAuthor_item(data: create_GameAuthor_input!): GameAuthor
   create_Game_items(filter: Game_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Game_input!]): [Game!]!
@@ -68,6 +66,8 @@ type Mutation {
   create_GameCategory_item(data: create_GameCategory_input!): GameCategory
   create_Game_GameCategory_items(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Game_GameCategory_input!]): [Game_GameCategory!]!
   create_Game_GameCategory_item(data: create_Game_GameCategory_input!): Game_GameCategory
+  create_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_Race_input!]): [Race!]!
+  create_Race_item(data: create_Race_input!): Race
   create_GameVariant_items(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_GameVariant_input!]): [GameVariant!]!
   create_GameVariant_item(data: create_GameVariant_input!): GameVariant
   create_PostMedia_items(filter: PostMedia_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_PostMedia_input!]): [PostMedia!]!
@@ -86,9 +86,6 @@ type Mutation {
   update_RaceInstruction_items(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_RaceInstruction_input!): [RaceInstruction!]!
   update_RaceInstruction_batch(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_RaceInstruction_input!]): [RaceInstruction!]!
   update_RaceInstruction_item(id: ID!, data: update_RaceInstruction_input!): RaceInstruction
-  update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
-  update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
-  update_Race_item(id: ID!, data: update_Race_input!): Race
   update_GameAuthor_items(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_GameAuthor_input!): [GameAuthor!]!
   update_GameAuthor_batch(filter: GameAuthor_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_GameAuthor_input!]): [GameAuthor!]!
   update_GameAuthor_item(id: ID!, data: update_GameAuthor_input!): GameAuthor
@@ -101,6 +98,9 @@ type Mutation {
   update_Game_GameCategory_items(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Game_GameCategory_input!): [Game_GameCategory!]!
   update_Game_GameCategory_batch(filter: Game_GameCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Game_GameCategory_input!]): [Game_GameCategory!]!
   update_Game_GameCategory_item(id: ID!, data: update_Game_GameCategory_input!): Game_GameCategory
+  update_Race_items(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_Race_input!): [Race!]!
+  update_Race_batch(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_Race_input!]): [Race!]!
+  update_Race_item(id: ID!, data: update_Race_input!): Race
   update_GameVariant_items(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_GameVariant_input!): [GameVariant!]!
   update_GameVariant_batch(filter: GameVariant_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_GameVariant_input!]): [GameVariant!]!
   update_GameVariant_item(id: ID!, data: update_GameVariant_input!): GameVariant
@@ -118,8 +118,6 @@ type Mutation {
   delete_UserDeparture_item(id: ID!): delete_one
   delete_RaceInstruction_items(ids: [ID]!): delete_many
   delete_RaceInstruction_item(id: ID!): delete_one
-  delete_Race_items(ids: [ID]!): delete_many
-  delete_Race_item(id: ID!): delete_one
   delete_GameAuthor_items(ids: [ID]!): delete_many
   delete_GameAuthor_item(id: ID!): delete_one
   delete_Game_items(ids: [ID]!): delete_many
@@ -128,6 +126,8 @@ type Mutation {
   delete_GameCategory_item(id: ID!): delete_one
   delete_Game_GameCategory_items(ids: [ID]!): delete_many
   delete_Game_GameCategory_item(id: ID!): delete_one
+  delete_Race_items(ids: [ID]!): delete_many
+  delete_Race_item(id: ID!): delete_one
   delete_GameVariant_items(ids: [ID]!): delete_many
   delete_GameVariant_item(id: ID!): delete_one
   delete_PostMedia_items(ids: [ID]!): delete_many
@@ -162,11 +162,11 @@ type Subscription {
   RaceCategory_mutated(event: EventEnum): RaceCategory_mutated
   UserDeparture_mutated(event: EventEnum): UserDeparture_mutated
   RaceInstruction_mutated(event: EventEnum): RaceInstruction_mutated
-  Race_mutated(event: EventEnum): Race_mutated
   GameAuthor_mutated(event: EventEnum): GameAuthor_mutated
   Game_mutated(event: EventEnum): Game_mutated
   GameCategory_mutated(event: EventEnum): GameCategory_mutated
   Game_GameCategory_mutated(event: EventEnum): Game_GameCategory_mutated
+  Race_mutated(event: EventEnum): Race_mutated
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
   PostMedia_mutated(event: EventEnum): PostMedia_mutated
   Post_mutated(event: EventEnum): Post_mutated
@@ -185,6 +185,9 @@ scalar Float
 
 """BigInt value"""
 scalar GraphQLBigInt
+
+"""GeoJSON value"""
+scalar GraphQLGeoJSON
 
 """A Float or a String"""
 scalar GraphQLStringOrFloat
@@ -1201,6 +1204,7 @@ type Race {
   user_updated(filter: directus_users_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_users
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories(filter: RaceCategory_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceCategory]
   categories_func: count_functions
   instruction(filter: RaceInstruction_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [RaceInstruction]
@@ -1248,6 +1252,7 @@ type Race_aggregated_count {
   user_updated: Int
   terrain: Int
   distance: Int
+  coordinates: Int
   categories: Int
   instruction: Int
 }
@@ -1571,6 +1576,7 @@ type version_Race {
   user_updated: JSON
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories: JSON
   instruction: JSON
 }
@@ -1892,6 +1898,7 @@ input create_Race_input {
   user_updated: create_directus_users_input
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories: [create_RaceCategory_input]
   instruction: [create_RaceInstruction_input]
 }
@@ -2345,6 +2352,17 @@ input GameVariant_filter {
   _or: [GameVariant_filter]
 }
 
+input geometry_filter_operators {
+  _eq: GraphQLGeoJSON
+  _neq: GraphQLGeoJSON
+  _intersects: GraphQLGeoJSON
+  _nintersects: GraphQLGeoJSON
+  _intersects_bbox: GraphQLGeoJSON
+  _nintersects_bbox: GraphQLGeoJSON
+  _null: Boolean
+  _nnull: Boolean
+}
+
 input hash_filter_operators {
   _null: Boolean
   _nnull: Boolean
@@ -2439,6 +2457,7 @@ input Race_filter {
   user_updated: directus_users_filter
   terrain: string_filter_operators
   distance: string_filter_operators
+  coordinates: geometry_filter_operators
   categories: RaceCategory_filter
   categories_func: count_function_filter_operators
   instruction: RaceInstruction_filter
@@ -2749,6 +2768,7 @@ input update_Race_input {
   user_updated: update_directus_users_input
   terrain: String
   distance: String
+  coordinates: GraphQLGeoJSON
   categories: [update_RaceCategory_input]
   instruction: [update_RaceInstruction_input]
 }

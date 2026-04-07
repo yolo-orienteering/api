@@ -109,6 +109,7 @@ export interface PostMedia {
 
 export interface Race {
   city: string | null
+  coordinates: GeoJSONPoint | null
   country: string | null
   date: string | null
   date_created: string | null

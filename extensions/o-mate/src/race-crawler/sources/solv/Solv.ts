@@ -6,6 +6,7 @@ import { ISolvCsv } from '../../types/ISolv'
 import Crawler, { CrawlerOptions } from '../../classes/crawler/Crawler'
 import { Race as RaceWithId } from '../../../types/DirectusTypes'
 import SolvDecorator from './SolvDecorator'
+import SwissCoordinateConverter from '../../classes/coordinates/SwissCoordinateConverter'
 
 type Race = Omit<RaceWithId, 'id'>
 
@@ -82,6 +83,7 @@ export default class Solv extends Crawler implements ICrawler {
       country: 'switzerland',
       region: solvRace.region,
       city: solvRace.location,
+      coordinates: SwissCoordinateConverter.toGeoJSONPoint(solvRace.coord_x, solvRace.coord_y),
       geographicalScale: solvRace.national === '1' ? 'national' : null,
       mapName: solvRace.map,
       eventLink: solvRace.event_link
