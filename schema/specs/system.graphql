@@ -274,6 +274,8 @@ type Subscription {
   GameVariant_mutated(event: EventEnum): GameVariant_mutated
   PostMedia_mutated(event: EventEnum): PostMedia_mutated
   Post_mutated(event: EventEnum): Post_mutated
+  CalendarSubscription_mutated(event: EventEnum): CalendarSubscription_mutated
+  CalendarSubscription_Race_mutated(event: EventEnum): CalendarSubscription_Race_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -345,6 +347,34 @@ type auth_tokens {
   access_token: String
   expires: GraphQLBigInt
   refresh_token: String
+}
+
+type CalendarSubscription {
+  date_created: Date
+  date_created_func: datetime_functions
+  date_updated: Date
+  date_updated_func: datetime_functions
+  id: ID!
+  races(filter: CalendarSubscription_Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [CalendarSubscription_Race]
+  races_func: count_functions
+}
+
+type CalendarSubscription_mutated {
+  key: ID!
+  event: EventEnum
+  data: CalendarSubscription
+}
+
+type CalendarSubscription_Race {
+  CalendarSubscription_id(filter: CalendarSubscription_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): CalendarSubscription
+  Race_id(filter: Race_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): Race
+  id: ID!
+}
+
+type CalendarSubscription_Race_mutated {
+  key: ID!
+  event: EventEnum
+  data: CalendarSubscription_Race
 }
 
 type count_functions {
@@ -1955,6 +1985,26 @@ input boolean_filter_operators {
   _neq: Boolean
   _null: Boolean
   _nnull: Boolean
+}
+
+input CalendarSubscription_filter {
+  date_created: date_filter_operators
+  date_created_func: datetime_function_filter_operators
+  date_updated: date_filter_operators
+  date_updated_func: datetime_function_filter_operators
+  id: string_filter_operators
+  races: CalendarSubscription_Race_filter
+  races_func: count_function_filter_operators
+  _and: [CalendarSubscription_filter]
+  _or: [CalendarSubscription_filter]
+}
+
+input CalendarSubscription_Race_filter {
+  CalendarSubscription_id: CalendarSubscription_filter
+  Race_id: Race_filter
+  id: number_filter_operators
+  _and: [CalendarSubscription_Race_filter]
+  _or: [CalendarSubscription_Race_filter]
 }
 
 input count_function_filter_operators {

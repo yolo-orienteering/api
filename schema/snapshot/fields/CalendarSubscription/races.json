@@ -1,0 +1,29 @@
+{
+  "collection": "CalendarSubscription",
+  "field": "races",
+  "type": "alias",
+  "meta": {
+    "collection": "CalendarSubscription",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "races",
+    "group": null,
+    "hidden": false,
+    "interface": "list-m2m",
+    "note": null,
+    "options": {
+      "template": "{{Race_id.name}}"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 2,
+    "special": [
+      "m2m"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  }
+}
