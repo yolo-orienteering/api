@@ -1,6 +1,11 @@
 import { defineEndpoint } from '@directus/extensions-sdk'
 import type { Item } from '@directus/types'
-import type { Schema, Race, CalendarSubscription, CalendarSubscriptionRace} from '../types/DirectusTypes'
+import type {
+  Schema,
+  Race,
+  CalendarSubscription,
+  CalendarSubscriptionRace,
+} from '../types/DirectusTypes'
 import type { ItemsService } from '@directus/api/dist/services/items'
 
 type TableName = keyof Schema
@@ -16,7 +21,7 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
   async function verifyTurnstile(token: string): Promise<boolean> {
     const secretKey = env['TURNSTILE_SECRET_KEY']
     if (!secretKey) {
-      return false
+      throw new Error(`Env variable 'TURNSTILE_SECRET_KEY' not set!`)
     }
 
     const response = await fetch(
@@ -43,7 +48,7 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
       .replace(/\n/g, '\\n')
   }
 
-  function formatIcsDate(dateStr: string): string {
+  function formatIcsDate(dateStr: string | number | Date): string {
     const date = new Date(dateStr)
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -51,27 +56,34 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
     return `${year}${month}${day}`
   }
 
-  function nextDay(dateStr: string): string {
+  function nextDay(dateStr: string): Date {
     const date = new Date(dateStr)
     date.setDate(date.getDate() + 1)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}${month}${day}`
+    return date
+  }
+
+  function getRaceUrl(race: Race): string {
+    const frontendUrl = env['FRONTEND_URL']
+    if (!frontendUrl) {
+      throw new Error(`env variable 'FRONTEND_URL' missing.`)
+    }
+    return `${frontendUrl}/races/${race.id}`
   }
 
   function generateIcs(races: Race[]): string {
     const now = new Date()
-    const timestamp =
-      now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+    const timestamp = now
+      .toISOString()
+      .replace(/[-:]/g, '')
+      .replace(/\.\d{3}/, '')
 
     let ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//o-mate//Calendar//DE',
+      'PRODID:-//o-mate calendar',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
-      'X-WR-CALNAME:o-mate Läufe',
+      'X-WR-CALNAME:o-mate',
       'X-WR-TIMEZONE:Europe/Zurich',
     ].join('\r\n')
 
@@ -84,7 +96,13 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
       )
 
       const dtStart = formatIcsDate(race.date)
-      const dtEnd = nextDay(race.date)
+      const dtEnd = formatIcsDate(nextDay(race.date))
+      const lastModified = formatIcsDate(race.date_updated!)
+      const coordinates =
+        race.coordinates?.coordinates.length === 2 &&
+        race.coordinates.type === 'Point'
+          ? `${race.coordinates.coordinates[1]};${race.coordinates.coordinates[0]}`
+          : null
 
       ics +=
         '\r\n' +
@@ -94,9 +112,11 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
           `DTSTAMP:${timestamp}`,
           `DTSTART;VALUE=DATE:${dtStart}`,
           `DTEND;VALUE=DATE:${dtEnd}`,
+          `LAST-MODIFIED:${lastModified}`,
           `SUMMARY:${summary}`,
           location ? `LOCATION:${location}` : null,
-          race.eventLink ? `URL:${race.eventLink}` : null,
+          `URL:${getRaceUrl(race)}`,
+          coordinates ? `GEO:${coordinates}` : null,
           'END:VEVENT',
         ]
           .filter(Boolean)
@@ -165,51 +185,21 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
       let subscription: CalendarSubscription
       try {
         subscription = (await subscriptionService.readOne(id, {
-          fields: ['id', 'races.Race_id'],
+          fields: ['id', 'races.Race_id.*'],
         })) as CalendarSubscription
       } catch {
         res.status(404).json({ error: 'Subscription not found' })
         return
       }
 
-      const junctionEntries =
+      const subscriptionRaces =
         (subscription.races as CalendarSubscriptionRace[]) || []
-      const raceIds = junctionEntries
-        .map((entry) => entry.Race_id as string)
-        .filter(Boolean)
-
-      if (!raceIds.length) {
-        res.setHeader('Content-Type', 'text/calendar; charset=utf-8')
-        res.setHeader(
-          'Content-Disposition',
-          'attachment; filename="o-mate.ics"',
-        )
-        res.send(generateIcs([]))
-        return
-      }
-
-      const raceService = createItemsService<Race>('Race', schema)
-      const races = (await raceService.readByQuery({
-        filter: {
-          id: { _in: raceIds },
-        },
-        fields: [
-          'id',
-          'name',
-          'date',
-          'city',
-          'region',
-          'country',
-          'eventLink',
-        ],
-        limit: -1,
-      })) as Race[]
+      const races = subscriptionRaces.map(
+        (subscriptionRace) => subscriptionRace.Race_id as Race,
+      )
 
       res.setHeader('Content-Type', 'text/calendar; charset=utf-8')
-      res.setHeader(
-        'Content-Disposition',
-        'attachment; filename="o-mate.ics"',
-      )
+      res.setHeader('Content-Disposition', 'attachment; filename="o-mate.ics"')
       res.send(generateIcs(races))
     } catch (error) {
       console.error('calendar-subscription GET ics error:', error)
