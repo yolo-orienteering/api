@@ -42,6 +42,11 @@
           "app": "src/race-crawler/app.ts",
           "api": "src/race-crawler/api.ts"
         }
+      },
+      {
+        "type": "endpoint",
+        "name": "calendar-subscription",
+        "source": "src/calendar-subscription/index.ts"
       }
     ],
     "host": "^10.10.0"

@@ -1,0 +1,25 @@
+{
+  "collection": "CalendarSubscription_Race",
+  "field": "CalendarSubscription_id",
+  "related_collection": "CalendarSubscription",
+  "meta": {
+    "junction_field": "Race_id",
+    "many_collection": "CalendarSubscription_Race",
+    "many_field": "CalendarSubscription_id",
+    "one_allowed_collections": null,
+    "one_collection": "CalendarSubscription",
+    "one_collection_field": null,
+    "one_deselect_action": "nullify",
+    "one_field": "races",
+    "sort_field": null
+  },
+  "schema": {
+    "table": "CalendarSubscription_Race",
+    "column": "CalendarSubscription_id",
+    "foreign_key_table": "CalendarSubscription",
+    "foreign_key_column": "id",
+    "constraint_name": "calendarsubscription_race_calendarsubscription_id_foreign",
+    "on_update": "NO ACTION",
+    "on_delete": "SET NULL"
+  }
+}

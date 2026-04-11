@@ -1,5 +1,44 @@
 [
   {
+    "collection": "CalendarSubscription_Race",
+    "action": "create",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "Race_id",
+      "CalendarSubscription_id"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "6f802fca-8ecf-443e-9b5d-7daa3caaed74"
+  },
+  {
+    "collection": "CalendarSubscription_Race",
+    "action": "update",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "CalendarSubscription_id",
+      "Race_id",
+      "id"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "83428beb-1670-4b7e-bdba-b4df18ce73ea"
+  },
+  {
+    "collection": "CalendarSubscription",
+    "action": "update",
+    "permissions": null,
+    "validation": null,
+    "presets": null,
+    "fields": [
+      "races"
+    ],
+    "policy": "_sync_default_public_policy",
+    "_syncId": "c1a2b3d4-e5f6-7890-abcd-ef1234567890"
+  },
+  {
     "collection": "directus_files",
     "action": "read",
     "permissions": {

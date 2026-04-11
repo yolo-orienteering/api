@@ -1,6 +1,8 @@
 import type { DirectusUser, DirectusFile } from '@directus/sdk'
 
 export interface Schema {
+  CalendarSubscription: CalendarSubscription[]
+  CalendarSubscription_Race: CalendarSubscriptionRace[]
   Game: Game[]
   GameAuthor: GameAuthor[]
   GameCategory: GameCategory[]
@@ -183,6 +185,19 @@ export interface UserDeparture {
   user: string | DirectusUser<Schema> | null
   user_created: string | DirectusUser<Schema> | null
   user_updated: string | DirectusUser<Schema> | null
+}
+
+export interface CalendarSubscription {
+  id: string
+  races: number[] | CalendarSubscriptionRace[]
+  date_created: string | null
+  date_updated: string | null
+}
+
+export interface CalendarSubscriptionRace {
+  id: number
+  CalendarSubscription_id: string | CalendarSubscription | null
+  Race_id: string | Race | null
 }
 
 export interface DirectusSyncIdMap {
