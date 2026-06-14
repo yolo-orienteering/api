@@ -200,6 +200,13 @@ export default defineEndpoint((router, { services, getSchema, env }) => {
 
       res.setHeader('Content-Type', 'text/calendar; charset=utf-8')
       res.setHeader('Content-Disposition', 'attachment; filename="o-mate.ics"')
+      // The feed changes whenever the user adds/removes a bookmark, so it must
+      // never be served from a cache. Without these headers the browser and the
+      // Cloudflare CDN (which caches static-looking `.ics` extensions) return a
+      // stale calendar and bookmark changes appear to "not update".
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+      res.setHeader('Pragma', 'no-cache')
+      res.setHeader('Expires', '0')
       res.send(generateIcs(races))
     } catch (error) {
       console.error('calendar-subscription GET ics error:', error)
