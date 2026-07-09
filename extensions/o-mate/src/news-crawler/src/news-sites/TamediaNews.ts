@@ -59,13 +59,6 @@ export class TamediaNews extends NewsSiteAdapter {
     // Scope to article container with specific class to avoid unrelated content
     const $article = $('article[class*="ArticleContainer"]')
 
-    if (!$article.text().toLowerCase().includes('orientierungslauf')) {
-      console.log(
-        `------ Skipping article ${url} as it does not contain keyword`,
-      )
-      return
-    }
-
     // Extract Title
     // Usually in h1 or specific class
     const title = $article.find('h1').first().text().trim()
@@ -75,6 +68,15 @@ export class TamediaNews extends NewsSiteAdapter {
     let lead = $article.find('.lead').first().text().trim()
     if (!lead) {
       lead = $article.find('p').first().text().trim()
+    }
+
+    // Only keep the article if the orienteering keyword appears in the title or
+    // lead — not just somewhere deep in the body.
+    if (!this.isOrienteeringNews(title, lead)) {
+      console.log(
+        `------ Skipping article ${url} as title/lead does not contain OL keyword`,
+      )
+      return
     }
 
     // Extract Date if we didn't get a good one

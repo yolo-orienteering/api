@@ -1,0 +1,139 @@
+import * as cheerio from 'cheerio'
+import { PostMedia } from '../../../types/DirectusTypes'
+import { UrlList } from '../NewsCrawler'
+import { NewsSiteAdapter } from './NewsSiteAdapter'
+
+// NZZ (nzz.ch) is built on the same "Living Docs" CMS as the CH Media titles,
+// so article URLs carry an "ld.<id>" segment and detail pages expose the usual
+// Open Graph / article meta tags. The configured path is an orienteering
+// search, but NZZ search can still surface tangential hits, so the keyword
+// filter below keeps only articles whose title or lead is about the sport.
+export class NzzNews extends NewsSiteAdapter {
+  BASE_URL: string = 'https://www.nzz.ch'
+
+  async listNews(): Promise<void> {
+    const { path } = this.newsSite
+    const siteUrl = `${this.BASE_URL}${path}`
+
+    const content = await this.getContentFromWebsite(siteUrl)
+
+    if (!content) {
+      console.warn('Website content was empty for url', siteUrl)
+      return
+    }
+
+    const $ = cheerio.load(content)
+    const links: UrlList[] = []
+
+    // Select all links that contain 'ld.' which indicates an article
+    $('a[href*="ld."]').each((_, el) => {
+      const href = $(el).attr('href')
+
+      if (href) {
+        // Strip query strings such as "?reduced=true" so the same article is
+        // not stored under multiple URLs.
+        const cleanHref = href.split('?')[0] ?? href
+        const fullUrl = cleanHref.startsWith('http')
+          ? cleanHref
+          : `${this.BASE_URL}${cleanHref}`
+
+        // Avoid duplicates
+        if (!links.some((l) => l.url === fullUrl)) {
+          links.push({
+            newsSite: this.newsSite,
+            url: fullUrl,
+          })
+        }
+      }
+    })
+
+    this.newsUrlList.push(...links)
+  }
+
+  async downloadANews(urlWithDate: UrlList): Promise<void> {
+    const { url } = urlWithDate
+    let date = urlWithDate.date || new Date()
+
+    const content = await this.getContentFromWebsite(url)
+
+    if (!content) {
+      console.warn(`No content found for ${url}`)
+      return
+    }
+
+    const $ = cheerio.load(content)
+
+    // We target the main article content to avoid header/footer matching
+    const $article = $('article').first()
+
+    // Extract Title
+    let title = $('h1').first().text().trim()
+    if (!title) {
+      title = $('meta[property="og:title"]').attr('content') || ''
+    }
+
+    // Extract Lead
+    let lead = $('.lead').first().text().trim()
+    if (!lead) {
+      // og:description reliably carries the article lead on Living Docs pages
+      lead = $('meta[property="og:description"]').attr('content') || ''
+    }
+    if (!lead) {
+      // Fallback: try to find the first paragraph in the article body
+      lead = $article.find('p').first().text().trim()
+    }
+
+    // Only keep the article if the orienteering keyword appears in the title or
+    // lead — not just somewhere deep in the body.
+    if (!this.isOrienteeringNews(title, lead)) {
+      console.log(
+        `------ Skipping article ${url} as title/lead does not contain OL keyword`,
+      )
+      return
+    }
+
+    // Extract Date. NZZ does NOT expose `article:published_time`; the machine
+    // readable publication date lives in `<meta name="date">` and, failing
+    // that, the first `<time datetime="…">` element. Fall back to a dd.MM.yyyy
+    // pattern in the article text only as a last resort.
+    if (!urlWithDate.date) {
+      const structuredDate = this.parseFirstValidDate([
+        $('meta[property="article:published_time"]').attr('content'),
+        $('meta[name="date"]').attr('content'),
+        $('time[datetime]').first().attr('datetime'),
+      ])
+      if (structuredDate) {
+        date = structuredDate
+      } else {
+        // Try searching text for date pattern
+        const dateMatch = $article.text().match(/(\d{2}\.\d{2}\.\d{4})/)
+        if (dateMatch?.[1]) {
+          const parts = dateMatch[1].split('.')
+          date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`)
+        }
+      }
+    }
+
+    // Extract Images
+    const images: Partial<PostMedia>[] = []
+
+    // 1. Meta image
+    const metaImage = $('meta[property="og:image"]').attr('content')
+    if (metaImage) {
+      images.push({
+        imageUrl: metaImage,
+        caption: title,
+      })
+    }
+
+    this.newsListToSave.push({
+      title,
+      lead,
+      sourceUrl: url,
+      date_created: date.toISOString(),
+      type: 'news-post',
+      status: 'published',
+      medias: images as PostMedia[],
+    })
+  }
+}

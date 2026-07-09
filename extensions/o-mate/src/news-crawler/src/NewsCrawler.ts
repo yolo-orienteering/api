@@ -8,6 +8,11 @@ import { SrfNews } from './news-sites/SrfNews'
 import { TamediaNews } from './news-sites/TamediaNews'
 import { BlickNews } from './news-sites/BlickNews'
 import { AargauerZeitungNews } from './news-sites/AargauerZeitungNews'
+import { BzBaselNews } from './news-sites/BzBaselNews'
+import { NzzNews } from './news-sites/NzzNews'
+import { NauNews } from './news-sites/NauNews'
+import { AjourNews } from './news-sites/AjourNews'
+import { SuedostschweizNews } from './news-sites/SuedostschweizNews'
 import { SolvForumNews } from './news-sites/SolvForumNews'
 import { NewsSiteAdapterProps } from './news-sites/NewsSiteAdapter'
 
@@ -19,6 +24,11 @@ export interface NewsSite {
     | 'blick'
     | 'tamedia'
     | 'aargauerzeitung'
+    | 'bzbasel'
+    | 'nzz'
+    | 'nau'
+    | 'ajour'
+    | 'suedostschweiz'
     | 'solv-forum'
 }
 
@@ -67,6 +77,26 @@ const NEWS_SITES: NewsSite[] = [
     path: '/suche?q=orientierungslauf&filter=y1',
     source: 'aargauerzeitung',
   },
+  {
+    path: '/sport/basel',
+    source: 'bzbasel',
+  },
+  {
+    path: '/suche?query=orientierungslauf',
+    source: 'nzz',
+  },
+  {
+    path: '/sport/orientierungslauf',
+    source: 'nau',
+  },
+  {
+    path: '/de/tags/3367/Orientierungslauf',
+    source: 'ajour',
+  },
+  {
+    path: '/suche?query=orientierungslauf',
+    source: 'suedostschweiz',
+  },
 ]
 
 interface NewsCrawlerProps {
@@ -106,8 +136,17 @@ export default class NewsCrawler {
   private async iterateNewsSites() {
     for (const newsSite of NEWS_SITES) {
       console.info(`-- ${newsSite.source} / ${newsSite.path}`)
-      const newsSiteInstance = this.getNewsAdapterInstance(newsSite)
-      await newsSiteInstance?.init()
+      // Isolate each source: a failing crawler (network error, unexpected
+      // markup, a failed save) must not abort the sources that follow it.
+      try {
+        const newsSiteInstance = this.getNewsAdapterInstance(newsSite)
+        await newsSiteInstance?.init()
+      } catch (error) {
+        console.error(
+          `Failed to crawl news site ${newsSite.source} (${newsSite.path}):`,
+          error,
+        )
+      }
     }
   }
 
@@ -135,6 +174,16 @@ export default class NewsCrawler {
         return new BlickNews(newsConstructorProps)
       case 'aargauerzeitung':
         return new AargauerZeitungNews(newsConstructorProps)
+      case 'bzbasel':
+        return new BzBaselNews(newsConstructorProps)
+      case 'nzz':
+        return new NzzNews(newsConstructorProps)
+      case 'nau':
+        return new NauNews(newsConstructorProps)
+      case 'ajour':
+        return new AjourNews(newsConstructorProps)
+      case 'suedostschweiz':
+        return new SuedostschweizNews(newsConstructorProps)
       case 'solv-forum':
         return new SolvForumNews(newsConstructorProps)
       default:

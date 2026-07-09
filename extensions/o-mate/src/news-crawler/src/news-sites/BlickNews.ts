@@ -72,18 +72,6 @@ export class BlickNews extends NewsSiteAdapter {
 
     const $ = cheerio.load(content)
 
-    // Check for keyword 'orientierungslauf' in content text to filter out unrelated articles
-    // We target the main article content (usually <article> or <main>) to avoid header/footer matching
-    const $article = $('article').first()
-    const textToCheck = $article.length ? $article.text() : $('body').text()
-
-    if (!textToCheck.toLowerCase().includes('orientierungslauf')) {
-      console.log(
-        `------ Skipping article ${url} as it does not contain keyword`,
-      )
-      return
-    }
-
     // Extract Title
     let title = $('h1').first().text().trim()
     if (!title) {
@@ -98,6 +86,15 @@ export class BlickNews extends NewsSiteAdapter {
     }
     if (!lead) {
         lead = $('meta[property="og:description"]').attr('content') || ''
+    }
+
+    // Only keep the article if the orienteering keyword appears in the title or
+    // lead — not just somewhere deep in the body.
+    if (!this.isOrienteeringNews(title, lead)) {
+      console.log(
+        `------ Skipping article ${url} as title/lead does not contain OL keyword`,
+      )
+      return
     }
 
     // Extract Images

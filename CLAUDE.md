@@ -80,7 +80,19 @@ calendar-subscription is a custom **endpoint**.
    Scheduled `0 */15 * * * *` (every 15 minutes).
 2. **news-crawler** — Scrapes news from Swiss media using Puppeteer, one
    `NewsSiteAdapter` subclass per source: SOLV, SOLV forum, SRF, Blick, Tamedia,
-   Aargauer Zeitung. Scheduled `0 0 * * * *` (daily at midnight UTC).
+   Aargauer Zeitung, bz Basel, NZZ, Nau, ajour, Südostschweiz. Scheduled
+   `0 0 * * * *` (daily at midnight UTC). Notes for the general-media adapters:
+   - Aargauer Zeitung, bz Basel and NZZ run on the "Living Docs" CMS (`ld.<id>`
+     article links + standard Open Graph / `article:published_time` meta tags).
+   - **Search vs. section sources.** Search-based sources (NZZ, AZ, bz Basel's
+     general `/sport/basel`, Südostschweiz) call the shared
+     `isOrienteeringNews(title, lead)` helper on `NewsSiteAdapter` to drop
+     unrelated hits. Curated-topic sources (Nau's `/sport/orientierungslauf`
+     section, ajour's OL tag) deliberately **skip** that filter — the section/tag
+     already guarantees the topic and headlines often omit the word "OL" — and
+     instead scope link extraction structurally to the article list.
+   - ajour.ch is an Angular SPA; the crawler relies on Puppeteer rendering the
+     client-side DOM (and its meta tags) before scraping.
 3. **instruction-ai** — Generates race instructions via the OpenAI SDK; uploads
    instruction files for analysis. Scheduled `0 36 1 * * *` (daily at 01:36 UTC).
 4. **calendar-subscription** — Custom endpoint (not a scheduled operation):

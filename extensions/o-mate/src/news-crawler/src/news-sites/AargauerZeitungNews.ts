@@ -82,14 +82,6 @@ export class AargauerZeitungNews extends NewsSiteAdapter {
     // We target the main article content to avoid header/footer matching
     // Common CH Media structure often uses 'article' tag
     const $article = $('article').first()
-    const textToCheck = $article.length ? $article.text() : $('body').text()
-
-    if (!textToCheck.toLowerCase().includes('orientierungslauf')) {
-      console.log(
-        `------ Skipping article ${url} as it does not contain keyword`,
-      )
-      return
-    }
 
     // Extract Title
     let title = $('h1').first().text().trim()
@@ -102,6 +94,15 @@ export class AargauerZeitungNews extends NewsSiteAdapter {
     if (!lead) {
       // Fallback: try to find the first paragraph in the article body
       lead = $article.find('p').first().text().trim()
+    }
+
+    // Only keep the article if the orienteering keyword appears in the title or
+    // lead — not just somewhere deep in the body.
+    if (!this.isOrienteeringNews(title, lead)) {
+      console.log(
+        `------ Skipping article ${url} as title/lead does not contain OL keyword`,
+      )
+      return
     }
 
     // Extract Date if not already found from list
